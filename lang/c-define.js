@@ -63,6 +63,7 @@ const ENUM_CONST = {
     T_FLOAT: 8,
     T_STRING: 9,
     T_CHAR: 10,
+    T_UNKNOWN: 11,
 
     // DFA状态
     S_RESET: 0,
@@ -147,6 +148,7 @@ const CHARSET_CONST = {
         'void', 'return', 'switch', 'case', 'default',
         'const', 'static', 'auto', 'extern', 'register',
         'struct', 'union', 'enum', 'typedef',
+        'include',
     ],
 };
 
@@ -253,7 +255,7 @@ let tool = {
         if (state === DFA_STATE_CONST.S_CHAR_END) {
             return 'Char';
         }
-        return 'Identifier';
+        return 'Unknown';
     },
     getFirstCharState(ch) {
         if (tool.isInArray(ch, CHARSET_CONST.DOUBLE_CHAR_FIRST_BIT_AND)) {
@@ -326,77 +328,133 @@ let unitTest = {
     returnCaseList() {
         return [
             {
-                'input': "",
-                'output': [],
+                "input": "",
+                "output": 0,
             },
             {
-                'input': "int",
-                'output': [{"type": "Keyword", "value": "int"}],
+                "input": "int",
+                "output": [{"type": "Keyword", "value": "int"}],
             },
             {
-                'input': "int;",
-                'output': [
+                "input": "int;",
+                "output": [
                     {"type": "Keyword", "value": "int"},
                     {"type": "Symbol", "value": ";"},
                 ],
             },
             {
-                'input': "int a",
-                'output': [
-                    {"type": "Keyword", "value": "int"},
-                    {"type": "Identifier", "value": "a"},
-                ],
-            },
-            {
-                'input': "int a;",
-                'output': [
+                "input": "int a",
+                "output": [
                     {"type": "Keyword", "value": "int"},
                     {"type": "Identifier", "value": "a"},
+                ],
+            },
+            {
+                "input": "int a;",
+                "output": [
+                    {"type": "Keyword", "value": "int"},
+                    {"type": "Identifier", "value": "a"},
                     {"type": "Symbol", "value": ";"},
                 ],
             },
             {
-                'input': ";",
-                'output': [
+                "input": ";",
+                "output": [
                     {"type": "Symbol", "value": ";"},
                 ],
             },
             {
-                'input': ";int",
-                'output': [
+                "input": ";int",
+                "output": [
                     {"type": "Symbol", "value": ";"},
                     {"type": "Keyword", "value": "int"},
                 ],
             },
             {
-                'input': ";int;",
-                'output': [
+                "input": ";int;",
+                "output": [
                     {"type": "Symbol", "value": ";"},
                     {"type": "Keyword", "value": "int"},
                     {"type": "Symbol", "value": ";"},
                 ],
             },
             {
-                'input': "char;",
-                'output': [
+                "input": "char;",
+                "output": [
                     {"type": "Keyword", "value": "char"},
                     {"type": "Symbol", "value": ";"},
                 ],
             },
             {
-                'input': "float;",
-                'output': [
+                "input": "float;",
+                "output": [
                     {"type": "Keyword", "value": "float"},
                     {"type": "Symbol", "value": ";"},
                 ],
             },
+            {
+                "input": "return 0.2224322432;",
+                "output": 3,
+            },
+            {
+                "input": ";;;;;",
+                "output": 5,
+            },
+            {
+                "input": 'int a = b^2;int a = b~2;',
+                "output": 14,
+            },
+            {
+                "input": "#include <stdio.h>",
+                "output": 7,
+            },
+            {
+                "input": "char *str = \"This is a string.\";",
+                "output": 6,
+            },
+            {
+                "input": "printf(\"char: %c\\n\", c);",
+                "output": 7,
+            },
+            {
+                "input": "printf(\"string1: %s\\n\", str);",
+                "output": 7,
+            },
+            {
+                "input": "'A\"'';rt;ewr';trewl;\"'t,w4;5lmyktr ;jwngh25t;j1",
+                "output": 12,
+            },
+            {
+                "input": "%E^SP&*@#$hbj89hr24576rtgvyx6^%^$S%%32",
+                "output": 16,
+            },
+            {
+                "input": "[][<>[]]][][[[][[]{]{}[}",
+                "output": 24,
+            },
+            {
+                "input": "fruit = apples + oranges;",
+                "output": 6,
+            },
+            {
+                "input": "/* Hello,World */",
+                "output": 7,
+            },
+            {
+                "input": "''\"\">><><>KL:<L:L:M><>>>>><<!!!=!===!<<>'';'\n",
+                "output": 32,
+            },
+            {
+                "input": "~^%&541$!#$!t¥r54.,l;.',l\"/[?\\]\"[\\o''k\"[21'''\\\\''][kop",
+                "output": 24,
+            }
         ];
     },
 };
 
 // 定义DFA状态流转模型
 let flowModel = {
-    getNextState(ch, state) {
+    getNextState(ch, state, matchs) {
 
         // 通用部分的处理
         if (tool.isInStates(state, [DFA_STATE_CONST.S_STRING])) {
@@ -407,11 +465,13 @@ let flowModel = {
             }
         }
         if (tool.isInStates(state, [DFA_STATE_CONST.S_CHAR])) {
-            if (ch !== ENUM_CONST.QUOTATION) {
+            if (matchs.length === 1) {
                 return DFA_STATE_CONST.S_CHAR;
-            } else {
+            }
+            if (matchs.length === 2 && ch === ENUM_CONST.QUOTATION) {
                 return DFA_STATE_CONST.S_CHAR_END;
             }
+            return DFA_STATE_CONST.S_RESET;
         }
 
         // 非通用部分的处理

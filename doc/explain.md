@@ -67,7 +67,7 @@ let unitTest = {
 
 ```js
 let flowModel = {
-    getNextState(ch, state) {
+    getNextState(ch, state, matchs) {
 
         // ... 逻辑处理
 

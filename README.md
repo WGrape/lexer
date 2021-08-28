@@ -2,10 +2,6 @@
 一个基于```DFA```法的支持多语言扩展的```JS```版开源词法分析器
 ![img](/doc/image/intro-v2.png)
 
-下图为实际演示
-
-![img](/doc/image/show.gif)
-
 ## 目录
 - [背景](#1)
 - [安装](#2)
@@ -21,10 +17,10 @@
 - ```lang/{lang}-define.js```文件是词法分析器的扩展，支持不同语言的接入，如```lang/c-define.js```文件，接入不同语言的方式见[贡献](#4)文档
 
 ## <span id="2">安装</span>
-下载本项目后，无需多余的安装步骤，在浏览器中打开```index.html```文件，可以正常使用即表示安装成功
-```bash
-git clone https://github.com/WGrape/lexer
-```
+使用```git clone```获取本项目后，无需多余的安装步骤，在浏览器中打开```index.html```文件，可以正常使用即表示安装成功
+
+![img](/doc/image/show.gif)
+
 ## <span id="3">使用</span>
 首先依次引入以下文件
 - ```/lang/{lang}-define.js```

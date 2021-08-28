@@ -52,7 +52,7 @@ let lexer = {
                 let match = false;
                 let end = false;
 
-                let nextState = flowModel.getNextState(ch, lexer.DFA.state);
+                let nextState = flowModel.getNextState(ch, lexer.DFA.state, lexer.DFA.result.matchs);
                 if (nextState !== DFA_STATE_CONST.S_RESET) {
                     match = true;
                     if (lexer.ISR.isLastChar()) {
@@ -77,20 +77,21 @@ let lexer = {
     // 有限状态自动机 deterministic finite automaton
     DFA: {
         result: {
-            queue: [], // 待组成token的字符队列
+            matchs: [], // 已匹配的字符队列
             tokens: [],
         },
         resultChange: {
             toDefault() {
-                lexer.DFA.result.queue = [];
+                lexer.DFA.state = DFA_STATE_CONST.S_RESET;
+                lexer.DFA.result.matchs = [];
                 lexer.DFA.result.tokens = [];
             },
             pushToTokens(token) {
                 lexer.DFA.result.tokens.push(token);
-                lexer.DFA.result.queue = [];
+                lexer.DFA.result.matchs = [];
             },
-            pushToQueue(ch) {
-                lexer.DFA.result.queue.push(ch);
+            pushToMatchs(ch) {
+                lexer.DFA.result.matchs.push(ch);
             },
             filter() {
                 let tokens = [];
@@ -102,8 +103,8 @@ let lexer = {
                 lexer.DFA.result.tokens = tokens;
             },
             produceToken() {
-                if (lexer.DFA.result.queue.length) {
-                    let value = lexer.DFA.result.queue.join('');
+                if (lexer.DFA.result.matchs.length) {
+                    let value = lexer.DFA.result.matchs.join('');
                     let type = tool.judgeTokenType(lexer.DFA.state, value);
                     let token = {
                         "type": type,
@@ -117,13 +118,8 @@ let lexer = {
         state: DFA_STATE_CONST.S_RESET, // 当前机器的状态
         events: {
             flowtoNextState(ch, state) {
-                lexer.DFA.resultChange.pushToQueue(ch);
+                lexer.DFA.resultChange.pushToMatchs(ch);
                 lexer.DFA.state = state;
-            },
-
-            flowtoEndState(ch) {
-                lexer.DFA.resultChange.pushToQueue(ch);
-                lexer.DFA.state = DFA_STATE_CONST.S_END;
             },
 
             flowtoResetState() {

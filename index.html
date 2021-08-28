@@ -137,6 +137,11 @@
             background: #f7be56;
         }
 
+        .token.token-Unknown {
+            background: #2f2c2c;
+            color: #ef1c1c;
+        }
+
         .opacity {
             opacity: 0.2;
         }
@@ -164,16 +169,17 @@
     <div style="margin-top: 35px;">
         <div style="text-align: center;background: #eee;padding: 20px 0;">
             <h3 style="margin: 0;padding: 0 0 5px 0;font-weight: 100;">所有Token类型</h3>
-            <span class="token token-Operator" tokentype="Operator" tokenvalue="c">Operator</span>
-            <span class="token token-DoubleOperator" tokentype="DoubleOperator" tokenvalue="c">DoubleOperator</span>
-            <span class="token token-Symbol" tokentype="Symbol" tokenvalue="c">Symbol</span>
-            <span class="token token-Whitespace" tokentype="Whitespace" tokenvalue="c">Whitespace</span>
-            <span class="token token-Keyword" tokentype="Keyword" tokenvalue="c">Keyword</span>
-            <span class="token token-Identifier" tokentype="Identifier" tokenvalue="c">Identifier</span>
-            <span class="token token-Number" tokentype="Number" tokenvalue="c">Number</span>
-            <span class="token token-Float" tokentype="Float" tokenvalue="c">Float</span>
-            <span class="token token-String" tokentype="String" tokenvalue="c">String</span>
-            <span class="token token-Char" tokentype="Char" tokenvalue="c">Char</span>
+            <span class="token token-Operator" tokentype="Operator" tokenvalue="Operator">Operator</span>
+            <span class="token token-DoubleOperator" tokentype="DoubleOperator" tokenvalue="DoubleOperator">DoubleOperator</span>
+            <span class="token token-Symbol" tokentype="Symbol" tokenvalue="Symbol">Symbol</span>
+            <span class="token token-Whitespace" tokentype="Whitespace" tokenvalue="Whitespace">Whitespace</span>
+            <span class="token token-Keyword" tokentype="Keyword" tokenvalue="Keyword">Keyword</span>
+            <span class="token token-Identifier" tokentype="Identifier" tokenvalue="Identifier">Identifier</span>
+            <span class="token token-Number" tokentype="Number" tokenvalue="Number">Number</span>
+            <span class="token token-Float" tokentype="Float" tokenvalue="Float">Float</span>
+            <span class="token token-String" tokentype="String" tokenvalue="String">String</span>
+            <span class="token token-Char" tokentype="Char" tokenvalue="Char">Char</span>
+            <span class="token token-Unknown" tokentype="Unknown" tokenvalue="Unknown">Unknown</span>
         </div>
     </div>
 </div>
@@ -242,21 +248,25 @@
 
             let failed = false;
             let tokens = lexer.DFA.result.tokens;
-            for (let j = 0; j <= tokens.length - 1; ++j) {
-                if (tool.isUndefined(outputs[j]) || outputs[j].type !== tokens[j].type || outputs[j].value !== tokens[j].value) {
-                    failed = true;
+            if (!isNaN(outputs)) {
+                failed = outputs !== tokens.length;
+            } else {
+                for (let j = 0; j <= tokens.length - 1; ++j) {
+                    if (tool.isUndefined(outputs[j]) || outputs[j].type !== tokens[j].type || outputs[j].value !== tokens[j].value) {
+                        failed = true;
+                    }
                 }
             }
 
             if (failed) {
+                alert('单测失败');
                 console.error('Case ' + (i + 1) + ': failed | ' + 'input = ' + caseList[i].input);
             } else {
                 console.info("\x1B[32m" + 'Case ' + (i + 1) + ': success | ' + 'input = ' + caseList[i].input + "\x1B[0m");
             }
         }
         console.log('执行单元测试结束');
-
-    }, 10);
+    }, 100);
 
 </script>
 </body>
