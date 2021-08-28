@@ -1,6 +1,6 @@
 # lexer
 一个基于```DFA```法的支持多语言扩展的```JS```版开源词法分析器
-![img](/doc/image/intro.png)
+![img](/doc/image/intro-v2.png)
 
 下图为实际演示
 
