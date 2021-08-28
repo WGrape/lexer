@@ -10,6 +10,10 @@
 - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[2、定义函数工具包](#22)
 - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[3、定义单元测试](#23)
 - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[4、定义状态流转模型](#24)
+- [三、开发实践](#3)
+- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[1、快速开始](#31)
+- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[2、语法细节调整](#32)
+- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[3、单元测试](#33)
 
 ## <span id="1">一、项目结构</span>
 
@@ -75,3 +79,24 @@ let flowModel = {
     }
 }
 ```
+
+## <span id="3">三、开发实践</span>
+
+### <span id="31">1、快速开始</span>
+
+如需要新增一个```Y语言```的扩展，复制```c-define.js```文件并命名为```y-define.js```，再修改```CHARSET_CONST.KEYWORD```中定义的```关键字```即可。
+
+如果没有调整语言细节的需求，截止到当前步骤```Y语言的扩展```已经完成啦~
+
+### <span id="32">2、语法细节调整</span>
+
+不同语言的语法细节是不同的，比如PHP语言中支持```===```或```!===```三个符号的运算符，C语言却不支持。
+
+如果有调整语言细节的需求，建议参考根据《第二节》中的讲解，去修改源码。
+
+### <span id="33">3、单元测试</span>
+
+完成```unitTest.returnCaseList()```函数后，打开```index.html```文件即会自动进行单元测试工作（在控制台输出），如果测试失败会```单测失败```的弹窗```alert```提示。
+
+![img](/doc/image/unit-test.png)
+

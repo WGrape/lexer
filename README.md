@@ -22,17 +22,16 @@
 ![img](/doc/image/show.gif)
 
 ## <span id="3">使用</span>
-首先依次引入以下文件
+如果有在代码中使用```lexer```的需求（如Web版代码编辑器），需要依次引入以下文件
 - ```/lang/{lang}-define.js```
 - ```lexer.js```
 
-在JS代码中访问```lexer```变量即可获取到词法分析器的所有数据
+然后在JS代码中直接访问```lexer```变量即可获取到词法分析器的所有数据，其中```tokens```数据通过访问```lexer.DFA.result.tokens```即可
 
 ```js
-let myLexer = lexer;
-console.log(myLexer);
-console.log(myLexer.ISR);
-console.log(myLexer.DFA);
+console.log(lexer);
+console.log(lexer.ISR);
+console.log(lexer.DFA);
 ```
 
 ## <span id="4">贡献</span>
