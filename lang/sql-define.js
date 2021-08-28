@@ -252,7 +252,7 @@ let tool = {
             return 'String';
         }
         if (state === DFA_STATE_CONST.S_CHAR_END) {
-            return 'Char';
+            return 'String';
         }
         return 'Unknown';
     },
@@ -343,6 +343,10 @@ let unitTest = {
                 "output": 3,
             },
             {
+                "input": "select*from table where name ='hello';",
+                "output": 9,
+            },
+            {
                 "input": "select id,name,student.age from student where name = \"张三\" and score=23.22; ",
                 "output": 19,
             },
@@ -371,13 +375,10 @@ let flowModel = {
             }
         }
         if (tool.isInStates(state, [DFA_STATE_CONST.S_CHAR])) {
-            if (matchs.length === 1) {
-                return DFA_STATE_CONST.S_CHAR;
-            }
-            if (matchs.length === 2 && ch === ENUM_CONST.QUOTATION) {
+            if (ch === ENUM_CONST.QUOTATION) {
                 return DFA_STATE_CONST.S_CHAR_END;
             }
-            return DFA_STATE_CONST.S_RESET;
+            return DFA_STATE_CONST.S_CHAR;
         }
 
         // 非通用部分的处理
