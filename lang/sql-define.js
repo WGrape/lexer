@@ -143,12 +143,11 @@ const CHARSET_CONST = {
 
     // 关键字
     KEYWORD: [
-        'char', 'int', 'short', 'long', 'float', 'double', 'sizeof', 'signed', 'unsigned',
-        'if', 'else', 'while', 'for', 'do', 'break', 'continue', 'goto',
-        'void', 'return', 'switch', 'case', 'default',
-        'const', 'static', 'auto', 'extern', 'register',
-        'struct', 'union', 'enum', 'typedef',
-        'include',
+        'select', 'from', 'where', 'and', 'group', 'by', 'order', 'desc', 'asc', 'limit',
+        'add', 'constraint', 'alter', 'column', 'as', 'database', 'between', 'case', 'check',
+        'create', 'alter', 'table', 'unique', 'index',
+        'delete', 'distinct', 'drop', 'full', 'join', 'outer', 'inner', 'having', 'in', 'or', 'null',
+        'insert', 'update', 'set', 'values', 'like', 'not', 'primary', 'into', 'top', 'union', 'all', 'view',
     ],
 };
 
@@ -253,7 +252,7 @@ let tool = {
             return 'String';
         }
         if (state === DFA_STATE_CONST.S_CHAR_END) {
-            return 'Char';
+            return 'String';
         }
         return 'Unknown';
     },
@@ -332,126 +331,33 @@ let unitTest = {
                 "output": 0,
             },
             {
-                "input": "int",
-                "output": [{"type": "Keyword", "value": "int"}],
+                "input": "select",
+                "output": 1,
             },
             {
-                "input": "int;",
-                "output": [
-                    {"type": "Keyword", "value": "int"},
-                    {"type": "Symbol", "value": ";"},
-                ],
+                "input": "select*",
+                "output": 2,
             },
             {
-                "input": "int a",
-                "output": [
-                    {"type": "Keyword", "value": "int"},
-                    {"type": "Identifier", "value": "a"},
-                ],
-            },
-            {
-                "input": "int a;",
-                "output": [
-                    {"type": "Keyword", "value": "int"},
-                    {"type": "Identifier", "value": "a"},
-                    {"type": "Symbol", "value": ";"},
-                ],
-            },
-            {
-                "input": ";",
-                "output": [
-                    {"type": "Symbol", "value": ";"},
-                ],
-            },
-            {
-                "input": ";int",
-                "output": [
-                    {"type": "Symbol", "value": ";"},
-                    {"type": "Keyword", "value": "int"},
-                ],
-            },
-            {
-                "input": ";int;",
-                "output": [
-                    {"type": "Symbol", "value": ";"},
-                    {"type": "Keyword", "value": "int"},
-                    {"type": "Symbol", "value": ";"},
-                ],
-            },
-            {
-                "input": "char;",
-                "output": [
-                    {"type": "Keyword", "value": "char"},
-                    {"type": "Symbol", "value": ";"},
-                ],
-            },
-            {
-                "input": "float;",
-                "output": [
-                    {"type": "Keyword", "value": "float"},
-                    {"type": "Symbol", "value": ";"},
-                ],
-            },
-            {
-                "input": "return 0.2224322432;",
+                "input": "create table;",
                 "output": 3,
             },
             {
-                "input": ";;;;;",
-                "output": 5,
+                "input": "select*from table where name ='hello';",
+                "output": 9,
             },
             {
-                "input": 'int a = b^2;int a = b~2;',
-                "output": 14,
+                "input": "select id,name,student.age from student where name = \"张三\" and score=23.22; ",
+                "output": 19,
             },
             {
-                "input": "#include <stdio.h>",
-                "output": 7,
+                "input": "select id,name,student.age from student where (id<22) and (id>2) group by name having id > 20 order by id desc limit 0,10;",
+                "output": 38,
             },
             {
-                "input": "char *str = \"This is a string.\";",
-                "output": 6,
+                "input": "select * from table where id >= 2 and id != 2 or id == 2;",
+                "output": 17,
             },
-            {
-                "input": "printf(\"char: %c\\n\", c);",
-                "output": 7,
-            },
-            {
-                "input": "printf(\"string1: %s\\n\", str);",
-                "output": 7,
-            },
-            {
-                "input":"signed int a = 23;unsigned int b = 24324;",
-                "output": 12,
-            },
-            {
-                "input": "'A\"'';rt;ewr';trewl;\"'t,w4;5lmyktr ;jwngh25t;j1",
-                "output": 12,
-            },
-            {
-                "input": "%E^SP&*@#$hbj89hr24576rtgvyx6^%^$S%%32",
-                "output": 16,
-            },
-            {
-                "input": "[][<>[]]][][[[][[]{]{}[}",
-                "output": 24,
-            },
-            {
-                "input": "fruit = apples + oranges;",
-                "output": 6,
-            },
-            {
-                "input": "/* Hello,World */",
-                "output": 7,
-            },
-            {
-                "input": "''\"\">><><>KL:<L:L:M><>>>>><<!!!=!===!<<>'';'\n",
-                "output": 32,
-            },
-            {
-                "input": "~^%&541$!#$!t¥r54.,l;.',l\"/[?\\]\"[\\o''k\"[21'''\\\\''][kop",
-                "output": 24,
-            }
         ];
     },
 };
@@ -469,13 +375,10 @@ let flowModel = {
             }
         }
         if (tool.isInStates(state, [DFA_STATE_CONST.S_CHAR])) {
-            if (matchs.length === 1) {
-                return DFA_STATE_CONST.S_CHAR;
-            }
-            if (matchs.length === 2 && ch === ENUM_CONST.QUOTATION) {
+            if (ch === ENUM_CONST.QUOTATION) {
                 return DFA_STATE_CONST.S_CHAR_END;
             }
-            return DFA_STATE_CONST.S_RESET;
+            return DFA_STATE_CONST.S_CHAR;
         }
 
         // 非通用部分的处理
