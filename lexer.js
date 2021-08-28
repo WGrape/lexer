@@ -48,89 +48,27 @@ let lexer = {
         },
         read() {
             let ch = '';
-            let currentStates = [];
             while (!tool.isUndefined(ch = lexer.ISR.nextChar())) {
                 let match = false;
                 let end = false;
-                switch (true) {
-                    case ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z')):
-                        currentStates = [LEXER_CONST.DFA.STATE.RESET, LEXER_CONST.DFA.STATE.S1];
-                        if (currentStates.indexOf(lexer.DFA.state) > -1) {
-                            match = true;
-                            lexer.DFA.events.flowtoS1State(ch);
-                        }
-                        break;
-                    case (!isNaN(parseInt(ch)) && ch >= 0 && ch <= 9):
-                        currentStates = [LEXER_CONST.DFA.STATE.RESET, LEXER_CONST.DFA.STATE.S1, LEXER_CONST.DFA.STATE.S5];
-                        if (currentStates.indexOf(lexer.DFA.state) > -1) {
-                            match = true;
-                            lexer.DFA.events.flowtoS5State(ch);
-                        }
-                        break;
-                    case (LEXER_CONST.DFA.TOKEN.OPERATOR.COMPUTE.indexOf(ch) > -1):
-                        currentStates = [LEXER_CONST.DFA.STATE.RESET];
-                        if (currentStates.indexOf(lexer.DFA.state) > -1) {
-                            match = true;
-                            lexer.DFA.events.flowtoS2State(ch);
-                        }
-                        break;
-                    case (LEXER_CONST.DFA.TOKEN.OPERATOR.COMPOSE.indexOf(ch) > -1):
-                        currentStates = [LEXER_CONST.DFA.STATE.RESET];
-                        if (currentStates.indexOf(lexer.DFA.state) > -1) {
-                            match = true;
-                            if (lexer.ISR.isLastChar()) {
-                                end = true;
-                                lexer.DFA.events.flowtoEndState(ch);
-                            } else if (ch === LEXER_CONST.ISR.CHAR.NOT) {
-                                lexer.DFA.events.flowtoS3State(ch);
-                            } else {
-                                lexer.DFA.events.flowtoS2State(ch);
-                            }
-                        }
 
-                        currentStates = [LEXER_CONST.DFA.STATE.S1];
-                        if (currentStates.indexOf(lexer.DFA.state) > -1) {
-                            if (ch === LEXER_CONST.ISR.CHAR.UNDERLINE) {
-                                match = true;
-                                lexer.DFA.events.flowtoS1State(ch);
-                            }
-                        }
-                        break;
-                    case (LEXER_CONST.DFA.TOKEN.OPERATOR.COMPARE.indexOf(ch) > -1):
-                        if (lexer.DFA.state === LEXER_CONST.DFA.STATE.RESET) {
-                            match = true;
-                            lexer.DFA.events.flowtoS4State(ch);
-                        } else if (lexer.DFA.state === LEXER_CONST.DFA.STATE.S3 || lexer.DFA.state === LEXER_CONST.DFA.STATE.S4) {
-                            if (ch === LEXER_CONST.ISR.CHAR.ASSIGN) {
-                                match = true;
-                                lexer.DFA.events.flowtoS6State(ch);
-                            }
-                        }
-                        break;
-                    case ([LEXER_CONST.ISR.CHAR.WHITESPACE].indexOf(ch) > -1):
-                        if (lexer.DFA.state === LEXER_CONST.DFA.STATE.RESET) {
-                            match = true;
-                            lexer.DFA.events.flowtoS7State(ch);
-                        }
-                        break;
-                    default:
-                        // 如果当前是S1状态, 则说明英文字符串后跟了汉字等各种符号字符
-                        currentStates = [LEXER_CONST.DFA.STATE.RESET, LEXER_CONST.DFA.STATE.S1];
-                        if (currentStates.indexOf(lexer.DFA.state) > -1) {
-                            match = true;
-                            lexer.DFA.events.flowtoS1State(ch);
-                        }
-                        break;
+                let nextState = flowModel.getNextState(ch, lexer.DFA.state);
+                if (nextState !== DFA_STATE_CONST.S_RESET) {
+                    match = true;
+                    if (lexer.ISR.isLastChar()) {
+                        end = true;
+                    }
                 }
 
                 if (match) {
                     lexer.ISR.propsChange.incrSeq();
+                    lexer.DFA.events.flowtoNextState(ch, nextState);
                     if (end) {
                         lexer.DFA.resultChange.produceToken();
                     }
                 } else {
-                    lexer.DFA.events.flowtoResetState();
                     lexer.DFA.resultChange.produceToken();
+                    lexer.DFA.events.flowtoResetState();
                 }
             }
         },
@@ -157,7 +95,7 @@ let lexer = {
             filter() {
                 let tokens = [];
                 lexer.DFA.result.tokens.forEach((token => {
-                    if (token.value !== LEXER_CONST.ISR.CHAR.WHITESPACE) {
+                    if (token.value !== ENUM_CONST.WHITESPACE) {
                         tokens.push(token);
                     }
                 }));
@@ -166,7 +104,7 @@ let lexer = {
             produceToken() {
                 if (lexer.DFA.result.queue.length) {
                     let value = lexer.DFA.result.queue.join('');
-                    let type = tool.judgeTokenType(value);
+                    let type = tool.judgeTokenType(lexer.DFA.state, value);
                     let token = {
                         "type": type,
                         "value": value,
@@ -176,55 +114,20 @@ let lexer = {
             },
         },
 
-        state: LEXER_CONST.DFA.STATE.RESET, // 当前机器的状态
+        state: DFA_STATE_CONST.S_RESET, // 当前机器的状态
         events: {
-            flowtoS1State(ch) {
+            flowtoNextState(ch, state) {
                 lexer.DFA.resultChange.pushToQueue(ch);
-                lexer.DFA.state = LEXER_CONST.DFA.STATE.S1;
-            },
-
-            flowtoS2State(ch) {
-                lexer.DFA.resultChange.pushToQueue(ch);
-                lexer.DFA.state = LEXER_CONST.DFA.STATE.S2;
-            },
-
-            flowtoS3State(ch) {
-                lexer.DFA.resultChange.pushToQueue(ch);
-                lexer.DFA.state = LEXER_CONST.DFA.STATE.S3;
-            },
-
-            flowtoS4State(ch) {
-                lexer.DFA.resultChange.pushToQueue(ch);
-                lexer.DFA.state = LEXER_CONST.DFA.STATE.S4;
-            },
-
-            flowtoS5State(ch) {
-                lexer.DFA.resultChange.pushToQueue(ch);
-                lexer.DFA.state = LEXER_CONST.DFA.STATE.S5;
-            },
-
-            flowtoS6State(ch) {
-                lexer.DFA.resultChange.pushToQueue(ch);
-                lexer.DFA.state = LEXER_CONST.DFA.STATE.S6;
-            },
-
-            flowtoS7State(ch) {
-                lexer.DFA.resultChange.pushToQueue(ch);
-                lexer.DFA.state = LEXER_CONST.DFA.STATE.S7;
-            },
-
-            flowtoS8State(ch) {
-                lexer.DFA.resultChange.pushToQueue(ch);
-                lexer.DFA.state = LEXER_CONST.DFA.STATE.S8;
+                lexer.DFA.state = state;
             },
 
             flowtoEndState(ch) {
                 lexer.DFA.resultChange.pushToQueue(ch);
-                lexer.DFA.state = LEXER_CONST.DFA.STATE.END;
+                lexer.DFA.state = DFA_STATE_CONST.S_END;
             },
 
             flowtoResetState() {
-                lexer.DFA.state = LEXER_CONST.DFA.STATE.RESET;
+                lexer.DFA.state = DFA_STATE_CONST.S_RESET;
             },
         },
     },

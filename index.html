@@ -83,7 +83,7 @@
             margin: 0 auto;
         }
 
-        #TokenList .token {
+        .token {
             display: inline-block;
             min-width: 30px;
             text-align: center;
@@ -96,24 +96,49 @@
             padding: 2px 8px;
         }
 
-        #TokenList .token.token-Keyword {
-            background: #d6440c;
-        }
-
-        #TokenList .token.token-Operator {
+        .token.token-Operator {
             background: #6495ed;
         }
 
-        #TokenList .token.token-Identifier {
-            background: #a9a9a9;
+        .token.token-DoubleOperator {
+            background: #0047c5;
         }
 
-        #TokenList .token.token-Number {
+        .token.token-Symbol {
+            background: #1f355d;
+        }
+
+        .token.token-Whitespace {
+            background: #6495ed;
+        }
+
+        .token.token-Keyword {
+            background: #d6440c;
+        }
+
+        .token.token-Identifier {
+            /*background: #a9a9a9;*/
+            background: #8e8989;
+        }
+
+        .token.token-Number {
             background: #08964e;
         }
 
-        #TokenList .token.token-DoubleOperator {
-            background: #0047c5;
+        .token.token-Float {
+            background: #03522a;
+        }
+
+        .token.token-String {
+            background: #d68e0a;
+        }
+
+        .token.token-Char {
+            background: #f7be56;
+        }
+
+        .opacity {
+            opacity: 0.2;
         }
 
     </style>
@@ -128,12 +153,27 @@
             </label>
         </div>
         <ul id="Preferences">
-            <li class="lang-choose lang-choose-first lang-choose-sql"><a href="?lang=sql">SQL</a></li>
-            <li class="lang-choose lang-choose-last lang-choose-c"><a href="?lang=c">C语言</a></li>
+            <li class="lang-choose lang-choose-first lang-choose-c"><a href="?lang=c">C语言</a></li>
+            <li class="lang-choose lang-choose-last lang-choose-sql"><a href="?lang=sql">SQL</a></li>
         </ul>
     </div>
     <div id="Show">
         <div id="TokenList">
+        </div>
+    </div>
+    <div style="margin-top: 35px;">
+        <div style="text-align: center;background: #eee;padding: 20px 0;">
+            <h3 style="margin: 0;padding: 0 0 5px 0;font-weight: 100;">所有Token类型</h3>
+            <span class="token token-Operator" tokentype="Operator" tokenvalue="c">Operator</span>
+            <span class="token token-DoubleOperator" tokentype="DoubleOperator" tokenvalue="c">DoubleOperator</span>
+            <span class="token token-Symbol" tokentype="Symbol" tokenvalue="c">Symbol</span>
+            <span class="token token-Whitespace" tokentype="Whitespace" tokenvalue="c">Whitespace</span>
+            <span class="token token-Keyword" tokentype="Keyword" tokenvalue="c">Keyword</span>
+            <span class="token token-Identifier" tokentype="Identifier" tokenvalue="c">Identifier</span>
+            <span class="token token-Number" tokentype="Number" tokenvalue="c">Number</span>
+            <span class="token token-Float" tokentype="Float" tokenvalue="c">Float</span>
+            <span class="token token-String" tokentype="String" tokenvalue="c">String</span>
+            <span class="token token-Char" tokentype="Char" tokenvalue="c">Char</span>
         </div>
     </div>
 </div>
@@ -141,14 +181,11 @@
 <script>
     function getParam(param) {
         let slices = window.location.href.split('?');
-        console.log(slices);
         if (slices[1]) {
             let searchString = slices[1];
             let params = searchString.split('&');
-            console.log(params);
             for (let i = 0; i <= params.length - 1; i++) {
                 let v = params[i];
-                console.log(v);
                 let arr = v.split('=');
                 if (arr[0] && arr[0] === param) {
                     return arr[1];
@@ -161,12 +198,15 @@
     let lang = getParam('lang');
     if (lang === 'c') {
         $('.lang-choose-c').addClass('lang-choose-select');
-        document.write('<script src="lang/c-constant.js"><\/script>');
+        document.write('<script src="lang/c-define.js"><\/script>');
     } else if (lang === 'sql') {
+        alert('SQL版本开发中，敬请期待~');
+        window.location.href = window.location.pathname + '?lang=c';
         $('.lang-choose-sql').addClass('lang-choose-select');
-        document.write('<script src="lang/sql-constant.js"><\/script>');
+        document.write('<script src="lang/sql-define.js"><\/script>');
+    } else {
+        window.location.href = window.location.pathname + '?lang=c';
     }
-    document.write('<script src="tool.js"><\/script>');
     document.write('<script src="lexer.js"><\/script>');
     setTimeout(function () {
         $('#Textarea').on('input', function () {
@@ -181,9 +221,41 @@
                 let type = token.type;
                 let value = token.value;
                 let classToken = 'token-' + type;
-                $('#TokenList').append('<span class="token ' + classToken + '" tokentype="' + type + '" tokenvalu="' + value + '">' + value + '</span>');
-            })
+                $('#TokenList').append('<span class="token ' + classToken + '" tokentype="' + type + '" tokenvalue="' + value + '">' + value + '</span>');
+            });
         });
+        $(document).on('mouseenter', '.token', function () {
+            let type = $(this).attr('tokentype');
+            $(".token").addClass('opacity');
+            $(".token-" + type).removeClass('opacity');
+        });
+        $(document).on('mouseleave', '.token', function () {
+            $(".token").removeClass('opacity');
+        });
+
+        // 执行单元测试
+        let caseList = unitTest.returnCaseList();
+        console.log("单元测试共" + caseList.length + '例, 执行单元测试中...');
+        for (let i = 0; i <= caseList.length - 1; ++i) {
+            let outputs = caseList[i].output;
+            lexer.start(caseList[i].input);
+
+            let failed = false;
+            let tokens = lexer.DFA.result.tokens;
+            for (let j = 0; j <= tokens.length - 1; ++j) {
+                if (tool.isUndefined(outputs[j]) || outputs[j].type !== tokens[j].type || outputs[j].value !== tokens[j].value) {
+                    failed = true;
+                }
+            }
+
+            if (failed) {
+                console.error('Case ' + (i + 1) + ': failed | ' + 'input = ' + caseList[i].input);
+            } else {
+                console.info("\x1B[32m" + 'Case ' + (i + 1) + ': success | ' + 'input = ' + caseList[i].input + "\x1B[0m");
+            }
+        }
+        console.log('执行单元测试结束');
+
     }, 10);
 
 </script>
