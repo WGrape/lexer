@@ -7,6 +7,10 @@ script:
   - node ./lang/c-define.js
   - node ./lang/sql-define.js
 
+env:
+  global:
+    - CODECOV_TOKEN: 3d65d8ba-91a2-4462-bed8-2d4384f74b35
+
 branches:
   only:
     - main
