@@ -140,4 +140,4 @@ script:
 
 填充```autoTest.returnCaseList()```函数后，打开```index.html```文件即会自动进行自动化测试工作（在控制台输出），如果测试失败会```自动化测试失败```的```alert```弹框提示。
 
-![img](/doc/image/auto-test.png)
+![img](/doc/image/auto-test-v2.png)
