@@ -4,10 +4,17 @@
     <meta charset="UTF-8">
     <title>Lexer</title>
     <style>
+        body{
+            margin: 0;
+            padding: 0;
+        }
         #Header {
             text-align: center;
             font-size: 30px;
             font-weight: 100;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+            background: #FAFAFA;
         }
 
         #IDE {
@@ -68,7 +75,7 @@
             width: 700px;
             height: 200px;
             resize: none;
-            background:#FAFAFA;
+            background: #FAFAFA;
         }
 
         #Show {
@@ -147,9 +154,8 @@
         }
 
         .header-a-link {
-            font-size: 20px;
-            color: #555;
-            text-decoration: underline;
+            text-decoration: none;
+            color: #000;
         }
 
         .header-a-link:hover {
@@ -160,7 +166,11 @@
 </head>
 <body>
 <div>
-    <div id="Header">Lexer / <a class="header-a-link" href="https://github.com/WGrape/lexer">查看GitHub</a></div>
+    <div id="Header">
+        <a href="https://github.com/WGrape/lexer" class="header-a-link">Lexer</a>
+        <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="100px" height="20px"
+                src="https://ghbtns.com/github-btn.html?user=WGrape&repo=lexer&type=star&count=true"></iframe>
+    </div>
     <div id="IDE">
         <div id="Input">
             <label>
@@ -176,7 +186,7 @@
         <div id="TokenList">
         </div>
     </div>
-    <div style="margin-top: 35px;">
+    <div style="margin-top: 35px;border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;">
         <div style="text-align: center;background: #eee;padding: 20px 0;">
             <h3 style="margin: 0;padding: 0 0 5px 0;font-weight: 100;">所有Token类型</h3>
             <span class="token token-Operator" tokentype="Operator" tokenvalue="Operator">Operator</span>
@@ -269,11 +279,11 @@
         }
 
         $('#Textarea').val('正在显示示例代码~');
-        setTimeout(function(){
+        setTimeout(function () {
             $('#Textarea').val(defaultInput);
             $('#Textarea').blur();
             $('#Textarea').focus();
-        },800);
+        }, 800);
 
         // 执行自动化测试
         let caseList = autoTest.returnCaseList();
