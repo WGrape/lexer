@@ -211,6 +211,9 @@ let tool = {
     isUndefined(obj) {
         return typeof obj === "undefined";
     },
+    isNodeEnvironment() {
+        return typeof window === "undefined";
+    },
     isInArray(needle, haystack) {
         return haystack.indexOf(needle) > -1;
     },
@@ -323,8 +326,126 @@ let tool = {
     }
 };
 
+// 定义DFA状态流转模型
+let flowModel = {
+    result: {
+        paths: [],
+    },
+    resultChange: {
+        pathGrow(path) {
+            flowModel.result.paths.push(path)
+        },
+        toDefault() {
+            flowModel.result.paths = [];
+        }
+    },
+
+    getNextState(ch, state, matchs) {
+
+        // 通用部分的处理
+        if (tool.isInStates(state, [DFA_STATE_CONST.S_STRING])) {
+            if (ch !== ENUM_CONST.DOUBLE_QUOTATION) {
+                return DFA_STATE_CONST.S_STRING;
+            } else {
+                return DFA_STATE_CONST.S_STRING_END;
+            }
+        }
+        if (tool.isInStates(state, [DFA_STATE_CONST.S_CHAR])) {
+            if (matchs.length === 1) {
+                return DFA_STATE_CONST.S_CHAR;
+            }
+            if (matchs.length === 2 && ch === ENUM_CONST.QUOTATION) {
+                return DFA_STATE_CONST.S_CHAR_END;
+            }
+            return DFA_STATE_CONST.S_RESET;
+        }
+
+        // 非通用部分的处理
+        if (tool.isAlphabetChar(ch)) {
+            if (tool.isInStates(state, [DFA_STATE_CONST.S_RESET, DFA_STATE_CONST.S_IDENTIFIER])) {
+                return DFA_STATE_CONST.S_IDENTIFIER;
+            }
+        } else if (tool.isNumberChar(ch)) {
+            if (tool.isInStates(state, [DFA_STATE_CONST.S_RESET, DFA_STATE_CONST.S_NUMBER])) {
+                return DFA_STATE_CONST.S_NUMBER;
+            }
+            if (tool.isInStates(state, [DFA_STATE_CONST.S_FLOAT])) {
+                return DFA_STATE_CONST.S_FLOAT;
+            }
+            if (tool.isInStates(state, [DFA_STATE_CONST.S_IDENTIFIER])) {
+                return DFA_STATE_CONST.S_IDENTIFIER;
+            }
+        } else if (tool.isOperatorChar(ch)) {
+            if (tool.isFirstCharOfDoubleChar(ch)) {
+                if (tool.isInStates(state, [DFA_STATE_CONST.S_RESET])) {
+                    return tool.getFirstCharState(ch);
+                }
+            }
+            if (tool.isSecondCharOfDoubleChar(ch)) {
+                if (state === DFA_STATE_CONST.S_DOUBLE_CHAR_FIRST_BIT_AND && ch === ENUM_CONST.BIT_AND) {
+                    return DFA_STATE_CONST.S_DOUBLE_CHAR_SECOND_BIT_AND;
+                }
+                if (state === DFA_STATE_CONST.S_DOUBLE_CHAR_FIRST_BIT_OR && ch === ENUM_CONST.BIT_OR) {
+                    return DFA_STATE_CONST.S_DOUBLE_CHAR_SECOND_BIT_OR;
+                }
+                if (state === DFA_STATE_CONST.S_DOUBLE_CHAR_FIRST_GREAT && ch === ENUM_CONST.GREAT) {
+                    return DFA_STATE_CONST.S_DOUBLE_CHAR_SECOND_GREAT;
+                }
+                if (state === DFA_STATE_CONST.S_DOUBLE_CHAR_FIRST_LESS && ch === ENUM_CONST.LESS) {
+                    return DFA_STATE_CONST.S_DOUBLE_CHAR_SECOND_LESS;
+                }
+
+                if (state === DFA_STATE_CONST.S_DOUBLE_CHAR_FIRST_GREAT && ch === ENUM_CONST.ASSIGN) {
+                    return DFA_STATE_CONST.S_DOUBLE_CHAR_SECOND_ASSIGN;
+                }
+                if (state === DFA_STATE_CONST.S_DOUBLE_CHAR_FIRST_LESS && ch === ENUM_CONST.ASSIGN) {
+                    return DFA_STATE_CONST.S_DOUBLE_CHAR_SECOND_ASSIGN;
+                }
+                if (state === DFA_STATE_CONST.S_DOUBLE_CHAR_FIRST_NOT && ch === ENUM_CONST.ASSIGN) {
+                    return DFA_STATE_CONST.S_DOUBLE_CHAR_SECOND_ASSIGN;
+                }
+                if (state === DFA_STATE_CONST.S_DOUBLE_CHAR_FIRST_ASSIGN && ch === ENUM_CONST.ASSIGN) {
+                    return DFA_STATE_CONST.S_DOUBLE_CHAR_SECOND_ASSIGN;
+                }
+            }
+
+            if (tool.isInStates(state, [DFA_STATE_CONST.S_RESET])) {
+                return DFA_STATE_CONST.S_OPERATOR;
+            }
+        } else if (tool.isSymbolChar(ch)) {
+            if (tool.isInStates(state, [DFA_STATE_CONST.S_RESET])) {
+                if (ch === ENUM_CONST.QUOTATION) {
+                    return DFA_STATE_CONST.S_CHAR;
+                }
+                if (ch === ENUM_CONST.DOUBLE_QUOTATION) {
+                    return DFA_STATE_CONST.S_STRING;
+                }
+                return DFA_STATE_CONST.S_SYMBOL;
+            }
+            if (tool.isInStates(state, [DFA_STATE_CONST.S_NUMBER]) && ch === ENUM_CONST.DOT) {
+                return DFA_STATE_CONST.S_FLOAT;
+            }
+        } else if (tool.isWhitespaceChar(ch)) {
+            if (tool.isInStates(state, [DFA_STATE_CONST.S_RESET])) {
+                return DFA_STATE_CONST.S_WHITESPACE;
+            }
+        } else {
+            if (tool.isInStates(state, [DFA_STATE_CONST.S_RESET, DFA_STATE_CONST.S_IDENTIFIER])) {
+                return DFA_STATE_CONST.S_IDENTIFIER;
+            }
+        }
+        return DFA_STATE_CONST.S_RESET;
+    },
+};
+
 // 单元测试
-let unitTest = {
+if (tool.isNodeEnvironment()) {
+    let assert = require('assert');
+    assert.equal(tool.isUndefined(flowModel.FakeValue), true, "tool.isUndefined单测失败");
+}
+
+// 自动化测试
+let autoTest = {
     returnCaseList() {
         return [
             {
@@ -453,117 +574,5 @@ let unitTest = {
                 "output": 24,
             }
         ];
-    },
-};
-
-// 定义DFA状态流转模型
-let flowModel = {
-    result: {
-        paths: [],
-    },
-    resultChange: {
-        pathGrow(path) {
-            flowModel.result.paths.push(path)
-        },
-        toDefault(){
-            flowModel.result.paths = [];
-        }
-    },
-
-    getNextState(ch, state, matchs) {
-
-        // 通用部分的处理
-        if (tool.isInStates(state, [DFA_STATE_CONST.S_STRING])) {
-            if (ch !== ENUM_CONST.DOUBLE_QUOTATION) {
-                return DFA_STATE_CONST.S_STRING;
-            } else {
-                return DFA_STATE_CONST.S_STRING_END;
-            }
-        }
-        if (tool.isInStates(state, [DFA_STATE_CONST.S_CHAR])) {
-            if (matchs.length === 1) {
-                return DFA_STATE_CONST.S_CHAR;
-            }
-            if (matchs.length === 2 && ch === ENUM_CONST.QUOTATION) {
-                return DFA_STATE_CONST.S_CHAR_END;
-            }
-            return DFA_STATE_CONST.S_RESET;
-        }
-
-        // 非通用部分的处理
-        if (tool.isAlphabetChar(ch)) {
-            if (tool.isInStates(state, [DFA_STATE_CONST.S_RESET, DFA_STATE_CONST.S_IDENTIFIER])) {
-                return DFA_STATE_CONST.S_IDENTIFIER;
-            }
-        } else if (tool.isNumberChar(ch)) {
-            if (tool.isInStates(state, [DFA_STATE_CONST.S_RESET, DFA_STATE_CONST.S_NUMBER])) {
-                return DFA_STATE_CONST.S_NUMBER;
-            }
-            if (tool.isInStates(state, [DFA_STATE_CONST.S_FLOAT])) {
-                return DFA_STATE_CONST.S_FLOAT;
-            }
-            if (tool.isInStates(state, [DFA_STATE_CONST.S_IDENTIFIER])) {
-                return DFA_STATE_CONST.S_IDENTIFIER;
-            }
-        } else if (tool.isOperatorChar(ch)) {
-            if (tool.isFirstCharOfDoubleChar(ch)) {
-                if (tool.isInStates(state, [DFA_STATE_CONST.S_RESET])) {
-                    return tool.getFirstCharState(ch);
-                }
-            }
-            if (tool.isSecondCharOfDoubleChar(ch)) {
-                if (state === DFA_STATE_CONST.S_DOUBLE_CHAR_FIRST_BIT_AND && ch === ENUM_CONST.BIT_AND) {
-                    return DFA_STATE_CONST.S_DOUBLE_CHAR_SECOND_BIT_AND;
-                }
-                if (state === DFA_STATE_CONST.S_DOUBLE_CHAR_FIRST_BIT_OR && ch === ENUM_CONST.BIT_OR) {
-                    return DFA_STATE_CONST.S_DOUBLE_CHAR_SECOND_BIT_OR;
-                }
-                if (state === DFA_STATE_CONST.S_DOUBLE_CHAR_FIRST_GREAT && ch === ENUM_CONST.GREAT) {
-                    return DFA_STATE_CONST.S_DOUBLE_CHAR_SECOND_GREAT;
-                }
-                if (state === DFA_STATE_CONST.S_DOUBLE_CHAR_FIRST_LESS && ch === ENUM_CONST.LESS) {
-                    return DFA_STATE_CONST.S_DOUBLE_CHAR_SECOND_LESS;
-                }
-
-                if (state === DFA_STATE_CONST.S_DOUBLE_CHAR_FIRST_GREAT && ch === ENUM_CONST.ASSIGN) {
-                    return DFA_STATE_CONST.S_DOUBLE_CHAR_SECOND_ASSIGN;
-                }
-                if (state === DFA_STATE_CONST.S_DOUBLE_CHAR_FIRST_LESS && ch === ENUM_CONST.ASSIGN) {
-                    return DFA_STATE_CONST.S_DOUBLE_CHAR_SECOND_ASSIGN;
-                }
-                if (state === DFA_STATE_CONST.S_DOUBLE_CHAR_FIRST_NOT && ch === ENUM_CONST.ASSIGN) {
-                    return DFA_STATE_CONST.S_DOUBLE_CHAR_SECOND_ASSIGN;
-                }
-                if (state === DFA_STATE_CONST.S_DOUBLE_CHAR_FIRST_ASSIGN && ch === ENUM_CONST.ASSIGN) {
-                    return DFA_STATE_CONST.S_DOUBLE_CHAR_SECOND_ASSIGN;
-                }
-            }
-
-            if (tool.isInStates(state, [DFA_STATE_CONST.S_RESET])) {
-                return DFA_STATE_CONST.S_OPERATOR;
-            }
-        } else if (tool.isSymbolChar(ch)) {
-            if (tool.isInStates(state, [DFA_STATE_CONST.S_RESET])) {
-                if (ch === ENUM_CONST.QUOTATION) {
-                    return DFA_STATE_CONST.S_CHAR;
-                }
-                if (ch === ENUM_CONST.DOUBLE_QUOTATION) {
-                    return DFA_STATE_CONST.S_STRING;
-                }
-                return DFA_STATE_CONST.S_SYMBOL;
-            }
-            if (tool.isInStates(state, [DFA_STATE_CONST.S_NUMBER]) && ch === ENUM_CONST.DOT) {
-                return DFA_STATE_CONST.S_FLOAT;
-            }
-        } else if (tool.isWhitespaceChar(ch)) {
-            if (tool.isInStates(state, [DFA_STATE_CONST.S_RESET])) {
-                return DFA_STATE_CONST.S_WHITESPACE;
-            }
-        } else {
-            if (tool.isInStates(state, [DFA_STATE_CONST.S_RESET, DFA_STATE_CONST.S_IDENTIFIER])) {
-                return DFA_STATE_CONST.S_IDENTIFIER;
-            }
-        }
-        return DFA_STATE_CONST.S_RESET;
     },
 };

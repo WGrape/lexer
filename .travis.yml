@@ -1,4 +1,10 @@
-language: javascript
+language: node_js
+
+node_js:
+  - 14.17.5
+
+script:
+  - node ./lang/c-define.js
 
 branches:
   only:

@@ -322,8 +322,8 @@ let tool = {
     }
 };
 
-// 单元测试
-let unitTest = {
+// 自动化测试
+let autoTest = {
     returnCaseList() {
         return [
             {

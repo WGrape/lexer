@@ -237,9 +237,9 @@
             $(".token").removeClass('opacity');
         });
 
-        // 执行单元测试
-        let caseList = unitTest.returnCaseList();
-        console.log("单元测试共" + caseList.length + '例, 执行单元测试中...');
+        // 执行自动化测试
+        let caseList = autoTest.returnCaseList();
+        console.log("自动化测试共" + caseList.length + '例, 执行自动化测试中...');
         for (let i = 0; i <= caseList.length - 1; ++i) {
             let outputs = caseList[i].output;
             lexer.start(caseList[i].input);
@@ -263,7 +263,7 @@
                 console.info("\x1B[32m" + 'Case ' + (i + 1) + ': success | ' + 'input = ' + caseList[i].input + "\x1B[0m");
             }
         }
-        console.log('执行单元测试结束');
+        console.log('自动化测试结束');
     }, 100);
 
 </script>

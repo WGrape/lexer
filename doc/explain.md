@@ -8,12 +8,12 @@
 - [二、语言扩展](#2)
 - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[1、定义常量](#21)
 - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[2、定义函数工具包](#22)
-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[3、定义单元测试](#23)
+- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[3、定义自动化测试](#23)
 - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[4、定义状态流转模型](#24)
 - [三、开发实践](#3)
 - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[1、快速开始](#31)
 - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[2、语法细节调整](#32)
-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[3、单元测试](#33)
+- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[3、自动化测试](#33)
 
 ## <span id="1">一、项目结构</span>
 
@@ -48,12 +48,12 @@ const DFA_STATE_CONST = [];
 - ```getFirstCharState(ch)``` 如果是```双字符首位符```则返回对应的```state```，否则返回```S_RESET```重置状态
 - ```getSecondCharState(ch)``` 如果是```双字符次位符```则返回对应的```state```，否则返回```S_RESET```重置状态
 
-### <span id="23">3、定义单元测试</span>
+### <span id="23">3、定义自动化测试</span>
 
 只需要实现一个```returnCaseList()```函数返回测试Case即可
 
 ```js
-let unitTest = {
+let autoTest = {
     returnCaseList() {
         return [
             {
@@ -112,9 +112,24 @@ let flowModel = {
 
 如果有调整语言细节的需求，建议参考根据[《第二节》](#2)中的讲解，去修改源码。
 
-### <span id="33">3、单元测试</span>
+### <span id="33">3、自动化测试</span>
 
-完成```unitTest.returnCaseList()```函数后，打开```index.html```文件即会自动进行单元测试工作（在控制台输出），如果测试失败会```单测失败```的弹窗```alert```提示。
+填充```autoTest.returnCaseList()```函数后，打开```index.html```文件即会自动进行自动化测试工作（在控制台输出），如果测试失败会```单测失败```的弹窗```alert```提示。
 
 ![img](/doc/image/unit-test.png)
+
+### <span id="34">4、单元测试</span>
+
+> 单元测试需要依赖Node环境，所以需要判断当前环境是否是Node环境
+
+对扩展代码部分的单元测试，示例如下，在每次```Git```提交时（任何分支）会自动执行，不需要人为干预
+
+```js
+// 如果是Node环境, 则执行如下单元测试
+if (tool.isNodeEnvironment()) {
+    let assert = require('assert');
+    assert.equal(tool.isUndefined(flowModel.FakeValue), true, "tool.isUndefined单测失败");
+}
+```
+
 
