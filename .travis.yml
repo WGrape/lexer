@@ -1,0 +1,13 @@
+language: node_js
+
+node_js:
+  - 14.17.5
+
+script:
+  - node ./lang/c-define.js
+  - node ./lang/sql-define.js
+
+branches:
+  only:
+    - main
+    - testing
