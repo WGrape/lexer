@@ -2,7 +2,7 @@
 
 一个基于```DFA```法的支持多语言扩展的```JS```版开源词法分析器
 
-[![Build Status](https://www.travis-ci.org/WGrape/lexer.svg?branch=main)](https://www.travis-ci.org/WGrape/lexer)
+![img](https://img.shields.io/badge/JavaScript-ES5+-blue.svg) &nbsp; [![Build Status](https://app.travis-ci.com/WGrape/lexer.svg?branch=main)](https://app.travis-ci.com/github/WGrape/lexer)
 
 ## 目录
 
