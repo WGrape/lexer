@@ -9,6 +9,11 @@ let lexer = {
             seq: 0, // 字符流的序号
         },
         propsChange: {
+            set(prop, value) {
+                if (typeof lexer.ISR.props[prop] != "undefined") {
+                    lexer.ISR.props[prop] = value;
+                }
+            },
             incrSeq() {
                 lexer.ISR.props.seq++;
             },
@@ -21,34 +26,34 @@ let lexer = {
 
         before(stream) {
             // 确定字符流
-            lexer.ISR.props.stream = stream;
+            lexer.ISR.propsChange.set('stream', stream);
 
             // 换行符替换为空格
-            lexer.ISR.props.stream = lexer.ISR.props.stream.replace(/\n/g, " ").trim();
+            lexer.ISR.propsChange.set('stream', lexer.ISR.props.stream.replace(/\n/g, " ").trim());
 
             // 多个空格替换为1个空格
-            lexer.ISR.props.stream = lexer.ISR.props.stream.replace(/\s+/g, " ").trim();
+            lexer.ISR.propsChange.set('stream', lexer.ISR.props.stream.replace(/\s+/g, " ").trim());
 
             // 计算字符流长度和序号
-            lexer.ISR.props.length = lexer.ISR.props.stream.length;
-            lexer.ISR.props.seq = 0;
+            lexer.ISR.propsChange.set('length', lexer.ISR.props.stream.length);
+            lexer.ISR.propsChange.set('seq', 0);
         },
         after() {
-            lexer.DFA.resultChange.filter();
+            lexer.DFA.resultChange.filterTokens();
         },
         nextChar() {
             let seq = lexer.ISR.props.seq;
             if (seq <= lexer.ISR.props.length - 1) {
                 return lexer.ISR.props.stream[seq];
             }
-            return undefined;
+            return false;
         },
         isLastChar() {
             return lexer.ISR.props.seq === lexer.ISR.props.length - 1;
         },
         read() {
             let ch = '';
-            while (!tool.isUndefined(ch = lexer.ISR.nextChar())) {
+            while ((ch = lexer.ISR.nextChar()) !== false) {
                 let match = false;
                 let end = false;
 
@@ -102,7 +107,7 @@ let lexer = {
             pushToMatchs(ch) {
                 lexer.DFA.result.matchs.push(ch);
             },
-            filter() {
+            filterTokens() {
                 let tokens = [];
                 lexer.DFA.result.tokens.forEach((token => {
                     if (token.value !== ENUM_CONST.WHITESPACE) {

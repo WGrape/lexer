@@ -2,6 +2,8 @@
 
 一个基于```DFA```法的支持多语言扩展的```JS```版开源词法分析器
 
+[![Build Status](https://www.travis-ci.org/WGrape/lexer.svg?branch=main)](https://www.travis-ci.org/WGrape/lexer)
+
 ## 目录
 
 - [1、项目背景](#1)
@@ -36,7 +38,7 @@
 
 ### <span id="22">(2) 支持多语言扩展</span>
 
-```lexer```支持接入如```Python```、```Go```等不同的语言，实现对不同语言进行词法分析的需求，扩展接入方式见[贡献部分](#4)
+```lexer```支持接入如```Python```、```Go```等不同的语言，实现对不同语言进行词法分析的需求，扩展接入方式见[贡献部分](#5)
 
 ### <span id="23">(3) 记录状态流转信息</span>
 
@@ -91,4 +93,4 @@ parsedTokens.forEach((token) => {
 
 ## <span id="6">6、协议说明</span>
 
-[MIT](/LICENSE)
+![GitHub](https://img.shields.io/github/license/WGrape/lexer)
