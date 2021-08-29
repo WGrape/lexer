@@ -68,7 +68,7 @@
             width: 700px;
             height: 200px;
             resize: none;
-            outline: none;
+            background:#FAFAFA;
         }
 
         #Show {
@@ -146,15 +146,25 @@
             opacity: 0.2;
         }
 
+        .header-a-link {
+            font-size: 20px;
+            color: #555;
+            text-decoration: underline;
+        }
+
+        .header-a-link:hover {
+            cursor: pointer;
+        }
+
     </style>
 </head>
 <body>
 <div>
-    <div id="Header">Lexer</div>
+    <div id="Header">Lexer / <a class="header-a-link" href="https://github.com/WGrape/lexer">查看GitHub</a></div>
     <div id="IDE">
         <div id="Input">
             <label>
-                <textarea id="Textarea"></textarea>
+                <textarea id="Textarea" autofocus="autofocus"></textarea>
             </label>
         </div>
         <ul id="Preferences">
@@ -213,6 +223,7 @@
     }
     document.write('<script src="lexer.js"><\/script>');
     setTimeout(function () {
+
         $('#Textarea').on('input', function () {
             $('#TokenList').html('<p style="color: #888;">Lexer is working ... ...</p>');
         });
@@ -237,6 +248,33 @@
             $(".token").removeClass('opacity');
         });
 
+        let defaultInput = "";
+        if (lang === 'c') {
+            defaultInput = "int a = 10;\n" +
+                "int b =20;\n" +
+                "int c = 20;\n" +
+                "\n" +
+                "float f = 928.2332;\n" +
+                "char b = 'b';\n" +
+                "\n" +
+                "if(a == b){\n" +
+                "    printf(\"Hello, World!\");\n" +
+                "}else if(b!=c){\n" +
+                "    printf(\"Hello, World! Hello, World!\");\n" +
+                "}else{\n" +
+                "    printf(\"Hello!\");\n" +
+                "}";
+        } else {
+            defaultInput = "select * from test where id >= 10 and id <10 and name='test';"
+        }
+
+        $('#Textarea').val('正在显示示例代码~');
+        setTimeout(function(){
+            $('#Textarea').val(defaultInput);
+            $('#Textarea').blur();
+            $('#Textarea').focus();
+        },800);
+
         // 执行自动化测试
         let caseList = autoTest.returnCaseList();
         console.log("自动化测试共" + caseList.length + '例, 执行自动化测试中...');
@@ -257,7 +295,7 @@
             }
 
             if (failed) {
-                alert('单测失败');
+                alert('自动化测试失败');
                 console.error('Case ' + (i + 1) + ': failed | ' + 'input = ' + caseList[i].input);
             } else {
                 console.info("\x1B[32m" + 'Case ' + (i + 1) + ': success | ' + 'input = ' + caseList[i].input + "\x1B[0m");

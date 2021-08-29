@@ -49,6 +49,8 @@ const DFA_STATE_CONST = [];
 - ```getFirstCharState(ch)``` 如果是```双字符首位符```则返回对应的```state```，否则返回```S_RESET```重置状态
 - ```getSecondCharState(ch)``` 如果是```双字符次位符```则返回对应的```state```，否则返回```S_RESET```重置状态
 
+> 如何实现和PHP一样关键字不区分大小写的效果呢？很简单，在```judgeTokenTypeByValue(value)```函数中将Value转小写进行比较即可，可以参考```/lang/sql-define.js```中的实现
+
 ### <span id="23">3、定义自动化测试</span>
 
 只需要实现一个```returnCaseList()```函数返回测试Case即可
@@ -136,6 +138,6 @@ script:
 
 ### <span id="34">4、自动化测试</span>
 
-填充```autoTest.returnCaseList()```函数后，打开```index.html```文件即会自动进行自动化测试工作（在控制台输出），如果测试失败会```单测失败```的弹窗```alert```提示。
+填充```autoTest.returnCaseList()```函数后，打开```index.html```文件即会自动进行自动化测试工作（在控制台输出），如果测试失败会```自动化测试失败```的```alert```弹框提示。
 
-![img](/doc/image/auto-test.png)
+![img](/doc/image/auto-test-v2.png)
