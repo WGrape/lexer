@@ -1,6 +1,6 @@
 # lexer
 
-一个基于```DFA```法的支持多语言扩展的```JS```版开源词法分析器
+一个基于```DFA```法的支持多语言扩展的```JS```版开源词法分析器，快速了解与体验请查看[线上网站](https://wgrape.github.io/lexer/)
 
 ![img](https://img.shields.io/badge/JavaScript-ES5+-blue.svg) &nbsp; [![Build Status](https://app.travis-ci.com/WGrape/lexer.svg?branch=main)](https://app.travis-ci.com/github/WGrape/lexer)
 
@@ -63,7 +63,7 @@
 然后直接访问```lexer```变量即可获取到词法分析器对象，其中```tokens```数据可以通过访问```lexer.DFA.result.tokens```获取
 
 ```js
-// 1. 需要词法解析的代码
+// 1. 需要词法分析的代码
 let stream = "int a = 10;";
 
 // 2. 开始词法分析
@@ -121,7 +121,7 @@ if(a == b){
 ## <span id="5">5、参与贡献</span>
 
 - 提供更多语言的 ```/lang/{lang}-define.js```
-- 源码解析以及如何接入不同语言的扩展，请见[实现原理](/doc/explain.md)文档
+- 源码分析以及如何接入不同语言的扩展，请见[实现原理](/doc/explain.md)文档
 
 ## <span id="6">6、协议说明</span>
 
