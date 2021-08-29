@@ -42,7 +42,7 @@
 
 ### <span id="23">(3) 记录状态流转信息</span>
 
-词法分析器的核心机制是基于```DFA```的状态流转，为此```lexer```记录了详细的状态流转信息，以使用方的以下需求
+词法分析器的核心机制是基于```DFA```的状态流转，为此```lexer```记录了详细的状态流转信息，以实现使用方的以下需求
 
 - 功能调试模式
 - 自动生成```DFA```状态流转图
@@ -78,11 +78,43 @@ parsedTokens.forEach((token) => {
 });
 ```
 
+功能介绍中所描述的[记录状态流转信息](#23)，通过访问```flowModel.result.paths```即可获取到```Lexer```内部状态机在每次状态流转时的详细信息，数据格式如下所示
+
+```js
+[
+    {
+        state: 0, // 当前状态
+        ch: "a", // 当前读入的字符
+        nextSstate: 2, // 下一个状态
+        match: true, // 是否匹配
+        end: false, // 是否是最后一个字符
+    },
+    // ... ...
+]
+```
+
 ### <span id="42">(2) 可视化预览与测试</span>
 
 > Lexer的自动化测试会在页面打开前自动完成，打开浏览器控制台查看自动化测试的具体情况
 
-为了实时查看Lexer工作效果，也方便对Lexer进行测试，在项目根目录下有一个```index.html```文件，在浏览器中打开，输入代码后会自动输出经过```Lexer```分析后生成的```Token```，如下图所演示
+为了实时查看Lexer工作效果，也方便对Lexer进行测试，在项目根目录下有一个```index.html```文件，直接在浏览器中打开，输入代码后会自动输出经过```Lexer```分析后生成的```Token```，如下图所演示
+
+```c
+int a = 10;
+int b =20;
+int c = 20;
+
+float f = 928.2332;
+char b = 'b';
+
+if(a == b){
+    printf("Hello, World!");
+}else if(b!=c){
+    printf("Hello, World! Hello, World!");
+}else{
+    printf("Hello!");
+}
+```
 
 ![img](/doc/image/show-v2.gif)
 
