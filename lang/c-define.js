@@ -421,7 +421,7 @@ let unitTest = {
                 "output": 7,
             },
             {
-                "input":"signed int a = 23;unsigned int b = 24324;",
+                "input": "signed int a = 23;unsigned int b = 24324;",
                 "output": 12,
             },
             {
@@ -458,6 +458,18 @@ let unitTest = {
 
 // 定义DFA状态流转模型
 let flowModel = {
+    result: {
+        paths: [],
+    },
+    resultChange: {
+        pathGrow(path) {
+            flowModel.result.paths.push(path)
+        },
+        toDefault(){
+            flowModel.result.paths = [];
+        }
+    },
+
     getNextState(ch, state, matchs) {
 
         // 通用部分的处理

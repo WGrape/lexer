@@ -52,13 +52,22 @@ let lexer = {
                 let match = false;
                 let end = false;
 
-                let nextState = flowModel.getNextState(ch, lexer.DFA.state, lexer.DFA.result.matchs);
+                let state = lexer.DFA.state;
+                let nextState = flowModel.getNextState(ch, state, lexer.DFA.result.matchs);
                 if (nextState !== DFA_STATE_CONST.S_RESET) {
                     match = true;
                     if (lexer.ISR.isLastChar()) {
                         end = true;
                     }
                 }
+                let path = {
+                    'state': state,
+                    'ch': ch,
+                    'nextState': nextState,
+                    'match': match,
+                    'end': end,
+                };
+                flowModel.resultChange.pathGrow(path);
 
                 if (match) {
                     lexer.ISR.propsChange.incrSeq();
@@ -78,7 +87,7 @@ let lexer = {
     DFA: {
         result: {
             matchs: [], // 已匹配的字符队列
-            tokens: [],
+            tokens: [], // 已生成的token列表
         },
         resultChange: {
             toDefault() {
@@ -130,6 +139,7 @@ let lexer = {
 
     // 重置词法分析器数据
     resetDefault() {
+        flowModel.resultChange.toDefault();
         lexer.ISR.propsChange.toDefault();
         lexer.DFA.resultChange.toDefault();
     },
