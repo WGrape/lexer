@@ -229,7 +229,7 @@ let tool = {
         if (tool.isInArray(value, CHARSET_CONST.CHAR.WHITESPACE)) {
             return 'Whitespace';
         }
-        if (tool.isInArray(value, CHARSET_CONST.KEYWORD)) {
+        if (tool.isInArray(value.toLowerCase(), CHARSET_CONST.KEYWORD)) {
             return 'Keyword';
         }
         return '';
