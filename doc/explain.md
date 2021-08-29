@@ -67,10 +67,26 @@ let unitTest = {
 
 ### <span id="24">4、定义状态流转模型（FlowModel）</span>
 
-这一节是整个语言扩展环节中最核心的部分，其思想是用户定义自己的状态流转模型，工作原理是通过输入的```字符```和当前的```状态```，来判断```下一次```要```流转```的```状态```
+这一节是整个语言扩展环节中最核心的部分，其思想是用户定义自己的状态流转模型
+
+- ```result```属性，用于定义结果部分，主要包括```paths```状态流转记录
+- ```resultChange```属性，用于定义修改结果时需要调用的函数，主要包括```pathGrow()```状态流转记录函数，和```toDefault()```结果重置
+- ```getNextState```函数，通过输入的```字符```和当前的```状态```，来判断```下一次```要```流转```的```状态```
 
 ```js
 let flowModel = {
+    result: {
+        paths: [],
+    },
+    resultChange: {
+        pathGrow(path) {
+            flowModel.result.paths.push(path)
+        },
+        toDefault() {
+            flowModel.result.paths = [];
+        }
+    },
+  
     getNextState(ch, state, matchs) {
 
         // ... 逻辑处理
