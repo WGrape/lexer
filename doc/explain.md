@@ -53,15 +53,25 @@ const DFA_STATE_CONST = [];
 
 ### <span id="23">3、定义自动化测试</span>
 
-只需要实现一个```returnCaseList()```函数返回测试Case即可
+只需要实现一个```returnCaseList()```函数返回所有测试Case即可，每一个测试Case必须定义```input```和```output```两种属性
+
+- ```input``` 表示输入的待处理字符序列
+- ```output``` 表示预期的输出结果，根据不同严格程度的测试，选择使用数字（预期的```token```数量）或数组（预期的```token```列表）中的任一种类型
 
 ```js
 let autoTest = {
     returnCaseList() {
         return [
+            // 严格: 生成的每一个token的类型、值必须完全一致，才说明测试通过
             {
                 'input': "int",
                 'output': [{"type": "Keyword", "value": "int"}],
+            },
+
+            // 宽松: 只要最后生成的token数量是1个，就说明测试通过
+            {
+                'input': "int",
+                'output': 1,
             },
         ];
     },
