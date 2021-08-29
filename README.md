@@ -4,8 +4,6 @@
 
 ![img](https://img.shields.io/badge/JavaScript-ES5+-blue.svg) &nbsp; [![Build Status](https://app.travis-ci.com/WGrape/lexer.svg?branch=main)](https://app.travis-ci.com/github/WGrape/lexer)
 
-[![Coverage Status](https://app.travis-ci.com/WGrape/lexer.svg?branch=main)](https://app.travis-ci.com/github/WGrape/lexer)
-
 ## 目录
 
 - [1、项目背景](#1)
