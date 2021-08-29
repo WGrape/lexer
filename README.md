@@ -118,6 +118,8 @@ if(a == b){
 
 ![img](/doc/image/show-v2.gif)
 
+或者请查看[线上网站](https://wgrape.github.io/lexer/)
+
 ## <span id="5">5、参与贡献</span>
 
 - 提供更多语言的 ```/lang/{lang}-define.js```
