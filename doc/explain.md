@@ -13,7 +13,8 @@
 - [三、开发实践](#3)
 - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[1、快速开始](#31)
 - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[2、语法细节调整](#32)
-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[3、自动化测试](#33)
+- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[3、单元测试](#33)
+- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[4、自动化测试](#34)
 
 ## <span id="1">一、项目结构</span>
 
@@ -86,7 +87,7 @@ let flowModel = {
             flowModel.result.paths = [];
         }
     },
-  
+
     getNextState(ch, state, matchs) {
 
         // ... 逻辑处理
@@ -112,13 +113,7 @@ let flowModel = {
 
 如果有调整语言细节的需求，建议参考根据[《第二节》](#2)中的讲解，去修改源码。
 
-### <span id="33">3、自动化测试</span>
-
-填充```autoTest.returnCaseList()```函数后，打开```index.html```文件即会自动进行自动化测试工作（在控制台输出），如果测试失败会```单测失败```的弹窗```alert```提示。
-
-![img](/doc/image/unit-test.png)
-
-### <span id="34">4、单元测试</span>
+### <span id="33">3、单元测试</span>
 
 > 单元测试需要依赖Node环境，所以需要判断当前环境是否是Node环境
 
@@ -132,4 +127,15 @@ if (tool.isNodeEnvironment()) {
 }
 ```
 
+最后在```.travis.yml```文件中加入单元测试的```script```指令即可
 
+```yaml
+script:
+  - node ./lang/x-define.js
+```
+
+### <span id="34">4、自动化测试</span>
+
+填充```autoTest.returnCaseList()```函数后，打开```index.html```文件即会自动进行自动化测试工作（在控制台输出），如果测试失败会```单测失败```的弹窗```alert```提示。
+
+![img](/doc/image/auto-test.png)

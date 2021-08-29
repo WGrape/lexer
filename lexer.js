@@ -10,7 +10,7 @@ let lexer = {
         },
         propsChange: {
             set(prop, value) {
-                if (typeof lexer.ISR.props[prop] != "undefined") {
+                if (typeof lexer.ISR.props[prop] !== "undefined") {
                     lexer.ISR.props[prop] = value;
                 }
             },

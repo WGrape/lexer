@@ -210,6 +210,9 @@ let tool = {
     isUndefined(obj) {
         return typeof obj === "undefined";
     },
+    isNodeEnvironment() {
+        return typeof window === "undefined";
+    },
     isInArray(needle, haystack) {
         return haystack.indexOf(needle) > -1;
     },
@@ -322,48 +325,20 @@ let tool = {
     }
 };
 
-// 自动化测试
-let autoTest = {
-    returnCaseList() {
-        return [
-            {
-                "input": "",
-                "output": 0,
-            },
-            {
-                "input": "select",
-                "output": 1,
-            },
-            {
-                "input": "select*",
-                "output": 2,
-            },
-            {
-                "input": "create table;",
-                "output": 3,
-            },
-            {
-                "input": "select*from table where name ='hello';",
-                "output": 9,
-            },
-            {
-                "input": "select id,name,student.age from student where name = \"张三\" and score=23.22; ",
-                "output": 19,
-            },
-            {
-                "input": "select id,name,student.age from student where (id<22) and (id>2) group by name having id > 20 order by id desc limit 0,10;",
-                "output": 38,
-            },
-            {
-                "input": "select * from table where id >= 2 and id != 2 or id == 2;",
-                "output": 17,
-            },
-        ];
-    },
-};
-
 // 定义DFA状态流转模型
 let flowModel = {
+    result: {
+        paths: [],
+    },
+    resultChange: {
+        pathGrow(path) {
+            flowModel.result.paths.push(path)
+        },
+        toDefault() {
+            flowModel.result.paths = [];
+        }
+    },
+
     getNextState(ch, state, matchs) {
 
         // 通用部分的处理
@@ -456,5 +431,51 @@ let flowModel = {
             }
         }
         return DFA_STATE_CONST.S_RESET;
+    },
+};
+
+// 单元测试
+if (tool.isNodeEnvironment()) {
+    let assert = require('assert');
+    assert.equal(tool.isUndefined(flowModel.FakeValue), true, "tool.isUndefined单测失败");
+}
+
+// 自动化测试
+let autoTest = {
+    returnCaseList() {
+        return [
+            {
+                "input": "",
+                "output": 0,
+            },
+            {
+                "input": "select",
+                "output": 1,
+            },
+            {
+                "input": "select*",
+                "output": 2,
+            },
+            {
+                "input": "create table;",
+                "output": 3,
+            },
+            {
+                "input": "select*from table where name ='hello';",
+                "output": 9,
+            },
+            {
+                "input": "select id,name,student.age from student where name = \"张三\" and score=23.22; ",
+                "output": 19,
+            },
+            {
+                "input": "select id,name,student.age from student where (id<22) and (id>2) group by name having id > 20 order by id desc limit 0,10;",
+                "output": 38,
+            },
+            {
+                "input": "select * from table where id >= 2 and id != 2 or id == 2;",
+                "output": 17,
+            },
+        ];
     },
 };
