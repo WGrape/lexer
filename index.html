@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <title>Lexer</title>
     <style>
-        body{
+        body {
             margin: 0;
             padding: 0;
         }
+
         #Header {
             text-align: center;
             font-size: 30px;
@@ -170,6 +171,10 @@
         <a href="https://github.com/WGrape/lexer" class="header-a-link">Lexer</a>
         <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="100px" height="20px"
                 src="https://ghbtns.com/github-btn.html?user=WGrape&repo=lexer&type=star&count=true"></iframe>
+        <span id="busuanzi_container_site_pv" style="font-size: 15px;color: #666;float: right;margin-top: 10px;margin-right: 10px;">&nbsp;访问量共<span
+                id="busuanzi_value_site_pv"></span>次</span>
+        <span id="busuanzi_container_site_uv" style="font-size: 15px;color: #666;float: right;margin-top: 10px;">访客量共<span
+                id="busuanzi_value_site_uv"></span>次&nbsp;/</span>
     </div>
     <div id="IDE">
         <div id="Input">
@@ -204,6 +209,8 @@
     </div>
 </div>
 <script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.2.0/jquery.js"></script>
+<script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</script>
 <script>
     function getParam(param) {
         let slices = window.location.href.split('?');
