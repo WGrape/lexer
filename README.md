@@ -2,6 +2,8 @@
 
 一个基于```DFA```法的支持多语言扩展的```JS```版开源词法分析器，快速了解与体验请查看[线上网站](https://wgrape.github.io/lexer/)
 
+It is a lexical analyzer based on ```DFA``` that made by ```JS``` and supports multi-language extension. For quick understanding and experience , please check the [english document](./ENGLISH.md) and [online website](wgrape.github.io/lexer/) .
+
 ![img](https://img.shields.io/badge/JavaScript-ES5+-blue.svg) &nbsp; [![Build Status](https://app.travis-ci.com/WGrape/lexer.svg?branch=main)](https://app.travis-ci.com/github/WGrape/lexer)
 
 ## 目录
@@ -124,6 +126,7 @@ if(a == b){
 
 - 提供更多语言的 ```/lang/{lang}-define.js```
 - 源码分析以及如何接入不同语言的扩展，请见[实现原理](/doc/explain.md)文档
+- 如果有使用问题或疑问需要反馈，欢迎互动交流，点击[提交issue](https://github.com/WGrape/lexer/issues/new)
 
 ## <span id="6">6、协议说明</span>
 
