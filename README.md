@@ -45,7 +45,7 @@ It is a lexical analyzer based on ```DFA``` that made by ```JS``` and supports m
 
 - C ：一种比较底层的编程语言，[点击查看](https://wgrape.github.io/lexer/?lang=c) 它的词法分析
 - SQL ：一种数据库查询语言，[点击查看](https://wgrape.github.io/lexer/?lang=sql) 它的词法分析
-- Goal ：来自 [LeetCode](https://leetcode-cn.com/problems/goal-parser-interpretation/) 的Goal解析器题目，[点击查看](https://wgrape.github.io/lexer/?lang=goal) 它的词法分析
+- Goal ：一个来自LeetCode的Goal解析器题目，[点击查看](https://wgrape.github.io/lexer/?lang=goal) 它的词法分析
 
 ### <span id="23">(3) 记录状态流转信息</span>
 
