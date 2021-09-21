@@ -35,6 +35,10 @@ From inputting the character sequence to generating ```token``` after the analys
 
 ```lexer``` supports access to different languages such as ```Python```, ```Go```, etc., to achieve the needs of lexical analysis of different languages, see [Contributions](#5)
 
+- C ：A popular programming language，[click here](https://wgrape.github.io/lexer/?lang=c) to see its lexical analysis
+- SQL ：A popular database query language，[click here](https://wgrape.github.io/lexer/?lang=sql) to see its lexical analysis
+- Goal ：A goal parser question from [LeetCode](https://leetcode.com/problems/goal-parser-interpretation/) ，[click here](https://wgrape.github.io/lexer/?lang=goal) to see its lexical analysis
+
 ### <span id="23">(3) Provide flow-data</span>
 
 The core mechanism of the lexical analyzer is based on the status transfer of ```DFA```. For this reason, `lexer``` records detailed status transfer information to achieve the following requirements of the user

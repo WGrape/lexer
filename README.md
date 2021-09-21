@@ -41,7 +41,11 @@ It is a lexical analyzer based on ```DFA``` that made by ```JS``` and supports m
 
 ### <span id="22">(2) 支持多语言扩展</span>
 
-```lexer```支持接入如```Python```、```Go```等不同的语言，实现对不同语言进行词法分析的需求，扩展接入方式见[贡献部分](#5)
+```lexer```支持接入如```Python```、```Go```等不同的语言，实现对不同语言进行词法分析的需求，扩展接入方式见[贡献部分](#5)，目前已支持如下语言的词法分析
+
+- C ：一种比较底层的编程语言，[点击查看](https://wgrape.github.io/lexer/?lang=c) 它的词法分析
+- SQL ：一种数据库查询语言，[点击查看](https://wgrape.github.io/lexer/?lang=sql) 它的词法分析
+- Goal ：来自 [LeetCode](https://leetcode-cn.com/problems/goal-parser-interpretation/) 的Goal解析器题目，[点击查看](https://wgrape.github.io/lexer/?lang=goal) 它的词法分析
 
 ### <span id="23">(3) 记录状态流转信息</span>
 
