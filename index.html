@@ -195,6 +195,7 @@
               style="font-size: 15px;color: #666;float: right;margin-top: 10px;">访客量共<span
                 id="busuanzi_value_site_uv"></span>次&nbsp;/</span>
     </div>
+
     <div id="IDE">
         <div id="LangInfo"></div>
         <div id="Input">
@@ -204,14 +205,18 @@
         </div>
         <ul id="Preferences">
             <li class="lang-choose lang-choose-first lang-choose-c"><a href="?lang=c">C语言</a></li>
-            <li class="lang-choose lang-choose-last lang-choose-sql"><a href="?lang=sql">SQL</a></li>
+            <li class="lang-choose lang-choose-sql"><a href="?lang=sql">SQL</a></li>
             <li class="lang-choose lang-choose-last lang-choose-goal"><a href="?lang=goal">Goal</a></li>
         </ul>
     </div>
+
+    <!--动态展示解析后的Token列表-->
     <div id="Show">
         <div id="TokenList">
         </div>
     </div>
+
+    <!--动态展示不同语言中支持的Token类型-->
     <div style="margin-top: 35px;border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;">
         <div style="text-align: center;background: #eee;padding: 20px 0;">
             <h3 style="margin: 0;padding: 0 0 5px 0;font-weight: 100;">所有Token类型</h3>
@@ -240,6 +245,8 @@
 <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 </script>
 <script>
+
+    // 解析URL中的查询参数
     function getParam(param) {
         let slices = window.location.href.split('?');
         if (slices[1]) {
@@ -256,6 +263,7 @@
         return false;
     }
 
+    // 根据当前选择的语言, 动态加载不同的JS扩展文件、CSS文件，动态处理相应的页面展示逻辑
     let lang = getParam('lang');
     if (lang === 'c') {
         $('.lang-choose-c').addClass('lang-choose-select');
@@ -277,8 +285,11 @@
         window.location.href = window.location.pathname + '?lang=c';
     }
     document.write('<script src="lexer.js"><\/script>');
+
+    // 放入事件循环队列
     setTimeout(function () {
 
+        // 定义页面不同元素的事件
         $('#Textarea').on('input', function () {
             $('#TokenList').html('<p style="color: #888;">Lexer is working ... ...</p>');
         });
@@ -303,6 +314,7 @@
             $(".token").removeClass('opacity');
         });
 
+        // 生成不同语言的默认输入
         let defaultInput = "";
         if (lang === 'c') {
             defaultInput = "int a = 10;\n" +
@@ -324,42 +336,42 @@
         } else {
             defaultInput = "select * from test where id >= 10 and id <10 and name='test';"
         }
-
-        // $('#Textarea').val('正在显示示例代码，请稍后...');
-        $('#Textarea').val('');
+        $('#Textarea').val('正在显示示例代码，请稍后...');
         setTimeout(function () {
+
+            // 自动输入不同语言默认的代码, 省去用户手动输入代码的时间
             $('#Textarea').val(defaultInput);
             $('#Textarea').blur();
             $('#Textarea').focus();
-        }, 800);
 
-        // 执行自动化测试
-        let caseList = autoTest.returnCaseList();
-        console.log("自动化测试共" + caseList.length + '例, 执行自动化测试中...');
-        for (let i = 0; i <= caseList.length - 1; ++i) {
-            let outputs = caseList[i].output;
-            lexer.start(caseList[i].input);
+            // 执行自动化测试
+            let caseList = autoTest.returnCaseList();
+            console.log("自动化测试共" + caseList.length + '例, 执行自动化测试中...');
+            for (let i = 0; i <= caseList.length - 1; ++i) {
+                let outputs = caseList[i].output;
+                lexer.start(caseList[i].input);
 
-            let failed = false;
-            let tokens = lexer.DFA.result.tokens;
-            if (!isNaN(outputs)) {
-                failed = outputs !== tokens.length;
-            } else {
-                for (let j = 0; j <= tokens.length - 1; ++j) {
-                    if (tool.isUndefined(outputs[j]) || outputs[j].type !== tokens[j].type || outputs[j].value !== tokens[j].value) {
-                        failed = true;
+                let failed = false;
+                let tokens = lexer.DFA.result.tokens;
+                if (!isNaN(outputs)) {
+                    failed = outputs !== tokens.length;
+                } else {
+                    for (let j = 0; j <= tokens.length - 1; ++j) {
+                        if (tool.isUndefined(outputs[j]) || outputs[j].type !== tokens[j].type || outputs[j].value !== tokens[j].value) {
+                            failed = true;
+                        }
                     }
                 }
-            }
 
-            if (failed) {
-                alert('自动化测试失败');
-                console.error('Case ' + (i + 1) + ': failed | ' + 'input = ' + caseList[i].input);
-            } else {
-                console.info("\x1B[32m" + 'Case ' + (i + 1) + ': success | ' + 'input = ' + caseList[i].input + "\x1B[0m");
+                if (failed) {
+                    alert('自动化测试失败');
+                    console.error('Case ' + (i + 1) + ': failed | ' + 'input = ' + caseList[i].input);
+                } else {
+                    console.info("\x1B[32m" + 'Case ' + (i + 1) + ': success | ' + 'input = ' + caseList[i].input + "\x1B[0m");
+                }
             }
-        }
-        console.log('自动化测试结束');
+            console.log('自动化测试结束');
+        }, 100);
     }, 100);
 
 </script>
