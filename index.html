@@ -18,6 +18,19 @@
             background: #FAFAFA;
         }
 
+        #LangInfo {
+            font-size: 14px;
+            padding: 5px 0;
+            margin-bottom: 10px;
+            color: #777;
+            letter-spacing: 1px;
+        }
+
+        #LangInfo a {
+            color: #6495ed;
+            padding-left: 3px;
+        }
+
         #IDE {
             width: 900px;
             margin: 10px auto;
@@ -150,6 +163,10 @@
             color: #ef1c1c;
         }
 
+        .AllTokenList {
+            display: none;
+        }
+
         .opacity {
             opacity: 0.2;
         }
@@ -179,6 +196,7 @@
                 id="busuanzi_value_site_uv"></span>次&nbsp;/</span>
     </div>
     <div id="IDE">
+        <div id="LangInfo"></div>
         <div id="Input">
             <label>
                 <textarea id="Textarea" autofocus="autofocus"></textarea>
@@ -187,6 +205,7 @@
         <ul id="Preferences">
             <li class="lang-choose lang-choose-first lang-choose-c"><a href="?lang=c">C语言</a></li>
             <li class="lang-choose lang-choose-last lang-choose-sql"><a href="?lang=sql">SQL</a></li>
+            <li class="lang-choose lang-choose-last lang-choose-goal"><a href="?lang=goal">Goal</a></li>
         </ul>
     </div>
     <div id="Show">
@@ -196,17 +215,24 @@
     <div style="margin-top: 35px;border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;">
         <div style="text-align: center;background: #eee;padding: 20px 0;">
             <h3 style="margin: 0;padding: 0 0 5px 0;font-weight: 100;">所有Token类型</h3>
-            <span class="token token-Operator" tokentype="Operator" tokenvalue="Operator">Operator</span>
-            <span class="token token-DoubleOperator" tokentype="DoubleOperator" tokenvalue="DoubleOperator">DoubleOperator</span>
-            <span class="token token-Symbol" tokentype="Symbol" tokenvalue="Symbol">Symbol</span>
-            <span class="token token-Whitespace" tokentype="Whitespace" tokenvalue="Whitespace">Whitespace</span>
-            <span class="token token-Keyword" tokentype="Keyword" tokenvalue="Keyword">Keyword</span>
-            <span class="token token-Identifier" tokentype="Identifier" tokenvalue="Identifier">Identifier</span>
-            <span class="token token-Number" tokentype="Number" tokenvalue="Number">Number</span>
-            <span class="token token-Float" tokentype="Float" tokenvalue="Float">Float</span>
-            <span class="token token-String" tokentype="String" tokenvalue="String">String</span>
-            <span class="token token-Char" tokentype="Char" tokenvalue="Char">Char</span>
-            <span class="token token-Unknown" tokentype="Unknown" tokenvalue="Unknown">Unknown</span>
+            <div class="AllTokenList AllTokenListDefault">
+                <span class="token token-Operator" tokentype="Operator" tokenvalue="Operator">Operator</span>
+                <span class="token token-DoubleOperator" tokentype="DoubleOperator" tokenvalue="DoubleOperator">DoubleOperator</span>
+                <span class="token token-Symbol" tokentype="Symbol" tokenvalue="Symbol">Symbol</span>
+                <span class="token token-Whitespace" tokentype="Whitespace" tokenvalue="Whitespace">Whitespace</span>
+                <span class="token token-Keyword" tokentype="Keyword" tokenvalue="Keyword">Keyword</span>
+                <span class="token token-Identifier" tokentype="Identifier" tokenvalue="Identifier">Identifier</span>
+                <span class="token token-Number" tokentype="Number" tokenvalue="Number">Number</span>
+                <span class="token token-Float" tokentype="Float" tokenvalue="Float">Float</span>
+                <span class="token token-String" tokentype="String" tokenvalue="String">String</span>
+                <span class="token token-Char" tokentype="Char" tokenvalue="Char">Char</span>
+                <span class="token token-Unknown" tokentype="Unknown" tokenvalue="Unknown">Unknown</span>
+            </div>
+            <div class="AllTokenList AllTokenListGoal">
+                <span class="token token-G" tokentype="G" tokenvalue="G">G</span>
+                <span class="token token-o" tokentype="o" tokenvalue="o">o</span>
+                <span class="token token-al" tokentype="al" tokenvalue="al">al</span>
+            </div>
         </div>
     </div>
 </div>
@@ -234,9 +260,19 @@
     if (lang === 'c') {
         $('.lang-choose-c').addClass('lang-choose-select');
         document.write('<script src="lang/c-define.js"><\/script>');
+        $('.AllTokenListDefault').fadeIn();
+        $('#LangInfo').html("C是一种通用的编程语言，广泛用于系统软件与应用软件的开发 ... 点击查看<a target='_blank' href='https://zh.wikipedia.org/wiki/C%E8%AF%AD%E8%A8%80'>维基百科</a>");
     } else if (lang === 'sql') {
         $('.lang-choose-sql').addClass('lang-choose-select');
         document.write('<script src="lang/sql-define.js"><\/script>');
+        $('.AllTokenListDefault').fadeIn();
+        $('#LangInfo').html("SQL是一种特定目的编程语言，用于管理关系数据库管理系统 ... 点击查看<a target='_blank' href='https://zh.wikipedia.org/zh-cn/SQL'>维基百科</a>");
+    } else if (lang === 'goal') {
+        $('.lang-choose-goal').addClass('lang-choose-select');
+        document.write('<link rel="stylesheet" type="text/css" href="css/goal.css">');
+        document.write('<script src="lang/goal-define.js"><\/script>');
+        $('.AllTokenListGoal').fadeIn();
+        $('#LangInfo').html("Goal语言来自于LeetCode中的一个题目，要求设计一个Goal语言解析器 ... 点击查看<a target='_blank' href='https://leetcode-cn.com/problems/goal-parser-interpretation/'>详情</a>");
     } else {
         window.location.href = window.location.pathname + '?lang=c';
     }
@@ -283,11 +319,14 @@
                 "}else{\n" +
                 "    printf(\"Hello!\");\n" +
                 "}";
+        } else if (lang === 'goal') {
+            defaultInput = "(al)G(al)()()G()()()G()(al)"
         } else {
             defaultInput = "select * from test where id >= 10 and id <10 and name='test';"
         }
 
-        $('#Textarea').val('正在显示示例代码~');
+        // $('#Textarea').val('正在显示示例代码，请稍后...');
+        $('#Textarea').val('');
         setTimeout(function () {
             $('#Textarea').val(defaultInput);
             $('#Textarea').blur();
