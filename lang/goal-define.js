@@ -7,6 +7,7 @@ const ENUM_CONST = {
     S_AL_A: 4,
     S_AL_L: 5,
     S_AL_RIGHT_BRACKET: 6,
+    S_UNKNOWN: 7,
 };
 
 // DFA状态常量
@@ -18,6 +19,7 @@ const DFA_STATE_CONST = {
     S_AL_A: ENUM_CONST.S_AL_A,
     S_AL_L: ENUM_CONST.S_AL_L,
     S_AL_RIGHT_BRACKET: ENUM_CONST.S_AL_RIGHT_BRACKET,
+    S_UNKNOWN: ENUM_CONST.S_UNKNOWN,
 };
 
 // 工具函数包
@@ -39,6 +41,9 @@ let tool = {
         if (state === DFA_STATE_CONST.S_AL_RIGHT_BRACKET) {
             return "al";
         }
+        if (state === DFA_STATE_CONST.S_UNKNOWN) {
+            return "Unknown";
+        }
         return "";
     }
 };
@@ -58,6 +63,7 @@ let flowModel = {
     },
 
     getNextState(ch, state) {
+        // 非通用部分的处理
         if (ch === "G") {
             if (state === DFA_STATE_CONST.S_RESET) {
                 return DFA_STATE_CONST.S_G;
@@ -82,6 +88,12 @@ let flowModel = {
                 return DFA_STATE_CONST.S_AL_RIGHT_BRACKET;
             }
         }
+
+        // 通用部分的处理
+        if (state === DFA_STATE_CONST.S_RESET || state === DFA_STATE_CONST.S_UNKNOWN) {
+            return DFA_STATE_CONST.S_UNKNOWN;
+        }
+
         return DFA_STATE_CONST.S_RESET;
     }
 };
