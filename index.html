@@ -180,6 +180,15 @@
             cursor: pointer;
         }
 
+        #busuanzi_value_site_pv_change, #busuanzi_value_site_uv_change {
+            color: #08964e;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        #busuanzi_value_site_uv_change {
+
+        }
     </style>
 </head>
 <body>
@@ -190,10 +199,10 @@
                 src="https://ghbtns.com/github-btn.html?user=WGrape&repo=lexer&type=star&count=true"></iframe>
         <span id="busuanzi_container_site_pv"
               style="font-size: 15px;color: #666;float: right;margin-top: 10px;margin-right: 10px;">&nbsp;访问量共<span
-                id="busuanzi_value_site_pv"></span>次</span>
+                id="busuanzi_value_site_pv"></span>次<span id="busuanzi_value_site_pv_change"></span></span>
         <span id="busuanzi_container_site_uv"
               style="font-size: 15px;color: #666;float: right;margin-top: 10px;">访客量共<span
-                id="busuanzi_value_site_uv"></span>次&nbsp;/</span>
+                id="busuanzi_value_site_uv"></span>次<span id="busuanzi_value_site_uv_change"></span>&nbsp;/</span>
     </div>
 
     <div id="IDE">
@@ -373,6 +382,34 @@
             }
             console.log('自动化测试结束');
         }, 100);
+
+        // 统计访问的较上次变化情况
+        setTimeout(function () {
+
+            let lastPv = parseInt(localStorage.getItem('pv'));
+            let lastUv = parseInt(localStorage.getItem('uv'));
+            if (isNaN(lastPv) || isNaN(lastUv) || lastPv <= 0 || lastUv <= 0) {
+                lastPv = 0;
+                lastUv = 0;
+            }
+
+            let pv = parseInt($("#busuanzi_value_site_pv").text());
+            let uv = parseInt($("#busuanzi_value_site_uv").text());
+            if (isNaN(pv) || isNaN(uv) || pv <= 0 || uv <= 0) {
+                return;
+            }
+            localStorage.setItem('pv', pv);
+            localStorage.setItem('uv', uv);
+
+            let pvChange = pv - lastPv;
+            let uvChange = uv - lastUv;
+            if (pvChange) {
+                $("#busuanzi_value_site_pv_change").text("↑" + pvChange);
+            }
+            if (uvChange) {
+                $("#busuanzi_value_site_uv_change").text("↑" + uvChange);
+            }
+        }, 4000);
     }, 100);
 
 </script>
