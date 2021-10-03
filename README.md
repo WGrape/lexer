@@ -19,6 +19,10 @@ It is a lexical analyzer based on ```DFA``` that made by ```JS``` and supports m
 - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(1) 在项目中使用](#41)
 - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(2) 可视化预览与测试](#42)
 - [5、参与贡献](#5)
+- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(1) 项目统计](#51)
+- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(2) 如何贡献](#52)
+- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(3) 版本发布](#53)
+- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(4) 问题交流](#54)
 - [6、协议说明](#6)
 
 ## <span id="1">1、项目背景</span>
@@ -51,8 +55,11 @@ It is a lexical analyzer based on ```DFA``` that made by ```JS``` and supports m
 
 词法分析器的核心机制是基于```DFA```的状态流转，为此```lexer```记录了详细的状态流转信息，以实现使用方的以下需求
 
-- 功能调试模式
+- ```lexer```的功能调试模式
 - 自动生成```DFA```状态流转图
+
+<img width="700" src="https://user-images.githubusercontent.com/35942268/135755585-bd610096-c2c7-4d69-a915-4d8a665f0870.png" />
+
 
 ## <span id="3">3、获取项目</span>
 
@@ -129,9 +136,21 @@ if(a == b){
 
 ## <span id="5">5、参与贡献</span>
 
+### <span id="51">(1) 项目统计</span>
+截至2021年10月01日，此项目在1个月内获得的Clone操作共计约80次，访客量100人，访问量400次（数据会不断更新）。其中Star数量的增长过程如下
+<a href="https://starchart.cc/WGrape/lexer"><img src="https://starchart.cc/WGrape/lexer.svg" width="700"></a>
+
+### <span id="52">(2) 如何贡献</span>
 - 提供更多语言的 ```/lang/{lang}-define.js```
 - 源码分析以及如何接入不同语言的扩展，请见[实现原理](/doc/explain.md)文档
-- 如果有使用问题或疑问需要反馈，欢迎互动交流，点击[提交issue](https://github.com/WGrape/lexer/issues/new)
+
+### <span id="53">(3) 版本发布</span>
+项目以版本号为```大更新-小更新-修复完善```的规则发布，关于版本的更新记录可以查看项目的[CHANGELOG](./CHANGELOG.md)，或查看[Release记录](https://github.com/WGrape/lexer/releases)
+
+### <span id="54">(4) 问题交流</span>
+如果有使用问题或疑问需要反馈，可以加入群聊，或[提交issue](https://github.com/WGrape/lexer/issues/new) ，欢迎大家的加入
+
+<a href="https://qm.qq.com/cgi-bin/qm/qr?k=088TusnG1yLi--mr8v02PINh7thvjQD9&jump_from=webapi"><img width="200" src="https://user-images.githubusercontent.com/35942268/135754608-29ca599e-b8a6-4ad2-ae62-c4ee5d61d1f9.png" /></a>
 
 ## <span id="6">6、协议说明</span>
 
