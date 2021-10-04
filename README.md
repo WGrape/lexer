@@ -1,6 +1,6 @@
 # lexer
 
-一个基于```DFA```法的支持多语言扩展的```JS```版开源词法分析器，快速了解与体验请查看[线上网站](https://wgrape.github.io/lexer/)
+一个基于```DFA```的支持多语言扩展的```JS```版开源词法分析器，快速了解与体验请查看[线上网站](https://wgrape.github.io/lexer/)
 
 It is a lexical analyzer based on ```DFA``` that made by ```JS``` and supports multi-language extension. For quick understanding and experience , please check the [english document](./ENGLISH.md) and [online website](https://wgrape.github.io/lexer/) .
 
@@ -10,6 +10,9 @@ It is a lexical analyzer based on ```DFA``` that made by ```JS``` and supports m
 ## 目录
 
 - [1、项目背景](#1)
+- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(1) 问题现状](#11)
+- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(2) 项目萌芽](#12)
+- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(3) 解决方案](#13)
 - [2、功能介绍](#2)
 - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(1) 完整的词法分析](#21)
 - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(2) 支持多语言扩展](#22)
@@ -20,16 +23,24 @@ It is a lexical analyzer based on ```DFA``` that made by ```JS``` and supports m
 - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(2) 可视化预览与测试](#42)
 - [5、参与贡献](#5)
 - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(1) 项目统计](#51)
-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(2) 如何贡献](#52)
-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(3) 版本发布](#53)
-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(4) 问题交流](#54)
+- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(2) 源码讲解](#52)
+- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(3) 贡献范围](#53)
+- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(4) 版本发布](#54)
+- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(5) 问题交流](#55)
 - [6、协议说明](#6)
 
 ## <span id="1">1、项目背景</span>
 
-目前常见的词法分析器与语言耦合较为紧密且代码量较为庞大，难以关注词法分析器其本质原理，所以萌生了写一个完全与语言解耦且精简的词法分析器的想法，以把关注重心放在词法分析器的工作原理上，不再需要考虑由不同语言造成的细枝末节差异，于是就有了此```lexer```
+> 如果不了解词法分析器以及其主要作用与应用场景，可以用2分钟时间查看入门文章：[词法分析器的介绍与应用场景](https://github.com/WGrape/Blog/issues/10) 
+
+### <span id="11">(1) 问题现状</span>
+目前常见的词法分析器与语言耦合较为紧密且代码量较为庞大，难以关注词法分析器其本质原理。
+
+### <span id="12">(2) 项目萌芽</span>
+为把关注重心放在词法分析器的工作原理上，不再需要考虑由不同语言造成的细枝末节差异，于是就有了此```lexer```
 项目。
 
+### <span id="13">(3) 解决方案</span>
 ```lexer```主要通过以下两个JS文件，实现词法分析器与语言的解耦
 
 - ```lexer.js```文件是词法分析器的核心，主要分为```ISR```（输入流读取器）和```DFA```（有限状态自动机），代码会保持在300行内
@@ -58,8 +69,7 @@ It is a lexical analyzer based on ```DFA``` that made by ```JS``` and supports m
 - ```lexer```的功能调试模式
 - 自动生成```DFA```状态流转图
 
-<img width="700" src="https://user-images.githubusercontent.com/35942268/135755585-bd610096-c2c7-4d69-a915-4d8a665f0870.png" />
-
+<img width="700" src="https://user-images.githubusercontent.com/35942268/135863402-4765e07b-01bf-41e7-b564-9d5af5faed63.png" />
 
 ## <span id="3">3、获取项目</span>
 
@@ -69,7 +79,7 @@ It is a lexical analyzer based on ```DFA``` that made by ```JS``` and supports m
 
 ### <span id="41">(1) 在代码中使用</span>
 
-如果有在代码中使用```lexer```的需求（如Web版代码编辑器），需要依次引入以下文件
+如果有在代码中使用```lexer```的需求（如网页中的代码编辑器：高亮、代码提示等），需要依次引入以下文件
 
 - ```/lang/{lang}-define.js```
 - ```lexer.js```
@@ -140,15 +150,20 @@ if(a == b){
 截至2021年10月01日，此项目在1个月内获得的Clone操作共计约80次，访客量100人，访问量400次（数据会不断更新）。其中Star数量的增长过程如下
 <a href="https://starchart.cc/WGrape/lexer"><img src="https://starchart.cc/WGrape/lexer.svg" width="700"></a>
 
-### <span id="52">(2) 如何贡献</span>
-- 提供更多语言的 ```/lang/{lang}-define.js```
-- 源码分析以及如何接入不同语言的扩展，请见[实现原理](/doc/explain.md)文档
+### <span id="52">(2) 源码讲解</span>
+源码讲解以及如何接入不同语言的扩展，可以阅读[源码讲解](/doc/explain.md)文档
 
-### <span id="53">(3) 版本发布</span>
+### <span id="53">(3) 贡献范围</span>
+- 提供更多新功能
+- 提供更多语言的 ```/lang/{lang}-define.js```
+
+此外，一切帮助项目变得更好的建议都欢迎讨论，交流渠道参考[问题交流](#55)部分
+
+### <span id="54">(4) 版本发布</span>
 项目以版本号为```大更新-小更新-修复完善```的规则发布，关于版本的更新记录可以查看项目的[CHANGELOG](./CHANGELOG.md)，或查看[Release记录](https://github.com/WGrape/lexer/releases)
 
-### <span id="54">(4) 问题交流</span>
-如果有使用问题或疑问需要反馈，可以加入群聊，或[提交issue](https://github.com/WGrape/lexer/issues/new) ，欢迎大家的加入
+### <span id="55">(5) 问题交流</span>
+如果有使用问题或疑问需要反馈，可以<a href="https://qm.qq.com/cgi-bin/qm/qr?k=088TusnG1yLi--mr8v02PINh7thvjQD9&jump_from=webapi">加入群聊</a>，或[提交issue](https://github.com/WGrape/lexer/issues/new) ，欢迎大家的加入
 
 <a href="https://qm.qq.com/cgi-bin/qm/qr?k=088TusnG1yLi--mr8v02PINh7thvjQD9&jump_from=webapi"><img width="200" src="https://user-images.githubusercontent.com/35942268/135754608-29ca599e-b8a6-4ad2-ae62-c4ee5d61d1f9.png" /></a>
 
