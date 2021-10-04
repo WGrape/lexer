@@ -31,7 +31,7 @@ It is a lexical analyzer based on ```DFA``` that made by ```JS``` and supports m
 
 ## <span id="1">1、项目背景</span>
 
-> 如果不了解词法分析器以及其主要作用与应用场景，可以用2分钟时间查看入门文章：[词法分析器的介绍与应用场景](https://github.com/WGrape/Blog/issues/10) 
+> 不了解词法分析器以及其应用场景吗？建议用2分钟时间查看入门文章：[词法分析器的介绍与应用场景](https://github.com/WGrape/Blog/issues/10)
 
 ### <span id="11">(1) 问题现状</span>
 目前常见的词法分析器与语言耦合较为紧密且代码量较为庞大，难以关注词法分析器其本质原理。
