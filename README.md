@@ -15,8 +15,8 @@ Document ：[中文](/README.zh-CN.md) / [English](/README.md)
 - [2、Features](#2)
 - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(1) Complete lexical analysis](#21)
 - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(2) Support multi-language extension](#22)
-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(3) Provide flow-data](#23)
-- [3、Get source code](#3)
+- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(3) Provide state log](#23)
+- [3、Get project](#3)
 - [4、Ussage](#4)
 - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(1) In the project](#41)
 - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(2) Web preview and testing](#42)
@@ -36,14 +36,14 @@ Most lexical analyzers are closely coupled with the language, the amount of code
 
 ### <span id="12">(2) Task</span>
 
-In order to focus on the working principle of the lexical analyzer , not to consider the small differences caused by different languages , the idea of making a ```lexer``` project that is completely decoupled from the language was born .
+In order to focus on the working principle of lexical analyzer , not to consider the small differences caused by different languages , an idea of making a ```lexer``` project that is completely decoupled from the language was born.
 
 ### <span id="13">(3) Solution</span>
 
 ```lexer``` through the following two files, realize the decoupling of lexical analyzer and language
 
-- ```lexer.js``` is a core of lexical analyzer within 300 lines, including ```ISR```(Input Stream Reader) and ```DFA```(Deterministic Finite Automaton)
-- ```lang/{lang}-define.js```is the language extension of lexical analyzer, support different languages，such as ```lang/c-define.js```
+- ```lexer.js``` is a core of lexical analyzer within 300 lines, including ```ISR``` and ```DFA```
+- ```lang/{lang}-define.js```is the language extension of lexical analyzer. Support different languages，such as ```lang/c-define.js```
 
 ## <span id="2">2、Features</span>
 
@@ -61,16 +61,16 @@ From inputting the character sequence to generating ```token``` after the analys
 - SQL ：A popular database query language，[click here](https://wgrape.github.io/lexer/?lang=sql) to see its lexical analysis
 - Goal ：A goal parser question from [LeetCode](https://leetcode.com/problems/goal-parser-interpretation/) ，[click here](https://wgrape.github.io/lexer/?lang=goal) to see its lexical analysis
 
-### <span id="23">(3) Provide flow-data</span>
+### <span id="23">(3) Provide state log</span>
 
-The core mechanism of the lexical analyzer is based on the status transfer of ```DFA```. For this reason, `lexer``` records detailed status transfer information to achieve the following requirements of the user
+The core mechanism of the lexical analyzer is based on the state flow of ```DFA```. For this reason, ```lexer``` records detailed status flow information to achieve the following requirements of the user
 
 - Debug mode
 - Automatically generate ```DFA``` state flow diagram
 
 <img width="700" src="https://user-images.githubusercontent.com/35942268/136378451-e025fffd-425d-43f1-8a58-454a1011e9c3.png" />
 
-## <span id="3">3、Get source code</span>
+## <span id="3">3、Get project</span>
 
 After ```git clone``` command, no need for any dependencies, and no extra installation steps
 
@@ -101,7 +101,7 @@ parsedTokens.forEach((token) => {
 });
 ```
 
-The [Provide flow-data](#23) part in features，visit ```flowModel.result.paths``` will get details of state flow inside ```lexer```. The data format is as follows
+The [Provide state log](#23) part in features，visit ```flowModel.result.paths``` will get details of state flow inside ```lexer```. The data format is as follows
 
 ```js
 [
