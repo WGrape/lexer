@@ -1,127 +1,126 @@
 # lexer
 
-一个基于```DFA```的支持多语言扩展的```JS```版开源词法分析器，快速了解与体验请查看[线上网站](https://wgrape.github.io/lexer/)
+It is a lexical analyzer based on ```DFA``` that made by ```JS``` and supports multi-language extension. For quick understanding and experience , please check the [online website](https://wgrape.github.io/lexer/)
 
-It is a lexical analyzer based on ```DFA``` that made by ```JS``` and supports multi-language extension. For quick understanding and experience , please check the [english document](./ENGLISH.md) and [online website](https://wgrape.github.io/lexer/) .
+Document ：[中文](/README.zh-CN.md) / [English](/README.md) 
 
-![img](https://img.shields.io/badge/JavaScript-ES5+-blue.svg) &nbsp; [![Build Status](https://app.travis-ci.com/WGrape/lexer.svg?branch=main)](https://app.travis-ci.com/github/WGrape/lexer) &nbsp; ![img](https://img.shields.io/badge/Document-中文/English-orange.svg) &nbsp; ![GitHub](https://img.shields.io/github/license/WGrape/lexer)
+![img](https://img.shields.io/badge/JavaScript-ES5+-blue.svg) &nbsp; [![Build Status](https://app.travis-ci.com/WGrape/lexer.svg?branch=main)](https://app.travis-ci.com/github/WGrape/lexer) &nbsp; ![img](https://img.shields.io/github/v/release/wgrape/lexer) &nbsp; ![img](https://img.shields.io/badge/Document-中文/English-orange.svg) &nbsp; ![GitHub](https://img.shields.io/github/license/WGrape/lexer)
 
+## Contents
 
-## 目录
+- [1、Background](#1)
+- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(1) Situation](#11)
+- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(2) Task](#12)
+- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(3) Solution](#13)
+- [2、Features](#2)
+- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(1) Complete lexical analysis](#21)
+- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(2) Support multi-language extension](#22)
+- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(3) Provide flow-data](#23)
+- [3、Get source code](#3)
+- [4、Ussage](#4)
+- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(1) In the project](#41)
+- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(2) Web preview and testing](#42)
+- [5、Contributions](#5)
+- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(1) Project Statistics](#51)
+- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(2) Source code explanation](#52)
+- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(3) Content contribution](#53)
+- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(4) Release version](#54)
+- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(5) Q&A](#55)
+- [6、License](#6)
 
-- [1、项目背景](#1)
-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(1) 问题现状](#11)
-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(2) 项目萌芽](#12)
-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(3) 解决方案](#13)
-- [2、功能介绍](#2)
-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(1) 完整的词法分析](#21)
-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(2) 支持多语言扩展](#22)
-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(3) 记录状态流转信息](#23)
-- [3、获取项目](#3)
-- [4、使用方式](#4)
-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(1) 在项目中使用](#41)
-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(2) 可视化预览与测试](#42)
-- [5、参与贡献](#5)
-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(1) 项目统计](#51)
-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(2) 源码讲解](#52)
-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(3) 贡献范围](#53)
-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(4) 版本发布](#54)
-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(5) 问题交流](#55)
-- [6、协议说明](#6)
+## <span id="1">1、Background</span>
 
-## <span id="1">1、项目背景</span>
+### <span id="11">(1) Situation</span>
 
-> 不了解词法分析器以及其应用场景吗？建议用2分钟时间查看入门文章：[词法分析器的介绍与应用场景](https://github.com/WGrape/Blog/issues/10)
+Most lexical analyzers are closely coupled with the language, the amount of code is relatively large. It's hard to pay attention to the essential principles of lexical analyzer.
 
-### <span id="11">(1) 问题现状</span>
-目前常见的词法分析器与语言耦合较为紧密且代码量较为庞大，难以关注词法分析器其本质原理。
+### <span id="12">(2) Task</span>
 
-### <span id="12">(2) 项目萌芽</span>
-为把关注重心放在词法分析器的工作原理上，不再需要考虑由不同语言造成的细枝末节差异，于是就有了此```lexer```
-项目。
+In order to focus on the working principle of the lexical analyzer , not to consider the small differences caused by different languages , the idea of making a ```lexer``` project that is completely decoupled from the language was born .
 
-### <span id="13">(3) 解决方案</span>
-```lexer```主要通过以下两个JS文件，实现词法分析器与语言的解耦
+### <span id="13">(3) Solution</span>
 
-- ```lexer.js```文件是词法分析器的核心，主要分为```ISR```（输入流读取器）和```DFA```（有限状态自动机），代码会保持在300行内
-- ```lang/{lang}-define.js```文件是词法分析器的扩展，支持不同语言的接入，如```lang/c-define.js```文件
+```lexer``` through the following two files, realize the decoupling of lexical analyzer and language
 
-## <span id="2">2、功能介绍</span>
+- ```lexer.js``` is a core of lexical analyzer within 300 lines, including ```ISR```(Input Stream Reader) and ```DFA```(Deterministic Finite Automaton)
+- ```lang/{lang}-define.js```is the language extension of lexical analyzer, support different languages，such as ```lang/c-define.js```
 
-### <span id="21">(1) 完整的词法分析</span>
+## <span id="2">2、Features</span>
 
-从输入字符序列，到分析结束后生成```token```，```lexer```具备了完整的词法分析功能，如内置的C语言版```lexer```共支持11种类型的```token```
+### <span id="21">(1) Complete lexical analysis</span>
+
+From inputting the character sequence to generating ```token``` after the analysis, ```lexer``` has a complete lexical analysis function, such as the built-in C language version ```lexer``` supports a total of 11 types Type of ```token```
 
 ![img](/doc/image/c-tokens.png)
 
-### <span id="22">(2) 支持多语言扩展</span>
+### <span id="22">(2) Support multi-language extension</span>
 
-```lexer```支持接入如```Python```、```Go```等不同的语言，实现对不同语言进行词法分析的需求，扩展接入方式见[贡献部分](#5)，目前已支持如下语言的词法分析
+```lexer``` supports access to different languages such as ```Python```, ```Go```, etc., to achieve the needs of lexical analysis of different languages, see [Contributions](#5)
 
-- C ：一种比较底层的编程语言，[点击查看](https://wgrape.github.io/lexer/?lang=c) 它的词法分析
-- SQL ：一种数据库查询语言，[点击查看](https://wgrape.github.io/lexer/?lang=sql) 它的词法分析
-- Goal ：一个来自LeetCode的Goal解析器题目，[点击查看](https://wgrape.github.io/lexer/?lang=goal) 它的词法分析
+- C ：A popular programming language，[click here](https://wgrape.github.io/lexer/?lang=c) to see its lexical analysis
+- SQL ：A popular database query language，[click here](https://wgrape.github.io/lexer/?lang=sql) to see its lexical analysis
+- Goal ：A goal parser question from [LeetCode](https://leetcode.com/problems/goal-parser-interpretation/) ，[click here](https://wgrape.github.io/lexer/?lang=goal) to see its lexical analysis
 
-### <span id="23">(3) 记录状态流转信息</span>
+### <span id="23">(3) Provide flow-data</span>
 
-词法分析器的核心机制是基于```DFA```的状态流转，为此```lexer```记录了详细的状态流转信息，以实现使用方的以下需求
+The core mechanism of the lexical analyzer is based on the status transfer of ```DFA```. For this reason, `lexer``` records detailed status transfer information to achieve the following requirements of the user
 
-- ```lexer```的功能调试模式
-- 自动生成```DFA```状态流转图
+- Debug mode
+- Automatically generate ```DFA``` state flow diagram
 
-<img width="700" src="https://user-images.githubusercontent.com/35942268/135863402-4765e07b-01bf-41e7-b564-9d5af5faed63.png" />
+<img width="700" src="https://user-images.githubusercontent.com/35942268/136378451-e025fffd-425d-43f1-8a58-454a1011e9c3.png" />
 
-## <span id="3">3、获取项目</span>
+## <span id="3">3、Get source code</span>
 
-使用```git clone```获取本项目后，不需要任何依赖的安装，也不需多余的安装步骤
+After ```git clone``` command, no need for any dependencies, and no extra installation steps
 
-## <span id="4">4、使用方式</span>
+## <span id="4">4、Ussage</span>
 
-### <span id="41">(1) 在代码中使用</span>
+### <span id="41">(1) In the project</span>
 
-如果有在代码中使用```lexer```的需求（如网页中的代码编辑器：高亮、代码提示等），需要依次引入以下文件
+If you need use ```lexer``` in the project（code editor, etc），import the following files in order
 
 - ```/lang/{lang}-define.js```
 - ```lexer.js```
 
-然后直接访问```lexer```变量即可获取到词法分析器对象，其中```tokens```数据可以通过访问```lexer.DFA.result.tokens```获取
+then visit ```lexer``` variable to get the object of lexical analyzer，and visit ```lexer.DFA.result.tokens``` to get ```tokens```
 
 ```js
-// 1. 需要词法分析的代码
+// 1. The code that requires lexical analysis
 let stream = "int a = 10;";
 
-// 2. 开始词法分析
+// 2. Start lexical analysis
 lexer.start(strem);
 
-// 3. 词法分析结束后, 获取生成的tokens
+// 3. After the lexical analysis is over, get the generated tokens
 let parsedTokens = lexer.DFA.result.tokens;
 
-// 4. 做你想做的
+// 4. Do what you want to do
 parsedTokens.forEach((token) => {
     // ... ...
 });
 ```
 
-功能介绍中所描述的[记录状态流转信息](#23)，通过访问```flowModel.result.paths```即可获取到```lexer```内部状态机在每次状态流转时的详细信息，数据格式如下所示
+The [Provide flow-data](#23) part in features，visit ```flowModel.result.paths``` will get details of state flow inside ```lexer```. The data format is as follows
 
 ```js
 [
     {
-        state: 0, // 当前状态
-        ch: "a", // 当前读入的字符
-        nextSstate: 2, // 下一个状态
-        match: true, // 是否匹配
-        end: false, // 是否是最后一个字符
+        state: 0, // now state
+        ch: "a", // read char
+        nextSstate: 2, // next state
+        match: true, // is match
+        end: false, // is last char
     },
     // ... ...
 ]
 ```
 
-### <span id="42">(2) 可视化预览与测试</span>
+### <span id="42">(2) Web preview and testing</span>
 
-> ```lexer```的自动化测试会在页面打开前自动完成，打开浏览器控制台查看自动化测试的具体情况
+> The automated test will be automatically completed before the page is opened, open the browser console to view the specific situation of the automated test
 
-为了实时查看```lexer```的工作效果，也方便对其进行开发测试，在项目根目录下有一个```index.html```文件，直接在浏览器中打开，输入代码后会自动输出经过```lexer```分析后生成的```Token```，如下图所演示
+In order to view the work effect of ```lexer``` in real time, and to facilitate its development and testing, there is a ```index.html``` file in the root directory of the project. Open it directly in the browser, and after entering the code Will automatically output the ```Token``` generated after ```lexer``` analysis, as shown in the figure below
 
 ```c
 int a = 10;
@@ -142,31 +141,32 @@ if(a == b){
 
 ![img](/doc/image/show-v2.gif)
 
-或者请查看[线上网站](https://wgrape.github.io/lexer/)
+or check the [online website](wgrape.github.io/lexer/)
 
-## <span id="5">5、参与贡献</span>
+## <span id="5">5、Contributions</span>
 
-### <span id="51">(1) 项目统计</span>
-截至2021年10月01日，此项目在1个月内获得的Clone操作共计约80次，访客量100人，访问量400次（数据会不断更新）。其中Star数量的增长过程如下
+### <span id="51">(1) Project Statistics</span>
+As of October 1, 2021, this project has obtained about 80 clones in one month, with 100 visitors and 400 visits (data will be updated continuously). The growth process of the number of Stars is as follows
+
 <a href="https://starchart.cc/WGrape/lexer"><img src="https://starchart.cc/WGrape/lexer.svg" width="700"></a>
 
-### <span id="52">(2) 源码讲解</span>
-源码讲解以及如何接入不同语言的扩展，可以阅读[源码讲解](/doc/explain.md)文档
+### <span id="52">(2) Source code explanation</span>
+Documents about source code development, project design, unit testing, automated testing, development specifications, and how to make extensions in different languages, please read [source code explanation](/doc/explain.md)
 
-### <span id="53">(3) 贡献范围</span>
-- 提供更多新功能
-- 提供更多语言的 ```/lang/{lang}-define.js```
+### <span id="53">(3) Content contribution</span>
+- Add more new features
+- Add more extensions ```/lang/{lang}-define.js```
 
-此外，一切帮助项目变得更好的建议都欢迎讨论，交流渠道参考[问题交流](#55)部分
+### <span id="54">(4) Release version</span>
+The project is released with the version number of ```A-B-C```，regarding release log, you can check the [CHANGELOG](./CHANGELOG.md) or the [release record](https://github.com/WGrape/lexer/releases)
 
-### <span id="54">(4) 版本发布</span>
-项目以版本号为```大更新-小更新-修复完善```的规则发布，关于版本的更新记录可以查看项目的[CHANGELOG](./CHANGELOG.md)，或查看[Release记录](https://github.com/WGrape/lexer/releases)
+- ```A```：Major upgrade
+- ```B```：Minor upgrade
+- ```C```：bug fix / features / ...
 
-### <span id="55">(5) 问题交流</span>
-如果有使用问题或疑问需要反馈，可以<a href="https://qm.qq.com/cgi-bin/qm/qr?k=088TusnG1yLi--mr8v02PINh7thvjQD9&jump_from=webapi">加入群聊</a>，或[提交issue](https://github.com/WGrape/lexer/issues/new) ，欢迎大家的加入
+### <span id="55">(5) Q&A</span>
+If you have any problems or questions, please [submit an issue](https://github.com/WGrape/lexer/issues/new)
 
-<a href="https://qm.qq.com/cgi-bin/qm/qr?k=088TusnG1yLi--mr8v02PINh7thvjQD9&jump_from=webapi"><img width="200" src="https://user-images.githubusercontent.com/35942268/135754608-29ca599e-b8a6-4ad2-ae62-c4ee5d61d1f9.png" /></a>
-
-## <span id="6">6、协议说明</span>
+## <span id="6">6、License</span>
 
 ![GitHub](https://img.shields.io/github/license/WGrape/lexer)

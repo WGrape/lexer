@@ -1,16 +1,16 @@
-// 枚举型常量
+// Constant type: Enum
 const ENUM_CONST = {
-    // 简单运算符
+    // Simple Operator
     PLUS: '+',
     SUBTRACT: '-',
     TIMES: '*',
     DIVIDE: '/',
     MODE: '%',
 
-    // 逻辑运算符
+    // Logical Operator
     NOT: '!',
 
-    // 比较运算符
+    // Compare Operator
     GREAT: '>',
     LESS: '<',
     ASSIGN: '=',
@@ -20,7 +20,7 @@ const ENUM_CONST = {
     EQUAL: "==",
     NOT_EQUAL: "!=",
 
-    // 位运算符
+    // Bit Operator
     BIT_AND: '&',
     BIT_OR: '|',
     BIT_NOT: '~',
@@ -31,10 +31,10 @@ const ENUM_CONST = {
     BIT_LEFT_SHIFT: "<<",
     BIT_RIGHT_SHIFT: ">>",
 
-    // 空白符号
+    // Whitespace mark
     WHITESPACE: ' ',
 
-    // 括号符号
+    // Bracket mark
     LEFT_BRACKET: '(',
     RIGHT_BRACKET: ')',
     LEFT_BRACE: '{',
@@ -42,7 +42,7 @@ const ENUM_CONST = {
     LEFT_SQUARE_BRACKET: '[',
     RIGHT_SQUARE_BRACKET: ']',
 
-    // 其余符号
+    // Other mark
     DOT: '.',
     COMMA: ',',
     SEMICOLON: ';',
@@ -65,7 +65,7 @@ const ENUM_CONST = {
     T_CHAR: 10,
     T_UNKNOWN: 11,
 
-    // DFA状态
+    // DFA State
     S_RESET: 0,
     S_OPERATOR: 1,
     S_SYMBOL: 2,
@@ -89,59 +89,58 @@ const ENUM_CONST = {
     S_CHAR: 20,
     S_CHAR_END: 21,
     S_END: 100,
-
 };
 
-// 字符集合型常量
+// Constant type: Charset
 const CHARSET_CONST = {
-    // 单字符列表
+    // Char list
     CHAR: {
-        // 运算符列表
+        // Operator list
         OPERATOR: [
             ENUM_CONST.PLUS, ENUM_CONST.SUBTRACT, ENUM_CONST.TIMES, ENUM_CONST.DIVIDE, ENUM_CONST.MODE,
             ENUM_CONST.NOT,
             ENUM_CONST.GREAT, ENUM_CONST.LESS, ENUM_CONST.ASSIGN,
             ENUM_CONST.BIT_AND, ENUM_CONST.BIT_OR, ENUM_CONST.BIT_NOT, ENUM_CONST.BIT_XOR,
         ],
-        // 符号列表
+        // Symbol list
         SYMBOL: [
             ENUM_CONST.LEFT_BRACKET, ENUM_CONST.RIGHT_BRACKET, ENUM_CONST.LEFT_BRACE, ENUM_CONST.RIGHT_BRACE, ENUM_CONST.LEFT_SQUARE_BRACKET, ENUM_CONST.RIGHT_SQUARE_BRACKET,
             ENUM_CONST.DOT, ENUM_CONST.COMMA, ENUM_CONST.SEMICOLON, ENUM_CONST.QUOTATION, ENUM_CONST.DOUBLE_QUOTATION, ENUM_CONST.SHARP, ENUM_CONST.QUESTION, ENUM_CONST.COLON,
         ],
-        // 空白符列表
+        // Whitespace list
         WHITESPACE: [
             ENUM_CONST.WHITESPACE,
         ],
     },
 
-    // 双字符列表
+    // Double char list
     DOUBLE_CHAR: [
         ENUM_CONST.GREAT_EQUAL, ENUM_CONST.LESS_EQUAL, ENUM_CONST.EQUAL, ENUM_CONST.NOT_EQUAL,
         ENUM_CONST.CONDITION_AND, ENUM_CONST.CONDITION_OR, ENUM_CONST.BIT_LEFT_SHIFT, ENUM_CONST.BIT_RIGHT_SHIFT,
     ],
 
-    // 两个字符组成的双字符: &&
+    // Composition of double char: &&
     DOUBLE_CHAR_FIRST_BIT_AND: [ENUM_CONST.BIT_AND],
     DOUBLE_CHAR_SECOND_BIT_AND: [ENUM_CONST.BIT_AND],
 
-    // 两个字符组成的双字符: ||
+    // Composition of double char: ||
     DOUBLE_CHAR_FIRST_BIT_OR: [ENUM_CONST.BIT_OR],
     DOUBLE_CHAR_SECOND_BIT_OR: [ENUM_CONST.BIT_OR],
 
-    // 两个字符组成的双字符: >>
+    // Composition of double char: >>
     DOUBLE_CHAR_FIRST_GREAT: [ENUM_CONST.GREAT],
     DOUBLE_CHAR_SECOND_GREAT: [ENUM_CONST.GREAT],
 
-    // 两个字符组成的双字符: <<
+    // Composition of double char: <<
     DOUBLE_CHAR_FIRST_LESS: [ENUM_CONST.LESS],
     DOUBLE_CHAR_SECOND_LESS: [ENUM_CONST.LESS],
 
-    // 两个字符组成的双字符: >= , <= , != , ==
+    // Composition of double char: >= , <= , != , ==
     DOUBLE_CHAR_FIRST_NOT: [ENUM_CONST.NOT],
     DOUBLE_CHAR_FIRST_ASSIGN: [ENUM_CONST.ASSIGN],
     DOUBLE_CHAR_SECOND_ASSIGN: [ENUM_CONST.ASSIGN],
 
-    // 关键字
+    // Keyword
     KEYWORD: [
         'char', 'int', 'short', 'long', 'float', 'double', 'sizeof', 'signed', 'unsigned',
         'if', 'else', 'while', 'for', 'do', 'break', 'continue', 'goto',
@@ -152,61 +151,62 @@ const CHARSET_CONST = {
     ],
 };
 
-// DFA状态常量
+// Constant type: DFA State
 const DFA_STATE_CONST = {
-    // 重置状态
+    // State of reset
     S_RESET: ENUM_CONST.S_RESET,
 
-    // 运算符状态和符号状态
+    // State of operator
+    // State of symbol
     S_OPERATOR: ENUM_CONST.S_OPERATOR,
     S_SYMBOL: ENUM_CONST.S_SYMBOL,
 
-    // 双字符&&的首位字符状态和次位字符状态
+    // State of double char: &&
     S_DOUBLE_CHAR_FIRST_BIT_AND: ENUM_CONST.S_DOUBLE_CHAR_FIRST_BIT_AND,
     S_DOUBLE_CHAR_SECOND_BIT_AND: ENUM_CONST.S_DOUBLE_CHAR_SECOND_BIT_AND,
 
-    // 双字符||的首位字符状态和次位字符状态
+    // State of double char: ||
     S_DOUBLE_CHAR_FIRST_BIT_OR: ENUM_CONST.S_DOUBLE_CHAR_FIRST_BIT_OR,
     S_DOUBLE_CHAR_SECOND_BIT_OR: ENUM_CONST.S_DOUBLE_CHAR_SECOND_BIT_OR,
 
-    // 双字符>>的首位字符状态和次位字符状态
+    // State of double char: >>
     S_DOUBLE_CHAR_FIRST_GREAT: ENUM_CONST.S_DOUBLE_CHAR_FIRST_GREAT,
     S_DOUBLE_CHAR_SECOND_GREAT: ENUM_CONST.S_DOUBLE_CHAR_SECOND_GREAT,
 
-    // 双字符<<的首位字符状态和次位字符状态
+    // State of double char: <<
     S_DOUBLE_CHAR_FIRST_LESS: ENUM_CONST.S_DOUBLE_CHAR_FIRST_LESS,
     S_DOUBLE_CHAR_SECOND_LESS: ENUM_CONST.S_DOUBLE_CHAR_SECOND_LESS,
 
-    // 双字符>=, <=, !=, ==的首位字符状态和次位字符状态
+    // State of double char: >=, <=, !=, ==
     S_DOUBLE_CHAR_FIRST_NOT: ENUM_CONST.S_DOUBLE_CHAR_FIRST_NOT,
     S_DOUBLE_CHAR_FIRST_ASSIGN: ENUM_CONST.S_DOUBLE_CHAR_FIRST_ASSIGN,
     S_DOUBLE_CHAR_SECOND_ASSIGN: ENUM_CONST.S_DOUBLE_CHAR_SECOND_ASSIGN,
 
-    // 空白符状态
+    // State of whitespace
     S_WHITESPACE: ENUM_CONST.S_WHITESPACE,
 
-    // 标识符状态
+    // State of identifier
     S_IDENTIFIER: ENUM_CONST.S_IDENTIFIER,
 
-    // 字面量-数字状态
+    // State of number literal
     S_NUMBER: ENUM_CONST.S_NUMBER,
 
-    // 字面量-浮点数状态
+    // State of float literal
     S_FLOAT: ENUM_CONST.S_FLOAT,
 
-    // 字面量-字符串状态
+    // State of string literal
     S_STRING: ENUM_CONST.S_STRING,
     S_STRING_END: ENUM_CONST.S_STRING_END,
 
-    // 字面量-字符状态
+    // State of char literal
     S_CHAR: ENUM_CONST.S_CHAR,
     S_CHAR_END: ENUM_CONST.S_CHAR_END,
 
-    // 结束状态
+    // State of end
     S_END: ENUM_CONST.S_END,
 };
 
-// 工具函数包
+// Tool package
 let tool = {
     isUndefined(obj) {
         return typeof obj === "undefined";
@@ -236,13 +236,13 @@ let tool = {
         return '';
     },
     judgeTokenType(state, value) {
-        // 根据Value推导Token类型
+        // Derive Token type according to Value
         let tokenType = tool.judgeTokenTypeByValue(value);
         if (tokenType) {
             return tokenType;
         }
 
-        // 根据State推导Token类型
+        // Derive Token type according to State
         if (state === DFA_STATE_CONST.S_IDENTIFIER) {
             return 'Identifier';
         }
@@ -326,7 +326,7 @@ let tool = {
     }
 };
 
-// 定义DFA状态流转模型
+// Define the DFA state flow model
 let flowModel = {
     result: {
         paths: [],
@@ -342,7 +342,7 @@ let flowModel = {
 
     getNextState(ch, state, matchs) {
 
-        // 通用部分的处理
+        // Handling of common parts
         if (tool.isInStates(state, [DFA_STATE_CONST.S_STRING])) {
             if (ch !== ENUM_CONST.DOUBLE_QUOTATION) {
                 return DFA_STATE_CONST.S_STRING;
@@ -360,7 +360,7 @@ let flowModel = {
             return DFA_STATE_CONST.S_RESET;
         }
 
-        // 非通用部分的处理
+        // Handling of non-common parts
         if (tool.isAlphabetChar(ch)) {
             if (tool.isInStates(state, [DFA_STATE_CONST.S_RESET, DFA_STATE_CONST.S_IDENTIFIER])) {
                 return DFA_STATE_CONST.S_IDENTIFIER;
@@ -438,13 +438,13 @@ let flowModel = {
     },
 };
 
-// 单元测试
+// Unit Testing
 if (tool.isNodeEnvironment()) {
     let assert = require('assert');
     assert.equal(tool.isUndefined(flowModel.FakeValue), true, "tool.isUndefined单测失败");
 }
 
-// 自动化测试
+// Automated Testing
 let autoTest = {
     returnCaseList() {
         return [

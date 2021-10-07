@@ -21,6 +21,8 @@
 - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[2、语法细节调整](#42)
 - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[3、单元测试](#43)
 - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[4、自动化测试](#44)
+- [五、开发规范](#5)
+- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[1、Git相关](#51)
 
 ## <span id="1">一、项目结构</span>
 
@@ -194,3 +196,20 @@ script:
 填充```autoTest.returnCaseList()```函数后，打开```index.html```文件即会自动进行自动化测试工作（在控制台输出），如果测试失败会```自动化测试失败```的```alert```弹框提示。
 
 <img width="630" src="/doc/image/auto-test-v2.png" alt="自动化测试"/>
+
+## <span id="5">五、开发规范</span>
+
+### <span id="51">1、Git和GitHub相关</span>
+
+#### (1) Commit
+
+
+- ```test```: 测试相关的描述
+- ```perf```: 优化相关的描述
+- ```feat```: 新功能相关的描述
+- ```fix```: bug修复相关的描述
+- ```doc```: 文档更新相关的描述
+- ```style```: 代码格式调整相关的描述
+- ```refactor```: 设计架构重构相关的描述  
+
+如lexer的架构如果进行调整，commit信息应该为```refactor: lexer架构进行重构升级```
