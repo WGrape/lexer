@@ -1,12 +1,12 @@
-// 词法分析器
+// Lexical analyzer
 let lexer = {
 
-    // 输入流读取器 Input Stream Reader
+    // Input Stream Reader
     ISR: {
         props: {
-            stream: "", // 字符流
-            length: 0, // 字符流的长度
-            seq: 0, // 字符流的序号
+            stream: "", // Character stream
+            length: 0, // Length of character stream
+            seq: 0, // The sequence number of the character stream
         },
         propsChange: {
             set(prop, value) {
@@ -25,16 +25,16 @@ let lexer = {
         },
 
         before(stream) {
-            // 确定字符流
+            // Determine character stream
             lexer.ISR.propsChange.set('stream', stream);
 
-            // 换行符替换为空格
+            // Replace newlines with spaces
             lexer.ISR.propsChange.set('stream', lexer.ISR.props.stream.replace(/\n/g, " ").trim());
 
-            // 多个空格替换为1个空格
+            // Replace multiple spaces with one space
             lexer.ISR.propsChange.set('stream', lexer.ISR.props.stream.replace(/\s+/g, " ").trim());
 
-            // 计算字符流长度和序号
+            // Calculate character stream length and sequence number
             lexer.ISR.propsChange.set('length', lexer.ISR.props.stream.length);
             lexer.ISR.propsChange.set('seq', 0);
         },
@@ -88,11 +88,11 @@ let lexer = {
         },
     },
 
-    // 有限状态自动机 deterministic finite automaton
+    // Deterministic finite automaton
     DFA: {
         result: {
-            matchs: [], // 已匹配的字符队列
-            tokens: [], // 已生成的token列表
+            matchs: [], // Matched character queue
+            tokens: [], // List of generated tokens
         },
         resultChange: {
             toDefault() {
@@ -129,7 +129,7 @@ let lexer = {
             },
         },
 
-        state: DFA_STATE_CONST.S_RESET, // 当前机器的状态
+        state: DFA_STATE_CONST.S_RESET, // Current machine status
         events: {
             flowtoNextState(ch, state) {
                 lexer.DFA.resultChange.pushToMatchs(ch);
@@ -142,14 +142,14 @@ let lexer = {
         },
     },
 
-    // 重置词法分析器数据
+    // Reset lexer data
     resetDefault() {
         flowModel.resultChange.toDefault();
         lexer.ISR.propsChange.toDefault();
         lexer.DFA.resultChange.toDefault();
     },
 
-    // 开始工作
+    // Start working
     start(stream) {
         lexer.resetDefault();
         lexer.ISR.before(stream);

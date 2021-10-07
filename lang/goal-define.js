@@ -1,4 +1,4 @@
-// 枚举型常量
+// Constant type: Enum
 const ENUM_CONST = {
     S_RESET: 0,
     S_G: 1,
@@ -10,7 +10,7 @@ const ENUM_CONST = {
     S_UNKNOWN: 7,
 };
 
-// DFA状态常量
+// Constant type: DFA State
 const DFA_STATE_CONST = {
     S_RESET: ENUM_CONST.S_RESET,
     S_G: ENUM_CONST.S_G,
@@ -22,7 +22,7 @@ const DFA_STATE_CONST = {
     S_UNKNOWN: ENUM_CONST.S_UNKNOWN,
 };
 
-// 工具函数包
+// Tool package
 let tool = {
     isUndefined(obj) {
         return typeof obj === "undefined";
@@ -31,7 +31,7 @@ let tool = {
         return typeof window === "undefined";
     },
     judgeTokenType(state, value) {
-        // 根据state推导token类型
+        // Derive Token type according to State
         if (state === DFA_STATE_CONST.S_G) {
             return "G";
         }
@@ -48,7 +48,7 @@ let tool = {
     }
 };
 
-// 定义DFA状态流转模型
+// Define the DFA state flow model
 let flowModel = {
     result: {
         paths: [],
@@ -63,7 +63,7 @@ let flowModel = {
     },
 
     getNextState(ch, state) {
-        // 非通用部分的处理
+        // Handling of non-common parts
         if (ch === "G") {
             if (state === DFA_STATE_CONST.S_RESET) {
                 return DFA_STATE_CONST.S_G;
@@ -89,7 +89,7 @@ let flowModel = {
             }
         }
 
-        // 通用部分的处理
+        // Handling of common parts
         if (state === DFA_STATE_CONST.S_RESET || state === DFA_STATE_CONST.S_UNKNOWN) {
             return DFA_STATE_CONST.S_UNKNOWN;
         }
@@ -98,13 +98,13 @@ let flowModel = {
     }
 };
 
-// 单元测试
+// Unit Testing
 if (tool.isNodeEnvironment()) {
     let assert = require('assert');
     assert.equal(tool.isUndefined(flowModel.FakeValue), true, "tool.isUndefined单测失败");
 }
 
-// 自动化测试
+// Automated Testing
 let autoTest = {
     returnCaseList() {
         return [
