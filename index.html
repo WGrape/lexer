@@ -23,7 +23,7 @@
             padding: 5px 0;
             margin-bottom: 10px;
             color: #777;
-            letter-spacing: 1px;
+            letter-spacing: 0px;
         }
 
         #LangInfo a {
@@ -180,6 +180,10 @@
             cursor: pointer;
         }
 
+        #busuanzi_value_site_uv, #busuanzi_value_site_pv{
+            padding: 0 2px;
+        }
+
         #busuanzi_value_site_pv_change, #busuanzi_value_site_uv_change {
             color: #08964e;
             font-size: 13px;
@@ -198,11 +202,11 @@
         <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="100px" height="20px"
                 src="https://ghbtns.com/github-btn.html?user=WGrape&repo=lexer&type=star&count=true"></iframe>
         <span id="busuanzi_container_site_pv"
-              style="font-size: 15px;color: #666;float: right;margin-top: 10px;margin-right: 10px;">&nbsp;访问量共<span
-                id="busuanzi_value_site_pv"></span>次<span id="busuanzi_value_site_pv_change"></span></span>
+              style="font-size: 15px;color: #666;float: right;margin-top: 10px;margin-right: 10px;">&nbsp;PV<span
+                id="busuanzi_value_site_pv"></span><span id="busuanzi_value_site_pv_change"></span></span>
         <span id="busuanzi_container_site_uv"
-              style="font-size: 15px;color: #666;float: right;margin-top: 10px;">访客量共<span
-                id="busuanzi_value_site_uv"></span>次<span id="busuanzi_value_site_uv_change"></span>&nbsp;/</span>
+              style="font-size: 15px;color: #666;float: right;margin-top: 10px;">UV<span
+                id="busuanzi_value_site_uv"></span><span id="busuanzi_value_site_uv_change"></span>&nbsp;/</span>
     </div>
 
     <div id="Dashboard">
@@ -213,22 +217,22 @@
             </label>
         </div>
         <ul id="Preferences">
-            <li class="lang-choose lang-choose-first lang-choose-c"><a href="?lang=c">C语言</a></li>
+            <li class="lang-choose lang-choose-first lang-choose-c"><a href="?lang=c">C</a></li>
             <li class="lang-choose lang-choose-sql"><a href="?lang=sql">SQL</a></li>
             <li class="lang-choose lang-choose-last lang-choose-goal"><a href="?lang=goal">Goal</a></li>
         </ul>
     </div>
 
-    <!--动态展示解析后的Token列表-->
+    <!--Dynamically display the parsed token list-->
     <div id="Show">
         <div id="TokenList">
         </div>
     </div>
 
-    <!--动态展示不同语言中支持的Token类型-->
+    <!--Dynamically display the Token types supported in different languages-->
     <div style="margin-top: 35px;border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;">
         <div style="text-align: center;background: #eee;padding: 20px 0;">
-            <h3 style="margin: 0;padding: 0 0 5px 0;font-weight: 100;">所有Token类型</h3>
+            <h3 style="margin: 0;padding: 0 0 5px 0;font-weight: 100;">All token types</h3>
             <div class="AllTokenList AllTokenListDefault">
                 <span class="token token-Operator" tokentype="Operator" tokenvalue="Operator">Operator</span>
                 <span class="token token-DoubleOperator" tokentype="DoubleOperator" tokenvalue="DoubleOperator">DoubleOperator</span>
@@ -256,7 +260,7 @@
 </script>
 <script>
 
-    // 解析URL中的查询参数
+    // Parsing params in url
     function getParam(param) {
         let slices = window.location.href.split('?');
         if (slices[1]) {
@@ -273,33 +277,33 @@
         return false;
     }
 
-    // 根据当前选择的语言, 动态加载不同的JS扩展文件、CSS文件，动态处理相应的页面展示逻辑
+    // According to the currently selected language, dynamically load different JS extension files and CSS files, and dynamically process the display logic
     let lang = getParam('lang');
     if (lang === 'c') {
         $('.lang-choose-c').addClass('lang-choose-select');
         document.write('<script src="lang/c-define.js"><\/script>');
         $('.AllTokenListDefault').fadeIn();
-        $('#LangInfo').html("C是一种通用的编程语言，广泛用于系统软件与应用软件的开发 ... 点击查看<a target='_blank' href='https://zh.wikipedia.org/wiki/C%E8%AF%AD%E8%A8%80'>维基百科</a>");
+        $('#LangInfo').html("C is a general programming language that is extremely popular, simple and flexible ... please check <a target='_blank' href='https://en.wikipedia.org/wiki/C_(programming_language)'>detail</a>");
     } else if (lang === 'sql') {
         $('.lang-choose-sql').addClass('lang-choose-select');
         document.write('<script src="lang/sql-define.js"><\/script>');
         $('.AllTokenListDefault').fadeIn();
-        $('#LangInfo').html("SQL是一种特定目的编程语言，用于管理关系数据库管理系统 ... 点击查看<a target='_blank' href='https://zh.wikipedia.org/zh-cn/SQL'>维基百科</a>");
+        $('#LangInfo').html("SQL is a general programming language used to manage relational database ... please check <a target='_blank' href='https://en.wikipedia.org/wiki/SQL'>detail</a>");
     } else if (lang === 'goal') {
         $('.lang-choose-goal').addClass('lang-choose-select');
         document.write('<link rel="stylesheet" type="text/css" href="css/goal.css">');
         document.write('<script src="lang/goal-define.js"><\/script>');
         $('.AllTokenListGoal').fadeIn();
-        $('#LangInfo').html("Goal语言来自于LeetCode中的一个题目，要求设计一个Goal语言解析器 ... 点击查看<a target='_blank' href='https://leetcode-cn.com/problems/goal-parser-interpretation/'>详情</a>");
+        $('#LangInfo').html("Goal language is a problem from leetcode ... please check <a target='_blank' href='https://leetcode.com/problems/goal-parser-interpretation/'>detail</a>");
     } else {
         window.location.href = window.location.pathname + '?lang=c';
     }
     document.write('<script src="lexer.js"><\/script>');
 
-    // 放入事件循环队列
+    // Put in the event loop queue
     setTimeout(function () {
 
-        // 定义页面不同元素的事件
+        // Define events for different elements of the page
         $('#Textarea').on('input', function () {
             $('#TokenList').html('<p style="color: #888;">Lexer is working ... ...</p>');
         });
@@ -324,7 +328,7 @@
             $(".token").removeClass('opacity');
         });
 
-        // 生成不同语言的默认输入
+        // Generate default codes in different languages
         let defaultInput = "";
         if (lang === 'c') {
             defaultInput = "int a = 10;\n" +
@@ -346,17 +350,17 @@
         } else {
             defaultInput = "select * from test where id >= 10 and id <10 and name='test';"
         }
-        $('#Textarea').val('正在显示示例代码，请稍后...');
+        $('#Textarea').val('Sample code is being displayed, please wait...');
         setTimeout(function () {
 
-            // 自动输入不同语言默认的代码, 省去用户手动输入代码的时间
+            // Automatically enter default codes in different languages, saving the time to manually enter codes
             $('#Textarea').val(defaultInput);
             $('#Textarea').blur();
             $('#Textarea').focus();
 
-            // 执行自动化测试
+            // run automated testing
             let caseList = autoTest.returnCaseList();
-            console.log("自动化测试共" + caseList.length + '例, 执行自动化测试中...');
+            console.log("Automated testing has " + caseList.length + ' cases, now is running ...');
             for (let i = 0; i <= caseList.length - 1; ++i) {
                 let outputs = caseList[i].output;
                 lexer.start(caseList[i].input);
@@ -374,16 +378,16 @@
                 }
 
                 if (failed) {
-                    alert('自动化测试失败');
+                    alert('Automated testing is failed');
                     console.error('Case ' + (i + 1) + ': failed | ' + 'input = ' + caseList[i].input);
                 } else {
                     console.info("\x1B[32m" + 'Case ' + (i + 1) + ': success | ' + 'input = ' + caseList[i].input + "\x1B[0m");
                 }
             }
-            console.log('自动化测试结束');
+            console.log('Automated testing is Done');
         }, 100);
 
-        // 统计访问的较上次变化情况
+        // count the changed number compared to the last visit
         setTimeout(function () {
 
             let lastPv = parseInt(localStorage.getItem('pv'));
