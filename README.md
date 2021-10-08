@@ -15,10 +15,10 @@ Document ：[中文](/README.zh-CN.md) / [English](/README.md)
 - [2、Features](#2)
 - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(1) Complete lexical analysis](#21)
 - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(2) Support multi-language extension](#22)
-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(3) Provide state log](#23)
+- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(3) Provide state flow log](#23)
 - [3、Get project](#3)
 - [4、Ussage](#4)
-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(1) In the project](#41)
+- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(1) In your project](#41)
 - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(2) Web preview and testing](#42)
 - [5、Contributions](#5)
 - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(1) Project Statistics](#51)
@@ -42,28 +42,28 @@ In order to focus on the working principle of lexical analyzer , not to consider
 
 ```lexer``` through the following two files, realize the decoupling of lexical analyzer and language
 
-- ```lexer.js``` is a core of lexical analyzer within 300 lines, including ```ISR``` and ```DFA```
+- ```lexer.js``` is the core part of lexical analyzer within 300 lines, including ```ISR``` and ```DFA```
 - ```lang/{lang}-define.js```is the language extension of lexical analyzer. Support different languages，such as ```lang/c-define.js```
 
 ## <span id="2">2、Features</span>
 
 ### <span id="21">(1) Complete lexical analysis</span>
 
-From inputting the character sequence to generating ```token``` after the analysis, ```lexer``` has a complete lexical analysis function, such as the built-in C language version ```lexer``` supports a total of 11 types Type of ```token```
+From inputting the character sequence to generating ```token``` after the analysis, ```lexer``` has complete steps for lexical analysis, and 11 token types for most language extensions
 
 ![img](/doc/image/c-tokens.png)
 
 ### <span id="22">(2) Support multi-language extension</span>
 
-```lexer``` supports access to different languages such as ```Python```, ```Go```, etc., to achieve the needs of lexical analysis of different languages, see [Contributions](#5)
+```lexer``` supports different language extensions such as ```Python```, ```Go```, etc. How to make different language extensions, please check [Contributions](#5)
 
 - C ：A popular programming language，[click here](https://wgrape.github.io/lexer/?lang=c) to see its lexical analysis
 - SQL ：A popular database query language，[click here](https://wgrape.github.io/lexer/?lang=sql) to see its lexical analysis
-- Goal ：A goal parser question from [LeetCode](https://leetcode.com/problems/goal-parser-interpretation/) ，[click here](https://wgrape.github.io/lexer/?lang=goal) to see its lexical analysis
+- Goal ：A goal parser problem from leetCode ，[click here](https://wgrape.github.io/lexer/?lang=goal) to see its lexical analysis
 
-### <span id="23">(3) Provide state log</span>
+### <span id="23">(3) Provide state flow log</span>
 
-The core mechanism of the lexical analyzer is based on the state flow of ```DFA```. For this reason, ```lexer``` records detailed status flow information to achieve the following requirements of the user
+The core mechanism of lexical analyzer is based on the state flow of ```DFA```. For this reason, ```lexer``` records detailed state flow log to achieve the following requirements of you
 
 - Debug mode
 - Automatically generate ```DFA``` state flow diagram
@@ -76,9 +76,9 @@ After ```git clone``` command, no need for any dependencies, and no extra instal
 
 ## <span id="4">4、Ussage</span>
 
-### <span id="41">(1) In the project</span>
+### <span id="41">(1) In your project</span>
 
-If you need use ```lexer``` in the project（code editor, etc），import the following files in order
+If you need use ```lexer``` in your project, such as code editor, etc. Import the following files in order
 
 - ```/lang/{lang}-define.js```
 - ```lexer.js```
@@ -86,13 +86,13 @@ If you need use ```lexer``` in the project（code editor, etc），import the fo
 then visit ```lexer``` variable to get the object of lexical analyzer，and visit ```lexer.DFA.result.tokens``` to get ```tokens```
 
 ```js
-// 1. The code that requires lexical analysis
+// 1. The code that needs lexical analysis
 let stream = "int a = 10;";
 
 // 2. Start lexical analysis
 lexer.start(strem);
 
-// 3. After the lexical analysis is over, get the generated tokens
+// 3. After the lexical analysis is done, get the generated tokens
 let parsedTokens = lexer.DFA.result.tokens;
 
 // 4. Do what you want to do
@@ -101,7 +101,7 @@ parsedTokens.forEach((token) => {
 });
 ```
 
-The [Provide state log](#23) part in features，visit ```flowModel.result.paths``` will get details of state flow inside ```lexer```. The data format is as follows
+The [Provide state flow log](#23) part in features，visit ```flowModel.result.paths``` will get the detail logs of state flow inside ```lexer```. The data format is as follows
 
 ```js
 [
@@ -118,9 +118,9 @@ The [Provide state log](#23) part in features，visit ```flowModel.result.paths`
 
 ### <span id="42">(2) Web preview and testing</span>
 
-> The automated test will be automatically completed before the page is opened, open the browser console to view the specific situation of the automated test
+> The automated testing will be automatically completed before the page is opened, open your browser console to see the result of testing
 
-In order to view the work effect of ```lexer``` in real time, and to facilitate its development and testing, there is a ```index.html``` file in the root directory of the project. Open it directly in the browser, and after entering the code Will automatically output the ```Token``` generated after ```lexer``` analysis, as shown in the figure below
+In order to observe the result of ```lexer``` in real time, and to debug and test, there is a ```index.html``` file in the root directory of this project. Open it directly in your browser, and after entering the code will automatically output the ```Token``` generated after ```lexer``` analysis, as shown in the figure below
 
 ```c
 int a = 10;
