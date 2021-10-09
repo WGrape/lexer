@@ -1,9 +1,18 @@
-### 1、版本 ：1.0.0
-发布日期 ：2021-09-31
+### 2、Version ：1.5.0
+Release date ：2021-10-10
 
-说明 ：```lexer```的第一个版本```1.0.0```发布
+desc ：Major upgrades to the project structure, such as package, shell, test, etc. You only need to import a ```/package/{lang}-lexer.min.js``` file in your project.
 
-#### 功能
-- 具备完整的词法分析过程
-- 支持多语言扩展
-- 记录状态流转信息
+#### Features
+- Add pack feature: pack ```/src/lexer.js``` and ```/src/lang/{lang}-define.js```
+- Update testing: Decouple the testing from the ```/src/*``` file
+
+### 1、Version ：1.0.0
+Release date ：2021-09-31
+
+desc ：the first version ```1.0.0``` of ```lexer``` is released.
+
+#### Features
+- Complete lexical analysis
+- Support multi-language extension
+- Provide state flow log

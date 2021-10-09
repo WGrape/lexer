@@ -97,29 +97,3 @@ let flowModel = {
         return DFA_STATE_CONST.S_RESET;
     }
 };
-
-// Unit Testing
-if (tool.isNodeEnvironment()) {
-    let assert = require('assert');
-    assert.equal(tool.isUndefined(flowModel.FakeValue), true, "tool.isUndefined单测失败");
-}
-
-// Automated Testing
-let autoTest = {
-    returnCaseList() {
-        return [
-            {
-                "input": "G()(al)",
-                "output": 3,
-            },
-            {
-                "input": "G()()()()(al)",
-                "output": 6,
-            },
-            {
-                "input": "(al)G(al)()()G",
-                "output": 6,
-            }
-        ];
-    },
-};

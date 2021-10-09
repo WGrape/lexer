@@ -163,6 +163,18 @@
             color: #ef1c1c;
         }
 
+        .token.token-al {
+            background: #d68e0a;
+        }
+
+        .token.token-G {
+            background: #d6440c;
+        }
+
+        .token.token-o {
+            background: #0047c5;
+        }
+
         .AllTokenList {
             display: none;
         }
@@ -281,24 +293,25 @@
     let lang = getParam('lang');
     if (lang === 'c') {
         $('.lang-choose-c').addClass('lang-choose-select');
-        document.write('<script src="lang/c-define.js"><\/script>');
+        document.write('<script src="./package/c-lexer.min.js"><\/script>');
+        document.write('<script src="./test/auto/c-lexer_test.js"><\/script>');
         $('.AllTokenListDefault').fadeIn();
         $('#LangInfo').html("C is a general programming language that is extremely popular, simple and flexible ... please check <a target='_blank' href='https://en.wikipedia.org/wiki/C_(programming_language)'>detail</a>");
     } else if (lang === 'sql') {
         $('.lang-choose-sql').addClass('lang-choose-select');
-        document.write('<script src="lang/sql-define.js"><\/script>');
+        document.write('<script src="./package/sql-lexer.min.js"><\/script>');
+        document.write('<script src="./test/auto/sql-lexer_test.js"><\/script>');
         $('.AllTokenListDefault').fadeIn();
         $('#LangInfo').html("SQL is a general programming language used to manage relational database ... please check <a target='_blank' href='https://en.wikipedia.org/wiki/SQL'>detail</a>");
     } else if (lang === 'goal') {
         $('.lang-choose-goal').addClass('lang-choose-select');
-        document.write('<link rel="stylesheet" type="text/css" href="css/goal.css">');
-        document.write('<script src="lang/goal-define.js"><\/script>');
+        document.write('<script src="./package/goal-lexer.min.js"><\/script>');
+        document.write('<script src="./test/auto/goal-lexer_test.js"><\/script>');
         $('.AllTokenListGoal').fadeIn();
         $('#LangInfo').html("Goal language is a problem from leetcode ... please check <a target='_blank' href='https://leetcode.com/problems/goal-parser-interpretation/'>detail</a>");
     } else {
         window.location.href = window.location.pathname + '?lang=c';
     }
-    document.write('<script src="lexer.js"><\/script>');
 
     // Put in the event loop queue
     setTimeout(function () {
@@ -359,7 +372,7 @@
             $('#Textarea').focus();
 
             // run automated testing
-            let caseList = autoTest.returnCaseList();
+            let caseList = returnCaseList();
             console.log("Automated testing has " + caseList.length + ' cases, now is running ...');
             for (let i = 0; i <= caseList.length - 1; ++i) {
                 let outputs = caseList[i].output;
@@ -371,7 +384,7 @@
                     failed = outputs !== tokens.length;
                 } else {
                     for (let j = 0; j <= tokens.length - 1; ++j) {
-                        if (tool.isUndefined(outputs[j]) || outputs[j].type !== tokens[j].type || outputs[j].value !== tokens[j].value) {
+                        if (typeof outputs[j] === 'undefined' || outputs[j].type !== tokens[j].type || outputs[j].value !== tokens[j].value) {
                             failed = true;
                         }
                     }
