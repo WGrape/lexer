@@ -32,6 +32,7 @@ for (let extension of extensions) {
         "\n",
         lexerFileCode,
         "\n\nif(typeof lexer !== 'undefined'){if(!tool.isNodeEnvironment()){window.lexer=lexer;}else{global.lexer=lexer;}}\n\n",
+        "\n\nif(typeof flowModel !== 'undefined'){if(!tool.isNodeEnvironment()){window.flowModel=flowModel;}else{global.flowModel=flowModel;}}\n\n",
         "})();",
     ];
     let code = arr.join("");
