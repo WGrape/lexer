@@ -42,8 +42,8 @@ In order to focus on the working principle of lexical analyzer , not to consider
 
 ```lexer``` through the following two files, realize the decoupling of lexical analyzer and language
 
-- ```lexer.js``` is the core part of lexical analyzer within 300 lines, including ```ISR``` and ```DFA```
-- ```lang/{lang}-define.js```is the language extension of lexical analyzer. Support different languages，such as ```lang/c-define.js```
+- ```src/lexer.js``` is the core part of lexical analyzer within 300 lines, including ```ISR``` and ```DFA```
+- ```src/lang/{lang}-define.js```is the language extension of lexical analyzer. Support different languages，such as ```src/lang/c-define.js```
 
 ## <span id="2">2、Features</span>
 
@@ -78,12 +78,7 @@ After ```git clone``` command, no need for any dependencies, and no extra instal
 
 ### <span id="41">(1) In your project</span>
 
-If you need use ```lexer``` in your project, such as code editor, etc. Import the following files in order
-
-- ```/lang/{lang}-define.js```
-- ```lexer.js```
-
-then visit ```lexer``` variable to get the object of lexical analyzer，and visit ```lexer.DFA.result.tokens``` to get ```tokens```
+If you need use ```lexer``` in your project, such as code editor, etc. Import the ```package/{lang}-lexer.min.js``` file, then visit ```lexer``` variable to get the object of lexical analyzer，and visit ```lexer.DFA.result.tokens``` to get ```tokens```
 
 ```js
 // 1. The code that needs lexical analysis
@@ -118,9 +113,7 @@ The [Provide state flow log](#23) part in features，visit ```flowModel.result.p
 
 ### <span id="42">(2) Web preview and testing</span>
 
-> The automated testing will be automatically completed before the page is opened, open your browser console to see the result of testing
-
-In order to observe the result of ```lexer``` in real time, and to debug and test, there is a ```index.html``` file in the root directory of this project. Open it directly in your browser, and after entering the code will automatically output the ```Token``` generated after ```lexer``` analysis, as shown in the figure below
+In order to preview the process of ```lexer``` in real time, to debug and test, there is a ```index.html``` file in the root directory of this project. Open it directly in your browser, and after entering the code will automatically output the ```Token``` generated after ```lexer``` analysis, as shown in the figure below
 
 ```c
 int a = 10;
@@ -155,7 +148,7 @@ Documents about source code development, project design, unit testing, automated
 
 ### <span id="53">(3) Content contribution</span>
 - Add more new features
-- Add more extensions ```/lang/{lang}-define.js```
+- Add more extensions ```/src/lang/{lang}-define.js```
 
 ### <span id="54">(4) Release version</span>
 The project is released with the version number of ```A-B-C```，regarding release log, you can check the [CHANGELOG](./CHANGELOG.md) or the [release record](https://github.com/WGrape/lexer/releases)

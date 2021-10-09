@@ -4,9 +4,9 @@ node_js:
   - 14.17.5
 
 script:
-  - node ./lang/c-define.js
-  - node ./lang/sql-define.js
-  - node ./lang/goal-define.js
+  - npm install uglify-js -g
+  - bash shell/pack.sh
+  - bash shell/test.sh
 
 branches:
   only:

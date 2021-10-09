@@ -142,11 +142,12 @@ const CHARSET_CONST = {
 
     // Keyword
     KEYWORD: [
-        'select', 'from', 'where', 'and', 'group', 'by', 'order', 'desc', 'asc', 'limit',
-        'add', 'constraint', 'alter', 'column', 'as', 'database', 'between', 'case', 'check',
-        'create', 'alter', 'table', 'unique', 'index',
-        'delete', 'distinct', 'drop', 'full', 'join', 'outer', 'inner', 'having', 'in', 'or', 'null',
-        'insert', 'update', 'set', 'values', 'like', 'not', 'primary', 'into', 'top', 'union', 'all', 'view',
+        'char', 'int', 'short', 'long', 'float', 'double', 'sizeof', 'signed', 'unsigned',
+        'if', 'else', 'while', 'for', 'do', 'break', 'continue', 'goto',
+        'void', 'return', 'switch', 'case', 'default',
+        'const', 'static', 'auto', 'extern', 'register',
+        'struct', 'union', 'enum', 'typedef',
+        'include',
     ],
 };
 
@@ -229,7 +230,7 @@ let tool = {
         if (tool.isInArray(value, CHARSET_CONST.CHAR.WHITESPACE)) {
             return 'Whitespace';
         }
-        if (tool.isInArray(value.toLowerCase(), CHARSET_CONST.KEYWORD)) {
+        if (tool.isInArray(value, CHARSET_CONST.KEYWORD)) {
             return 'Keyword';
         }
         return '';
@@ -255,7 +256,7 @@ let tool = {
             return 'String';
         }
         if (state === DFA_STATE_CONST.S_CHAR_END) {
-            return 'String';
+            return 'Char';
         }
         return 'Unknown';
     },
@@ -350,10 +351,13 @@ let flowModel = {
             }
         }
         if (tool.isInStates(state, [DFA_STATE_CONST.S_CHAR])) {
-            if (ch === ENUM_CONST.QUOTATION) {
+            if (matchs.length === 1) {
+                return DFA_STATE_CONST.S_CHAR;
+            }
+            if (matchs.length === 2 && ch === ENUM_CONST.QUOTATION) {
                 return DFA_STATE_CONST.S_CHAR_END;
             }
-            return DFA_STATE_CONST.S_CHAR;
+            return DFA_STATE_CONST.S_RESET;
         }
 
         // Handling of non-common parts
@@ -431,63 +435,5 @@ let flowModel = {
             }
         }
         return DFA_STATE_CONST.S_RESET;
-    },
-};
-
-// Unit Testing
-if (tool.isNodeEnvironment()) {
-    let assert = require('assert');
-    assert.equal(tool.isUndefined(flowModel.FakeValue), true, "tool.isUndefined单测失败");
-}
-
-// Automated Testing
-let autoTest = {
-    returnCaseList() {
-        return [
-            {
-                "input": "",
-                "output": 0,
-            },
-            {
-                "input": "select",
-                "output": 1,
-            },
-            {
-                "input": "select*",
-                "output": 2,
-            },
-            {
-                "input": "create table;",
-                "output": 3,
-            },
-            {
-                "input": ";;select*;select",
-                "output": 6,
-            },
-            {
-                "input": "select*from table where name ='hello';",
-                "output": 9,
-            },
-            {
-                "input": "select id,name,student.age from student where name = \"张三\" and score=23.22; ",
-                "output": 19,
-            },
-            {
-                "input": "select*from test where(id)>=2 and id<=10 ( or name = 'hello');",
-                "output": 21,
-            },
-            {
-                "input": "select* from t where (id)>2 or id != 3 and age between 10 and 20 order by id,name asc limit 2,10;",
-                "output": 31,
-            },
-            {
-                "input": "select id,name,student.age from student where (id<22) and (id>2) group by name having id > 20 order by id desc limit 0,10;",
-                "output": 38,
-            },
-            {
-                "input": "select * from table where id >= 2 and id != 2 or id == 2;",
-                "output": 17,
-            },
-        ];
     },
 };

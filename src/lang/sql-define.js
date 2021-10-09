@@ -142,12 +142,11 @@ const CHARSET_CONST = {
 
     // Keyword
     KEYWORD: [
-        'char', 'int', 'short', 'long', 'float', 'double', 'sizeof', 'signed', 'unsigned',
-        'if', 'else', 'while', 'for', 'do', 'break', 'continue', 'goto',
-        'void', 'return', 'switch', 'case', 'default',
-        'const', 'static', 'auto', 'extern', 'register',
-        'struct', 'union', 'enum', 'typedef',
-        'include',
+        'select', 'from', 'where', 'and', 'group', 'by', 'order', 'desc', 'asc', 'limit',
+        'add', 'constraint', 'alter', 'column', 'as', 'database', 'between', 'case', 'check',
+        'create', 'alter', 'table', 'unique', 'index',
+        'delete', 'distinct', 'drop', 'full', 'join', 'outer', 'inner', 'having', 'in', 'or', 'null',
+        'insert', 'update', 'set', 'values', 'like', 'not', 'primary', 'into', 'top', 'union', 'all', 'view',
     ],
 };
 
@@ -230,7 +229,7 @@ let tool = {
         if (tool.isInArray(value, CHARSET_CONST.CHAR.WHITESPACE)) {
             return 'Whitespace';
         }
-        if (tool.isInArray(value, CHARSET_CONST.KEYWORD)) {
+        if (tool.isInArray(value.toLowerCase(), CHARSET_CONST.KEYWORD)) {
             return 'Keyword';
         }
         return '';
@@ -256,7 +255,7 @@ let tool = {
             return 'String';
         }
         if (state === DFA_STATE_CONST.S_CHAR_END) {
-            return 'Char';
+            return 'String';
         }
         return 'Unknown';
     },
@@ -351,13 +350,10 @@ let flowModel = {
             }
         }
         if (tool.isInStates(state, [DFA_STATE_CONST.S_CHAR])) {
-            if (matchs.length === 1) {
-                return DFA_STATE_CONST.S_CHAR;
-            }
-            if (matchs.length === 2 && ch === ENUM_CONST.QUOTATION) {
+            if (ch === ENUM_CONST.QUOTATION) {
                 return DFA_STATE_CONST.S_CHAR_END;
             }
-            return DFA_STATE_CONST.S_RESET;
+            return DFA_STATE_CONST.S_CHAR;
         }
 
         // Handling of non-common parts
@@ -435,148 +431,5 @@ let flowModel = {
             }
         }
         return DFA_STATE_CONST.S_RESET;
-    },
-};
-
-// Unit Testing
-if (tool.isNodeEnvironment()) {
-    let assert = require('assert');
-    assert.equal(tool.isUndefined(flowModel.FakeValue), true, "tool.isUndefined单测失败");
-}
-
-// Automated Testing
-let autoTest = {
-    returnCaseList() {
-        return [
-            {
-                "input": "",
-                "output": 0,
-            },
-            {
-                "input": "int",
-                "output": [{"type": "Keyword", "value": "int"}],
-            },
-            {
-                "input": "int;",
-                "output": [
-                    {"type": "Keyword", "value": "int"},
-                    {"type": "Symbol", "value": ";"},
-                ],
-            },
-            {
-                "input": "int a",
-                "output": [
-                    {"type": "Keyword", "value": "int"},
-                    {"type": "Identifier", "value": "a"},
-                ],
-            },
-            {
-                "input": "int a;",
-                "output": [
-                    {"type": "Keyword", "value": "int"},
-                    {"type": "Identifier", "value": "a"},
-                    {"type": "Symbol", "value": ";"},
-                ],
-            },
-            {
-                "input": ";",
-                "output": [
-                    {"type": "Symbol", "value": ";"},
-                ],
-            },
-            {
-                "input": ";int",
-                "output": [
-                    {"type": "Symbol", "value": ";"},
-                    {"type": "Keyword", "value": "int"},
-                ],
-            },
-            {
-                "input": ";int;",
-                "output": [
-                    {"type": "Symbol", "value": ";"},
-                    {"type": "Keyword", "value": "int"},
-                    {"type": "Symbol", "value": ";"},
-                ],
-            },
-            {
-                "input": "char;",
-                "output": [
-                    {"type": "Keyword", "value": "char"},
-                    {"type": "Symbol", "value": ";"},
-                ],
-            },
-            {
-                "input": "float;",
-                "output": [
-                    {"type": "Keyword", "value": "float"},
-                    {"type": "Symbol", "value": ";"},
-                ],
-            },
-            {
-                "input": "return 0.2224322432;",
-                "output": 3,
-            },
-            {
-                "input": ";;;;;",
-                "output": 5,
-            },
-            {
-                "input": 'int a = b^2;int a = b~2;',
-                "output": 14,
-            },
-            {
-                "input": "#include <stdio.h>",
-                "output": 7,
-            },
-            {
-                "input": "char *str = \"This is a string.\";",
-                "output": 6,
-            },
-            {
-                "input": "printf(\"char: %c\\n\", c);",
-                "output": 7,
-            },
-            {
-                "input": "printf(\"string1: %s\\n\", str);",
-                "output": 7,
-            },
-            {
-                "input": "signed int a = 23;unsigned int b = 24324;",
-                "output": 12,
-            },
-            {
-                "input": "'A\"'';rt;ewr';trewl;\"'t,w4;5lmyktr ;jwngh25t;j1",
-                "output": 12,
-            },
-            {
-                "input": "%E^SP&*@#$hbj89hr24576rtgvyx6^%^$S%%32",
-                "output": 16,
-            },
-            {
-                "input": "[][<>[]]][][[[][[]{]{}[}",
-                "output": 24,
-            },
-            {
-                "input": "fruit = apples + oranges;",
-                "output": 6,
-            },
-            {
-                "input": "/* Hello,World */",
-                "output": 7,
-            },
-            {
-                "input": "a = a && 2 || 2 | 1 << 2 >> 1 <<<2;",
-                "output": 17,
-            },
-            {
-                "input": "''\"\">><><>KL:<L:L:M><>>>>><<!!!=!===!<<>'';'\n",
-                "output": 32,
-            },
-            {
-                "input": "~^%&541$!#$!t¥r54.,l;.',l\"/[?\\]\"[\\o''k\"[21'''\\\\''][kop",
-                "output": 24,
-            }
-        ];
     },
 };
