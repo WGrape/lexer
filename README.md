@@ -4,7 +4,7 @@ It is a lexical analyzer based on ```DFA``` that made by ```JS``` and supports m
 
 Document ：[中文](/README.zh-CN.md) / [English](/README.md) 
 
-![img](https://img.shields.io/badge/JavaScript-ES5+-blue.svg) &nbsp; [![Build Status](https://app.travis-ci.com/WGrape/lexer.svg?branch=main)](https://app.travis-ci.com/github/WGrape/lexer) &nbsp; ![img](https://img.shields.io/badge/release-1.5.0-blue.svg) &nbsp; ![img](https://img.shields.io/badge/Document-中文/English-orange.svg) &nbsp; ![GitHub](https://img.shields.io/github/license/WGrape/lexer)
+![img](https://img.shields.io/badge/JavaScript-ES5+-blue.svg) &nbsp; [![Build Status](https://app.travis-ci.com/WGrape/lexer.svg?branch=main)](https://app.travis-ci.com/github/WGrape/lexer) &nbsp; ![img](https://img.shields.io/badge/release-1.6.0-blue.svg) &nbsp; ![img](https://img.shields.io/badge/Document-中文/English-orange.svg) &nbsp; ![GitHub](https://img.shields.io/github/license/WGrape/lexer)
 
 ## Contents
 
@@ -78,7 +78,29 @@ After ```git clone``` command, no need for any dependencies, and no extra instal
 
 ### <span id="41">(1) In your project</span>
 
-If you need use ```lexer``` in your project, such as code editor, etc. Import the ```package/{lang}-lexer.min.js``` file, then visit ```lexer``` variable to get the object of lexical analyzer，and visit ```lexer.DFA.result.tokens``` to get ```tokens```
+If you need use ```lexer``` in your project, such as code editor, etc. 
+
+#### Using NPM
+```
+npm install chain-lexer
+```
+
+```js
+var chainLexer = require('chain-lexer');
+let lexer = chainLexer.c_lexer;
+
+let stream = "int a = 10;";
+lexer.start(stream);
+let parsedTokens = lexer.DFA.result.tokens;
+
+lexer = chainLexer.sql_lexer;
+stream = "select * from test where id >= 10;";
+lexer.start(stream);
+parsedTokens = lexer.DFA.result.tokens;
+```
+
+#### Using Script
+Import the ```package/{lang}-lexer.min.js``` file, then visit ```lexer``` variable to get the object of lexical analyzer，and visit ```lexer.DFA.result.tokens``` to get ```tokens```
 
 ```js
 // 1. The code that needs lexical analysis
