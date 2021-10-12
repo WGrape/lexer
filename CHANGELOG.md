@@ -1,3 +1,11 @@
+### 2、Version ：1.6.0
+Release date ：2021-10-12
+
+desc ：Publish project to NPM, named chain-lexer
+
+#### Features
+- By NPM: You can use lexer(chain-lexer) in your project by npm
+
 ### 2、Version ：1.5.0
 Release date ：2021-10-10
 

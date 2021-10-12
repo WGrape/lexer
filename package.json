@@ -1,0 +1,27 @@
+{
+  "name": "chain-lexer",
+  "version": "1.6.0",
+  "description": "A lexical analyzer based on DFA that made by JS and supports multi-language extension",
+  "main": "index.js",
+  "directories": {
+    "doc": "doc",
+    "test": "test"
+  },
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WGrape/lexer.git"
+  },
+  "keywords": [
+    "lexer",
+    "lexical-analysis",
+    "dfa",
+    "lexical-analyzer"
+  ],
+  "author": "Wgrape",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/WGrape/lexer/issues"
+  },
+  "homepage": "https://github.com/WGrape/lexer#readme"
+}
