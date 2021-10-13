@@ -1,6 +1,6 @@
 # lexer
 
-It is a lexical analyzer based on ```DFA``` that made by ```JS``` and supports multi-language extension. For quick understanding and experience , please check the [online website](https://wgrape.github.io/lexer/)
+It is a lexical analyzer based on DFA that is built using JS and supports multi-language extensions. For a quick understanding and experience , please check the [online website](https://wgrape.github.io/lexer/)
 
 Document ：[中文](/README.zh-CN.md) / [English](/README.md) 
 
