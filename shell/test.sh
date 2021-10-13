@@ -54,14 +54,6 @@ if [ -n "$result" ]; then
 fi
 echo -e
 
-node test/main.js goal 3 auto/goal-lexer_test.js 1
-result=`node test/main.js goal 3 auto/goal-lexer_test.js 0 2>&1 | grep 'failed'`
-if [ -n "$result" ]; then
-    echo "==========Unfortunately, you failed the test=========="
-    exit 1
-fi
-echo -e
-
 node test/main.js sql 3 auto/sql-lexer_test.js 1
 result=`node test/main.js sql 3 auto/sql-lexer_test.js 0 2>&1 | grep 'failed'`
 if [ -n "$result" ]; then

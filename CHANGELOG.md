@@ -1,3 +1,14 @@
+### 4、Version ：1.6.1
+Release date ：2021-10-13
+
+desc ：Change property name and remove ```goal_lexer``` property of chain-lexer, the package of NPM
+
+#### Features
+- Refactor: Change property name of chain-lexer.
+  - ```c_lexer```: ```cLexer```
+  - ```sql_lexer```: ```sqlLexer```
+- Remove: remove ```goal_lexer``` property of chain-lexer
+
 ### 3、Version ：1.6.0
 Release date ：2021-10-12
 
