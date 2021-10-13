@@ -11,7 +11,7 @@ eval(fs.readFileSync(packageDirectory + 'goal-lexer.min.js', 'utf8').toString())
 let goalLexer = lexer;
 
 module.exports = {
-    c_lexer: cLexer,
-    sql_lexer: sqlLexer,
-    goal_lexer: goalLexer,
+    cLexer: cLexer,
+    sqlLexer: sqlLexer,
+    goalLexer: goalLexer,
 };
