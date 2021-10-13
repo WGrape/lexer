@@ -87,13 +87,13 @@ npm install chain-lexer
 
 ```js
 var chainLexer = require('chain-lexer');
-let lexer = chainLexer.c_lexer;
+let lexer = chainLexer.cLexer;
 
 let stream = "int a = 10;";
 lexer.start(stream);
 let parsedTokens = lexer.DFA.result.tokens;
 
-lexer = chainLexer.sql_lexer;
+lexer = chainLexer.sqlLexer;
 stream = "select * from test where id >= 10;";
 lexer.start(stream);
 parsedTokens = lexer.DFA.result.tokens;

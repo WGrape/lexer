@@ -51,11 +51,11 @@ if (argTestType === 3) {
     // define lexer
     let lexer = null;
     if (argLang === 'c') {
-        lexer = npmEntry.c_lexer;
+        lexer = npmEntry.cLexer;
     } else if (argLang === 'sql') {
-        lexer = npmEntry.sql_lexer;
+        lexer = npmEntry.sqlLexer;
     } else if (argLang === 'goal') {
-        lexer = npmEntry.goal_lexer;
+        lexer = npmEntry.goalLexer;
     }
 
     // define caseList
