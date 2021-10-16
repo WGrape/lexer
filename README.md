@@ -4,7 +4,7 @@ It is a lexical analyzer based on DFA that is built using JS and supports multi-
 
 Document ：[中文](/README.zh-CN.md) / [English](/README.md) 
 
-![img](https://img.shields.io/badge/JavaScript-ES5+-blue.svg) &nbsp; ![img](https://img.shields.io/npm/dt/chain-lexer.svg) &nbsp; [![Build Status](https://app.travis-ci.com/WGrape/lexer.svg?branch=main)](https://app.travis-ci.com/github/WGrape/lexer) &nbsp; ![img](https://img.shields.io/badge/Release-1.6.1-blue.svg) &nbsp; ![img](https://img.shields.io/badge/Document-中文/English-orange.svg) &nbsp; ![GitHub](https://img.shields.io/badge/License-MIT-green.svg)
+![img](https://img.shields.io/badge/JavaScript-ES5+-blue.svg) &nbsp; ![img](https://img.shields.io/npm/dt/chain-lexer.svg) &nbsp; [![Build Status](https://app.travis-ci.com/WGrape/lexer.svg?branch=main)](https://app.travis-ci.com/github/WGrape/lexer) &nbsp; ![img](https://img.shields.io/badge/Release-1.8.0-blue.svg) &nbsp; ![img](https://img.shields.io/badge/Document-中文/English-orange.svg) &nbsp; ![GitHub](https://img.shields.io/badge/License-MIT-green.svg)
 
 ## Contents
 
@@ -49,9 +49,9 @@ In order to focus on the working principle of lexical analyzer , not to consider
 
 ### <span id="21">(1) Complete lexical analysis</span>
 
-From inputting the character sequence to generating ```token``` after the analysis, ```lexer``` has complete steps for lexical analysis, and 11 token types for most language extensions
+From inputting the character sequence to generating ```token``` after the analysis, ```lexer``` has complete steps for lexical analysis, and 12 token types for most language extensions
 
-![img](/doc/image/c-tokens.png)
+<img width="850" alt="" src="https://user-images.githubusercontent.com/35942268/137583888-8c12a85c-4af7-4288-942f-d2a2fcfe30c6.png">
 
 ### <span id="22">(2) Support multi-language extension</span>
 
@@ -154,7 +154,7 @@ if(a == b){
 }
 ```
 
-![img](/doc/image/show-v2.gif)
+![img](https://user-images.githubusercontent.com/35942268/137584888-28a1ce09-3474-4158-8e6f-ccbdb8614930.gif)
 
 or check the [online website](wgrape.github.io/lexer/)
 
