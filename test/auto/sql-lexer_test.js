@@ -33,6 +33,10 @@ function returnCaseList() {
             "output": 21,
         },
         {
+            "input":"select * from test \n where id >= \n 10 and \n id <10 \n and \n name='test';",
+            "output": 22,
+        },
+        {
             "input": "select* from t where (id)>2 or id != 3 and age between 10 and 20 order by id,name asc limit 2,10;",
             "output": 31,
         },

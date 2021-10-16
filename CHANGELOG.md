@@ -1,3 +1,12 @@
+### 5、Version ：1.8.0
+Release date ：2021-10-16
+
+desc ：Added linefeed token and website support for real-time parsing
+
+#### Features
+- Feat: add a new token type to linefeed
+- Feat: support real-time parsing on the [website](https://wgrape.github.io/lexer)
+
 ### 4、Version ：1.6.1
 Release date ：2021-10-13
 
