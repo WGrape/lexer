@@ -94,6 +94,10 @@ function returnCaseList() {
             "output": 7,
         },
         {
+            "input": "printf(\"char: %c\\n\", c);\nprintf(\"string1: %s\\n\", str);",
+            "output": 15,
+        },
+        {
             "input": "signed int a = 23;unsigned int b = 24324;",
             "output": 12,
         },

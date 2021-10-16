@@ -133,6 +133,10 @@
             background: #6495ed;
         }
 
+        .token.token-LineFeed {
+            background: #d367d3;
+        }
+
         .token.token-Keyword {
             background: #d6440c;
         }
@@ -192,7 +196,7 @@
             cursor: pointer;
         }
 
-        #busuanzi_value_site_uv, #busuanzi_value_site_pv{
+        #busuanzi_value_site_uv, #busuanzi_value_site_pv {
             padding: 0 2px;
         }
 
@@ -250,6 +254,7 @@
                 <span class="token token-DoubleOperator" tokentype="DoubleOperator" tokenvalue="DoubleOperator">DoubleOperator</span>
                 <span class="token token-Symbol" tokentype="Symbol" tokenvalue="Symbol">Symbol</span>
                 <span class="token token-Whitespace" tokentype="Whitespace" tokenvalue="Whitespace">Whitespace</span>
+                <span class="token token-LineFeed" tokentype="LineFeed" tokenvalue="LineFeed">LineFeed</span>
                 <span class="token token-Keyword" tokentype="Keyword" tokenvalue="Keyword">Keyword</span>
                 <span class="token token-Identifier" tokentype="Identifier" tokenvalue="Identifier">Identifier</span>
                 <span class="token token-Number" tokentype="Number" tokenvalue="Number">Number</span>
@@ -289,6 +294,23 @@
         return false;
     }
 
+    // Start parse your input
+    function startParseInput() {
+        let stream = $('#Textarea').val();
+        lexer.start(stream);
+        console.log(lexer);
+        $('#TokenList').html('');
+        lexer.DFA.result.tokens.forEach((token) => {
+            let type = token.type;
+            let value = token.value;
+            let classToken = 'token-' + type;
+            if (value === '\n') {
+                value = '\\n'; // prevent parse this char
+            }
+            $('#TokenList').append('<span class="token ' + classToken + '" tokentype="' + type + '" tokenvalue="' + value + '">' + value + '</span>');
+        });
+    }
+
     // According to the currently selected language, dynamically load different JS extension files and CSS files, and dynamically process the display logic
     let lang = getParam('lang');
     if (lang === 'c') {
@@ -318,19 +340,11 @@
 
         // Define events for different elements of the page
         $('#Textarea').on('input', function () {
-            $('#TokenList').html('<p style="color: #888;">Lexer is working ... ...</p>');
+            $('#TokenList').html('<p style="color: #888;">Lexer is working... ...</p>');
+            startParseInput();
         });
         $('#Textarea').blur(function () {
-            let stream = $('#Textarea').val();
-            lexer.start(stream);
-            console.log(lexer);
-            $('#TokenList').html('');
-            lexer.DFA.result.tokens.forEach((token) => {
-                let type = token.type;
-                let value = token.value;
-                let classToken = 'token-' + type;
-                $('#TokenList').append('<span class="token ' + classToken + '" tokentype="' + type + '" tokenvalue="' + value + '">' + value + '</span>');
-            });
+            startParseInput();
         });
         $(document).on('mouseenter', '.token', function () {
             let type = $(this).attr('tokentype');
@@ -354,9 +368,9 @@
                 "if(a == b){\n" +
                 "    printf(\"Hello, World!\");\n" +
                 "}else if(b!=c){\n" +
-                "    printf(\"Hello, World! Hello, World!\");\n" +
+                "    printf(\"Hello, World! \\n Hello, World!\");\n" +
                 "}else{\n" +
-                "    printf(\"Hello!\");\n" +
+                "    printf(\"Hello\\n\");\n" +
                 "}";
         } else if (lang === 'goal') {
             defaultInput = "(al)G(al)()()G()()()G()(al)"
@@ -368,8 +382,7 @@
 
             // Automatically enter default codes in different languages, saving the time to manually enter codes
             $('#Textarea').val(defaultInput);
-            $('#Textarea').blur();
-            $('#Textarea').focus();
+            startParseInput();
 
             // run automated testing
             let caseList = returnCaseList();

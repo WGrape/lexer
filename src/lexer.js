@@ -28,11 +28,8 @@ let lexer = {
             // Determine character stream
             lexer.ISR.propsChange.set('stream', stream);
 
-            // Replace newlines with spaces
-            lexer.ISR.propsChange.set('stream', lexer.ISR.props.stream.replace(/\n/g, " ").trim());
-
-            // Replace multiple spaces with one space
-            lexer.ISR.propsChange.set('stream', lexer.ISR.props.stream.replace(/\s+/g, " ").trim());
+            // Replace multiple line feeds with one line feed
+            lexer.ISR.propsChange.set('stream', lexer.ISR.props.stream.replace(/\n+/g, "\n").trim());
 
             // Calculate character stream length and sequence number
             lexer.ISR.propsChange.set('length', lexer.ISR.props.stream.length);

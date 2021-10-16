@@ -33,6 +33,7 @@ const ENUM_CONST = {
 
     // Whitespace mark
     WHITESPACE: ' ',
+    LINEFEED: '\n',
 
     // Bracket mark
     LEFT_BRACKET: '(',
@@ -57,13 +58,14 @@ const ENUM_CONST = {
     T_DOUBLE_OPERATOR: 2,
     T_SYMBOL: 3,
     T_WHITESPACE: 4,
-    KEYWORD: 5,
-    T_IDENTIFIER: 6,
-    T_NUMBER: 7,
-    T_FLOAT: 8,
-    T_STRING: 9,
-    T_CHAR: 10,
-    T_UNKNOWN: 11,
+    T_LINEFEED: 5,
+    KEYWORD: 6,
+    T_IDENTIFIER: 7,
+    T_NUMBER: 8,
+    T_FLOAT: 9,
+    T_STRING: 10,
+    T_CHAR: 11,
+    T_UNKNOWN: 12,
 
     // DFA State
     S_RESET: 0,
@@ -81,13 +83,14 @@ const ENUM_CONST = {
     S_DOUBLE_CHAR_FIRST_ASSIGN: 12,
     S_DOUBLE_CHAR_SECOND_ASSIGN: 13,
     S_WHITESPACE: 14,
-    S_IDENTIFIER: 15,
-    S_NUMBER: 16,
-    S_FLOAT: 17,
-    S_STRING: 18,
-    S_STRING_END: 19,
-    S_CHAR: 20,
-    S_CHAR_END: 21,
+    S_LINEFEED: 15,
+    S_IDENTIFIER: 16,
+    S_NUMBER: 17,
+    S_FLOAT: 18,
+    S_STRING: 19,
+    S_STRING_END: 20,
+    S_CHAR: 21,
+    S_CHAR_END: 22,
     S_END: 100,
 };
 
@@ -110,6 +113,10 @@ const CHARSET_CONST = {
         // Whitespace list
         WHITESPACE: [
             ENUM_CONST.WHITESPACE,
+        ],
+        // Line feed list
+        LINEFEED: [
+            ENUM_CONST.LINEFEED,
         ],
     },
 
@@ -184,6 +191,9 @@ const DFA_STATE_CONST = {
     // State of whitespace
     S_WHITESPACE: ENUM_CONST.S_WHITESPACE,
 
+    // State of line feed
+    S_LINEFEED: ENUM_CONST.S_LINEFEED,
+
     // State of identifier
     S_IDENTIFIER: ENUM_CONST.S_IDENTIFIER,
 
@@ -226,9 +236,6 @@ let tool = {
         if (tool.isInArray(value, CHARSET_CONST.CHAR.SYMBOL)) {
             return 'Symbol';
         }
-        if (tool.isInArray(value, CHARSET_CONST.CHAR.WHITESPACE)) {
-            return 'Whitespace';
-        }
         if (tool.isInArray(value.toLowerCase(), CHARSET_CONST.KEYWORD)) {
             return 'Keyword';
         }
@@ -242,6 +249,12 @@ let tool = {
         }
 
         // Derive Token type according to State
+        if (state === DFA_STATE_CONST.S_WHITESPACE) {
+            return 'Whitespace';
+        }
+        if (state === DFA_STATE_CONST.S_LINEFEED) {
+            return 'LineFeed';
+        }
         if (state === DFA_STATE_CONST.S_IDENTIFIER) {
             return 'Identifier';
         }
@@ -307,6 +320,9 @@ let tool = {
     },
     isWhitespaceChar(ch) {
         return tool.isInArray(ch, CHARSET_CONST.CHAR.WHITESPACE);
+    },
+    isLineFeedChar(ch) {
+        return tool.isInArray(ch, CHARSET_CONST.CHAR.LINEFEED);
     },
     isFirstCharOfDoubleChar(ch) {
         return tool.getFirstCharState(ch) > 0;
@@ -424,6 +440,10 @@ let flowModel = {
         } else if (tool.isWhitespaceChar(ch)) {
             if (tool.isInStates(state, [DFA_STATE_CONST.S_RESET])) {
                 return DFA_STATE_CONST.S_WHITESPACE;
+            }
+        } else if (tool.isLineFeedChar(ch)) {
+            if (tool.isInStates(state, [DFA_STATE_CONST.S_RESET])) {
+                return DFA_STATE_CONST.S_LINEFEED;
             }
         } else {
             if (tool.isInStates(state, [DFA_STATE_CONST.S_RESET, DFA_STATE_CONST.S_IDENTIFIER])) {
