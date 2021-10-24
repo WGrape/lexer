@@ -1,10 +1,20 @@
-# lexer
+<p align="center">
+<img width="417" alt="屏幕快照 2021-10-24 17 42 59" src="https://user-images.githubusercontent.com/35942268/138588691-afd41371-39fa-45a0-a7ce-3cbadabc28a0.png">
+</p>
 
-It is a lexical analyzer based on DFA that is built using JS and supports multi-language extensions. For a quick understanding and experience , please check the [online website](https://wgrape.github.io/lexer/)
+<p align="center">
+    <img src="https://img.shields.io/badge/JavaScript-ES5+-blue.svg">
+    <img src="https://img.shields.io/npm/dt/chain-lexer.svg">
+    <a href="https://app.travis-ci.com/github/WGrape/lexer"><img src="https://app.travis-ci.com/WGrape/lexer.svg?branch=main"><a>
+    <img src="https://img.shields.io/badge/Release-1.8.0-blue.svg">
+    <img src="https://img.shields.io/badge/Document-中文/English-orange.svg">
+    <img src="https://img.shields.io/badge/License-MIT-green.svg">   
+</p>
 
-Document ：[中文](/README.zh-CN.md) / [English](/README.md) 
-
-![img](https://img.shields.io/badge/JavaScript-ES5+-blue.svg) &nbsp; ![img](https://img.shields.io/npm/dt/chain-lexer.svg) &nbsp; [![Build Status](https://app.travis-ci.com/WGrape/lexer.svg?branch=main)](https://app.travis-ci.com/github/WGrape/lexer) &nbsp; ![img](https://img.shields.io/badge/Release-1.8.0-blue.svg) &nbsp; ![img](https://img.shields.io/badge/Document-中文/English-orange.svg) &nbsp; ![GitHub](https://img.shields.io/badge/License-MIT-green.svg)
+<div align="center">    
+    <p>It is a lexical analyzer based on DFA that is built using JS and supports multi-language extensions. For a quick understanding and experience , please check the <a href="https://wgrape.github.io/lexer/">online website</a></p>
+    <p>Document ：<a href="/README.zh-CN.md">中文</a> / <a href="/README.md">English</a></p>
+</div>
 
 ## Contents
 
