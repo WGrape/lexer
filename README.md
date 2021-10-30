@@ -37,6 +37,7 @@
 - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(4) Release version](#54)
 - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(5) Q&A](#55)
 - [6、License](#6)
+- [7、Thanks](#7)
 
 ## <span id="1">1、Background</span>
 
@@ -171,7 +172,10 @@ or check the [online website](wgrape.github.io/lexer/)
 ## <span id="5">5、Contributions</span>
 
 ### <span id="51">(1) Project Statistics</span>
-As of October 1, 2021, this project has obtained about 80 clones in one month, with 100 visitors and 400 visits (data will be updated continuously). The growth process of the number of Stars is as follows
+
+> Who helped this project ? Please check the [Thanks](#7).
+
+As of October 1, 2021, this project has obtained about 80 clones in one month, with 100 visitors and 400 visits (data will be updated continuously). The growth process of the number of Stars is as follows. 
 
 <a href="https://starchart.cc/WGrape/lexer"><img src="https://starchart.cc/WGrape/lexer.svg" width="700"></a>
 
@@ -195,3 +199,6 @@ If you have any problems or questions, please [submit an issue](https://github.c
 ## <span id="6">6、License</span>
 
 ![GitHub](https://img.shields.io/github/license/WGrape/lexer)
+
+## <span id="7">7、Thanks</span>
+- [Hello github](https://github.com/521xueweihan/HelloGitHub/issues/1868): Thanks for your promotion on 2021.10.28
