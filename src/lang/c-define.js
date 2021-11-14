@@ -150,7 +150,7 @@ const CHARSET_CONST = {
     // Keyword
     KEYWORD: [
         'char', 'int', 'short', 'long', 'float', 'double', 'sizeof', 'signed', 'unsigned',
-        'if', 'else', 'while', 'for', 'do', 'break', 'continue', 'goto',
+        'if', 'else', 'while', 'for', 'do', 'break', 'continue', 'goto', 'main',
         'void', 'return', 'switch', 'case', 'default',
         'const', 'static', 'auto', 'extern', 'register',
         'struct', 'union', 'enum', 'typedef',
