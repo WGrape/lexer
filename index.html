@@ -5,6 +5,9 @@
     <title>Lexer</title>
     <link rel="icon" type="image/x-ico"
           href="https://user-images.githubusercontent.com/35942268/138588702-e1b8e080-580e-47f5-a216-f22e04812c7b.png"/>
+    <link type="text/css" href="https://cdn.bootcdn.net/ajax/libs/codemirror/5.51.0/codemirror.css" rel="stylesheet"/>
+    <link type="text/css" href="https://cdn.bootcdn.net/ajax/libs/codemirror/5.51.0/theme/monokai.min.css"
+          rel="stylesheet"/>
     <style>
         body {
             margin: 0;
@@ -80,6 +83,12 @@
 
         #Input {
             float: left;
+        }
+
+        #Input .CodeMirror {
+            width: 722px;
+            height: 222px;
+            border: 1px solid #ddd;
         }
 
         #Textarea {
@@ -216,7 +225,8 @@
             background: #FFF;
             margin-top: 30px;
         }
-        #Footer p{
+
+        #Footer p {
             padding: 0;
             margin: 0;
         }
@@ -288,11 +298,16 @@
             <img src="https://user-images.githubusercontent.com/35942268/138588702-e1b8e080-580e-47f5-a216-f22e04812c7b.png"
                  width="30px;">
         </p>
-        <p style="text-align: center;font-size:13px;padding:3px 0;"><span style="color:#777;">合作请联系 <a href="https://github.com/WGrape">Wgrape</a></span></p>
-        <p style="text-align: center;font-size:13px;padding:3px 0;"><span style="color:#777;">© 2021 Lexer, Inc.</span></p>
+        <p style="text-align: center;font-size:13px;padding:3px 0;"><span style="color:#777;">合作请联系 <a
+                href="https://github.com/WGrape">Wgrape</a></span></p>
+        <p style="text-align: center;font-size:13px;padding:3px 0;"><span style="color:#777;">© 2021 Lexer, Inc.</span>
+        </p>
     </div>
 </div>
 <script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.2.0/jquery.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/codemirror/5.51.0/codemirror.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/codemirror/5.51.0/mode/clike/clike.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/codemirror/5.51.0/mode/sql/sql.min.js"></script>
 <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 <script>
 
@@ -315,7 +330,7 @@
 
     // Start parse your input
     function startParseInput() {
-        let stream = $('#Textarea').val();
+        let stream = editor.getValue();
         lexer.start(stream);
         console.log(lexer);
         $('#TokenList').html('');
@@ -326,19 +341,28 @@
             if (value === '\n') {
                 value = '\\n'; // prevent parse this char
             }
+
+            // if token's value is tab, prevent parse this char
+            if (value.replace(/\t+/g, ' ') === ' ') {
+                value = '\\t';
+            }
+
             $('#TokenList').append('<span class="token ' + classToken + '" tokentype="' + type + '" tokenvalue="' + value + '">' + value + '</span>');
         });
     }
 
     // According to the currently selected language, dynamically load different JS extension files and CSS files, and dynamically process the display logic
     let lang = getParam('lang');
+    let mode = "text/plain";
     if (lang === 'c') {
+        mode = "text/x-csrc";
         $('.lang-choose-c').addClass('lang-choose-select');
         document.write('<script src="./package/c-lexer.min.js"><\/script>');
         document.write('<script src="./test/auto/c-lexer_test.js"><\/script>');
         $('.AllTokenListDefault').fadeIn();
         $('#LangInfo').html("C is a general programming language that is extremely popular, simple and flexible ... please check <a target='_blank' href='https://en.wikipedia.org/wiki/C_(programming_language)'>detail</a>");
     } else if (lang === 'sql') {
+        mode = "text/x-sql";
         $('.lang-choose-sql').addClass('lang-choose-select');
         document.write('<script src="./package/sql-lexer.min.js"><\/script>');
         document.write('<script src="./test/auto/sql-lexer_test.js"><\/script>');
@@ -358,13 +382,6 @@
     setTimeout(function () {
 
         // Define events for different elements of the page
-        $('#Textarea').on('input', function () {
-            $('#TokenList').html('<p style="color: #888;">Lexer is working... ...</p>');
-            startParseInput();
-        });
-        $('#Textarea').blur(function () {
-            startParseInput();
-        });
         $(document).on('mouseenter', '.token', function () {
             let type = $(this).attr('tokentype');
             $(".token").addClass('opacity');
@@ -396,6 +413,24 @@
         } else {
             defaultInput = "select * from test where id >= 10 and id <10 and name='test';"
         }
+        window.editor = CodeMirror.fromTextArea(document.getElementById('Textarea'), {
+            mode: mode,
+            theme: "monokai",
+            indentUnit: 4,
+            lineWrapping: true,
+            indentWithTabs: true,
+            smartIndent: true,
+            lineNumbers: true,
+            matchBrackets: true,
+            autofocus: true,
+        });
+        editor.setValue(defaultInput);
+        editor.on('change', function () {
+            startParseInput();
+        });
+        editor.on('blur', function () {
+            startParseInput();
+        });
         $('#Textarea').val('Sample code is being displayed, please wait...');
         setTimeout(function () {
 
