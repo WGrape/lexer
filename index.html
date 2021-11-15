@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <title>Lexer</title>
     <link rel="icon" type="image/x-ico"
-          href="https://user-images.githubusercontent.com/35942268/138588702-e1b8e080-580e-47f5-a216-f22e04812c7b.png"/>
-    <link type="text/css" href="https://cdn.bootcdn.net/ajax/libs/codemirror/5.51.0/codemirror.css" rel="stylesheet"/>
-    <link type="text/css" href="https://cdn.bootcdn.net/ajax/libs/codemirror/5.51.0/theme/monokai.min.css"
-          rel="stylesheet"/>
+          href="./vendor/img/logo.png"/>
+    <link type="text/css" href="./vendor/css/codemirror.5.51.0.min.css" rel="stylesheet"/>
+    <link type="text/css" href="./vendor/css/monokai.5.51.0.min.css" rel="stylesheet"/>
     <style>
         body {
             margin: 0;
@@ -44,7 +43,7 @@
         #Preferences {
             text-align: center;
             width: 120px;
-            overflow-y: scroll;
+            overflow-y: hidden;
             height: 205px;
         }
 
@@ -249,6 +248,7 @@
     <div id="Dashboard">
         <div id="LangInfo"></div>
         <div id="Input">
+            <div style="width:721px;height: 30px;line-height:30px;text-indent:5px;background: #ddd;border: 1px solid #ccc;font-size:13px;color:#555;">Simple Code Editor</div>
             <label>
                 <textarea id="Textarea" autofocus="autofocus"></textarea>
             </label>
@@ -295,7 +295,7 @@
 
     <div id="Footer">
         <p style="text-align: center;">
-            <img src="https://user-images.githubusercontent.com/35942268/138588702-e1b8e080-580e-47f5-a216-f22e04812c7b.png"
+            <img src="./vendor/img/logo.png"
                  width="30px;">
         </p>
         <p style="text-align: center;font-size:13px;padding:3px 0;"><span style="color:#777;">合作请联系 <a
@@ -304,10 +304,10 @@
         </p>
     </div>
 </div>
-<script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.2.0/jquery.js"></script>
-<script src="https://cdn.bootcdn.net/ajax/libs/codemirror/5.51.0/codemirror.min.js"></script>
-<script src="https://cdn.bootcdn.net/ajax/libs/codemirror/5.51.0/mode/clike/clike.min.js"></script>
-<script src="https://cdn.bootcdn.net/ajax/libs/codemirror/5.51.0/mode/sql/sql.min.js"></script>
+<script src="./vendor/js/jquery.2.2.0.min.js"></script>
+<script src="./vendor/js/codemirror.5.51.0.min.js"></script>
+<script src="./vendor/js/clike.5.51.0.min.js"></script>
+<script src="./vendor/js/sql.5.51.0.min.js"></script>
 <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 <script>
 
