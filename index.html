@@ -94,7 +94,7 @@
             display: block;
             margin: 0 auto;
             border: 1px solid #ddd;
-            border-radius: 5px;
+            /*border-radius: 5px;*/
             padding: 10px;
             width: 700px;
             height: 200px;
@@ -102,6 +102,10 @@
             background: #FAFAFA;
         }
 
+        #ButtonCodearea{
+            cursor: pointer;
+        }
+        
         #Show {
             width: 100%;
             min-height: 50px;
@@ -249,7 +253,10 @@
     <div id="Dashboard">
         <div id="LangInfo"></div>
         <div id="Input">
-            <div style="width:721px;height: 30px;line-height:30px;text-indent:5px;background: #ddd;border: 1px solid #ccc;font-size:13px;color:#555;">Simple Code Editor</div>
+            <div style="width:721px;height: 30px;line-height:30px;text-indent:5px;background: #ddd;border: 1px solid #ccc;font-size:13px;color:#555;">
+                <span>Simple Code Editor</span>
+                <button id="ButtonCodearea">Syntax / ON</button>
+            </div>
             <label>
                 <textarea id="Textarea" autofocus="autofocus"></textarea>
             </label>
@@ -331,7 +338,7 @@
 
     // Start parse your input
     function startParseInput() {
-        let stream = editor.getValue();
+        let stream = codearea === 'editor' ? editor.getValue() : $('#Textarea').val();
         lexer.start(stream);
         console.log(lexer);
         $('#TokenList').html('');
@@ -379,10 +386,30 @@
         window.location.href = window.location.pathname + '?lang=c';
     }
 
+    // editor type
+    let CODEAREA_TYPE_TEXTAREA = 'textarea';
+    let CODEAREA_TYPE_EDITOR = 'editor';
+    let codearea = getParam('codearea');
+    if (codearea !== CODEAREA_TYPE_TEXTAREA && codearea !== CODEAREA_TYPE_EDITOR) {
+        codearea = CODEAREA_TYPE_TEXTAREA;
+    }
+    if (codearea === CODEAREA_TYPE_TEXTAREA) {
+        $('#ButtonCodearea').text('Syntax / ON');
+    } else {
+        $('#ButtonCodearea').text('Syntax / OFF');
+    }
+
     // Put in the event loop queue
     setTimeout(function () {
 
-        // Define events for different elements of the page
+        // Register events for different elements of the page
+        $('#Textarea').on('input', function () {
+            $('#TokenList').html('<p style="color: #888;">Lexer is working... ...</p>');
+            startParseInput();
+        });
+        $('#Textarea').blur(function () {
+            startParseInput();
+        });
         $(document).on('mouseenter', '.token', function () {
             let type = $(this).attr('tokentype');
             $(".token").addClass('opacity');
@@ -391,12 +418,19 @@
         $(document).on('mouseleave', '.token', function () {
             $(".token").removeClass('opacity');
         });
+        $('#ButtonCodearea').on('click', function () {
+            if (codearea === CODEAREA_TYPE_TEXTAREA) {
+                window.location.href = window.location.pathname + '?lang=' + lang + '&codearea=' + CODEAREA_TYPE_EDITOR;
+            } else {
+                window.location.href = window.location.pathname + '?lang=' + lang + '&codearea=' + CODEAREA_TYPE_TEXTAREA;
+            }
+        });
 
         // Generate default codes in different languages
         let defaultInput = "";
         if (lang === 'c') {
             defaultInput = "int a = 10;\n" +
-                "int b =20;\n" +
+                "int b = 20;\n" +
                 "int c = 20;\n" +
                 "\n" +
                 "float f = 928.2332;\n" +
@@ -414,24 +448,28 @@
         } else {
             defaultInput = "select * from test where id >= 10 and id <10 and name='test';"
         }
-        window.editor = CodeMirror.fromTextArea(document.getElementById('Textarea'), {
-            mode: mode,
-            theme: "monokai",
-            indentUnit: 4,
-            lineWrapping: true,
-            indentWithTabs: true,
-            smartIndent: true,
-            lineNumbers: true,
-            matchBrackets: true,
-            autofocus: true,
-        });
-        editor.setValue(defaultInput);
-        editor.on('change', function () {
-            startParseInput();
-        });
-        editor.on('blur', function () {
-            startParseInput();
-        });
+
+        if (codearea === 'editor') {
+            window.editor = CodeMirror.fromTextArea(document.getElementById('Textarea'), {
+                mode: mode,
+                theme: "monokai",
+                indentUnit: 4,
+                lineWrapping: true,
+                indentWithTabs: true,
+                smartIndent: true,
+                lineNumbers: true,
+                matchBrackets: true,
+                autofocus: true,
+            });
+            editor.setValue(defaultInput);
+            editor.on('change', function () {
+                startParseInput();
+            });
+            editor.on('blur', function () {
+                startParseInput();
+            });
+        }
+
         $('#Textarea').val('Sample code is being displayed, please wait...');
         setTimeout(function () {
 
