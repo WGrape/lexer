@@ -52,6 +52,7 @@ const ENUM_CONST = {
     SHARP: '#',
     QUESTION: '?',
     COLON: ':',
+    ESCAPE: '\\',
 
     // TOKEN
     T_OPERATOR: 1,
@@ -88,9 +89,10 @@ const ENUM_CONST = {
     S_NUMBER: 17,
     S_FLOAT: 18,
     S_STRING: 19,
-    S_STRING_END: 20,
-    S_CHAR: 21,
-    S_CHAR_END: 22,
+    S_STRING_ESCAPE: 20,
+    S_STRING_END: 21,
+    S_CHAR: 22,
+    S_CHAR_END: 23,
     S_END: 100,
 };
 
@@ -206,6 +208,7 @@ const DFA_STATE_CONST = {
 
     // State of string literal
     S_STRING: ENUM_CONST.S_STRING,
+    S_STRING_ESCAPE: ENUM_CONST.S_STRING_ESCAPE,
     S_STRING_END: ENUM_CONST.S_STRING_END,
 
     // State of char literal
@@ -359,7 +362,17 @@ let flowModel = {
     getNextState(ch, state, matchs) {
 
         // Handling of common parts
-        if (tool.isInStates(state, [DFA_STATE_CONST.S_STRING])) {
+        if (tool.isInStates(state, [DFA_STATE_CONST.S_STRING, DFA_STATE_CONST.S_STRING_ESCAPE])) {
+            // one escape mark: "\"
+            if (state === DFA_STATE_CONST.S_STRING && ch === ENUM_CONST.ESCAPE) {
+                return DFA_STATE_CONST.S_STRING_ESCAPE;
+            }
+
+            // two escape mark: "\\"
+            if (state === DFA_STATE_CONST.S_STRING_ESCAPE) {
+                return DFA_STATE_CONST.S_STRING;
+            }
+
             if (ch !== ENUM_CONST.DOUBLE_QUOTATION) {
                 return DFA_STATE_CONST.S_STRING;
             } else {
