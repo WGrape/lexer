@@ -1,6 +1,6 @@
 {
   "name": "chain-lexer",
-  "version": "1.8.0",
+  "version": "1.8.1",
   "description": "A lexical analyzer based on DFA that is built using JS and supports multi-language extensions",
   "main": "index.js",
   "directories": {
