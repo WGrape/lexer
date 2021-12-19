@@ -1,3 +1,11 @@
+### 6、Version ：1.8.1
+Release date ：2021-12-20
+
+desc ：Add string escape support
+
+#### Features
+- Feat: add string escape support, [here](https://github.com/WGrape/lexer/pull/47) is the PR
+
 ### 5、Version ：1.8.0
 Release date ：2021-10-16
 
