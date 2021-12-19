@@ -132,6 +132,31 @@ function returnCaseList() {
         {
             "input": "~^%&541$!#$!t¥r54.,l;.',l\"/[?\\]\"[\\o''k\"[21'''\\\\''][kop",
             "output": 24,
-        }
+        },
+        {
+            "input": '"hello \\world"',
+            "output": [
+                {"type": "String", "value": '"hello \\world"'},
+            ],
+        },
+        {
+            "input": '"hello \\" world"',
+            "output": [
+                {"type": "String", "value": '"hello \\" world"'},
+            ],
+        },
+        {
+            "input": '"hello \\"""world"',
+            "output": [
+                {"type": "String", "value": '"hello \\""'},
+                {"type": "String", "value": '"world"'},
+            ]
+        },
+        {
+            "input": '"\\\""',
+            "output": [
+                {"type": "String", "value": '"\\\""'},
+            ],
+        },
     ];
 }
