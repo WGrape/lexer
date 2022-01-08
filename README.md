@@ -16,7 +16,8 @@
     <p>Document ：<a href="/README.zh-CN.md">中文</a> / <a href="/README.md">English</a></p>
 </div>
 
-## Contents
+<details>
+  <summary>Contents</summary>
 
 - [1、Background](#1)
 - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(1) Situation](#11)
@@ -38,6 +39,8 @@
 - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(5) Q&A](#55)
 - [6、License](#6)
 - [7、Thanks](#7)
+
+</details>
 
 ## <span id="1">1、Background</span>
 
