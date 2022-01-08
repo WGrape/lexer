@@ -18,7 +18,8 @@
     <p>文档 ：<a href="/README.zh-CN.md">中文</a> / <a href="/README.md">English</a></p>
 </div>
 
-## 目录
+<details>
+  <summary>目录</summary>
 
 - [1、项目背景](#1)
 - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(1) 问题现状](#11)
@@ -40,6 +41,8 @@
 - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(5) 问题交流](#55)
 - [6、协议说明](#6)
 - [7、特别鸣谢](#7)
+
+</details>
 
 ## <span id="1">1、项目背景</span>
 
