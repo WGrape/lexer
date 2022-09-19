@@ -1,3 +1,11 @@
+## [1.8.2](https://github.com/WGrape/lexer/compare/1.8.1...v1.8.2) (2022-09-19)
+
+### Docs
+
+* add directory fold ([581d3aa](https://github.com/WGrape/lexer/commit/581d3aa2c58f499a3bb5d84a813ea61fba85bd51))
+* fix explain document ([c125698](https://github.com/WGrape/lexer/commit/c1256980a7756736d967ff07ec76a8e5b2f29d63))
+* fix version ([5635a8a](https://github.com/WGrape/lexer/commit/5635a8ac3416d91a09ad3bcb4ae8b89b0bb9805d))
+
 ### 6、Version ：1.8.1
 Release date ：2021-12-20
 
