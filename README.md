@@ -6,7 +6,7 @@
     <img src="https://img.shields.io/badge/JavaScript-ES5+-blue.svg">
     <img src="https://img.shields.io/npm/dt/chain-lexer.svg">
     <a href="https://app.travis-ci.com/github/WGrape/lexer"><img src="https://app.travis-ci.com/WGrape/lexer.svg?branch=main"><a>
-    <img src="https://img.shields.io/badge/Release-1.8.1-blue.svg">
+    <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/wgrape/lexer">
     <img src="https://img.shields.io/badge/Document-中文/English-orange.svg">
     <img src="https://img.shields.io/badge/License-MIT-green.svg">   
 </p>
