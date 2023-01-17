@@ -1,8 +1,9 @@
 <p align="center">
-<img width="417" alt="屏幕快照 2021-10-24 17 42 59" src="https://user-images.githubusercontent.com/35942268/138588691-afd41371-39fa-45a0-a7ce-3cbadabc28a0.png">
+<img width="300" alt="image" src="https://user-images.githubusercontent.com/35942268/138588691-afd41371-39fa-45a0-a7ce-3cbadabc28a0.png">
 </p>
 
 <p align="center">
+   <a href="https://www.oscs1024.com/project/oscs/WGrape/lexer?ref=badge_small" alt="OSCS Status"><img src="https://www.oscs1024.com/platform/badge/WGrape/lexer.svg?size=small"/></a>
     <img src="https://img.shields.io/badge/JavaScript-ES5+-blue.svg">
     <img src="https://img.shields.io/npm/dt/chain-lexer.svg">
     <a href="https://app.travis-ci.com/github/WGrape/lexer"><img src="https://app.travis-ci.com/WGrape/lexer.svg?branch=main"><a>
