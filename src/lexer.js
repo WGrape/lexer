@@ -1,6 +1,13 @@
 // Lexical analyzer
 let lexer = {
 
+    CFG: {
+        ignoreTokens: [],
+        ignoreValues: [
+            " ",
+        ],
+    },
+
     // Input Stream Reader
     ISR: {
         props: {
@@ -107,7 +114,7 @@ let lexer = {
             filterTokens() {
                 let tokens = [];
                 lexer.DFA.result.tokens.forEach((token => {
-                    if (token.value !== ENUM_CONST.WHITESPACE) {
+                    if (lexer.CFG.ignoreValues.indexOf(token.value) < 0 && lexer.CFG.ignoreTokens.indexOf(token.type) < 0) {
                         tokens.push(token);
                     }
                 }));
@@ -144,6 +151,27 @@ let lexer = {
         flowModel.resultChange.toDefault();
         lexer.ISR.propsChange.toDefault();
         lexer.DFA.resultChange.toDefault();
+    },
+
+    // Reset to default config.
+    resetConfig(){
+        lexer.CFG = {
+            ignoreTokens: [],
+            ignoreValues: [
+                " ",
+            ],
+        };
+    },
+
+    // Set the data of config.
+    setConfig(config) {
+        lexer.resetConfig();
+        if (Array.isArray(config.ignoreTokens)) {
+            lexer.CFG.ignoreTokens = config.ignoreTokens;
+        }
+        if (Array.isArray(config.ignoreValues)) {
+            lexer.CFG.ignoreValues = config.ignoreValues;
+        }
     },
 
     // Start working

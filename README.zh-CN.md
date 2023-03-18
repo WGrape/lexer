@@ -1,5 +1,5 @@
 <p align="center">
-<img width="417" alt="屏幕快照 2021-10-24 17 42 59" src="https://user-images.githubusercontent.com/35942268/138588691-afd41371-39fa-45a0-a7ce-3cbadabc28a0.png">
+<img width="300" alt="image" src="https://user-images.githubusercontent.com/35942268/226105723-86eb3042-fb51-4f51-b382-b833a952e9a2.png">
 </p>
 
 <p align="center">
@@ -40,7 +40,6 @@
 - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(4) 版本发布](#54)
 - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(5) 问题交流](#55)
 - [6、协议说明](#6)
-- [7、特别鸣谢](#7)
 
 </details>
 
@@ -157,11 +156,6 @@ if(a == b){
 ## <span id="5">5、参与贡献</span>
 
 ### <span id="51">(1) 项目统计</span>
-
-> 了解帮助过项目此项目的平台或用户，请查看[特别鸣谢](#7)
-
-截至2021年10月01日，此项目在1个月内获得的Clone操作共计约80次，访客量100人，访问量400次（数据会不断更新）。其中Star数量的增长过程如下：
-
 <a href="https://starchart.cc/WGrape/lexer"><img src="https://starchart.cc/WGrape/lexer.svg" width="700"></a>
 
 ### <span id="52">(2) 源码讲解</span>
@@ -184,6 +178,3 @@ if(a == b){
 ## <span id="6">6、协议说明</span>
 
 ![GitHub](https://img.shields.io/github/license/WGrape/lexer)
-
-## <span id="7">7、特别鸣谢</span>
-- [Hello github](https://github.com/521xueweihan/HelloGitHub/issues/1868): 感谢把此项目收录在 [第67期](https://github.com/521xueweihan/HelloGitHub/blob/master/content/67/HelloGitHub67.md#JavaScript-%E9%A1%B9%E7%9B%AE) 周刊中，并在```2021年10月28日```进行发布后，获得了大量用户的关注和点赞喜欢。
