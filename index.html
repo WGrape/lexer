@@ -102,10 +102,10 @@
             background: #FAFAFA;
         }
 
-        #ButtonCodearea{
+        #ButtonCodearea {
             cursor: pointer;
         }
-        
+
         #Show {
             width: 100%;
             min-height: 50px;
@@ -256,9 +256,10 @@
             <div style="width:721px;height: 30px;line-height:30px;text-indent:5px;background: #ddd;border: 1px solid #ccc;font-size:13px;color:#555;">
                 <span>Simple Code Editor</span>
                 <button id="ButtonCodearea">Syntax / ON</button>
+                <button id="IgnoreWhiteSpace">IgnoreWhiteSpace / ON</button>
             </div>
             <label>
-                <textarea id="Textarea" autofocus="autofocus"></textarea>
+                <textarea id="Textarea" autofocus="autofocus">Sample code is being displayed, please wait...</textarea>
             </label>
         </div>
         <ul id="Preferences">
@@ -327,10 +328,12 @@
 <script src="./vendor/js/clike.5.51.0.min.js"></script>
 <script src="./vendor/js/sql.5.51.0.min.js"></script>
 <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<script>
 
+<!--Here is some common functions.-->
+<!--=================================================================-->
+<script>
     // Parsing params in url
-    function getParam(param) {
+    function getUrlParam(param) {
         let slices = window.location.href.split('?');
         if (slices[1]) {
             let searchString = slices[1];
@@ -345,61 +348,109 @@
         }
         return false;
     }
+</script>
+
+<!--Here is functions for using lexer.-->
+<!--=================================================================-->
+<script>
+    // According to the currently selected language, dynamically load different JS extension files and CSS files, and dynamically process the display logic
+    let lang = getUrlParam('lang');
+    let mode = "text/plain";
+    if (lang === 'c') {
+        mode = "text/x-csrc";
+        document.write('<script src="./package/c-lexer.min.js"><\/script>');
+        document.write('<script src="./test/auto/c-lexer_test.js"><\/script>');
+    } else if (lang === 'sql') {
+        mode = "text/x-sql";
+        $('.lang-choose-sql').addClass('lang-choose-select');
+        document.write('<script src="./package/sql-lexer.min.js"><\/script>');
+        document.write('<script src="./test/auto/sql-lexer_test.js"><\/script>');
+    } else if (lang === 'goal') {
+        $('.lang-choose-goal').addClass('lang-choose-select');
+        document.write('<script src="./package/goal-lexer.min.js"><\/script>');
+        document.write('<script src="./test/auto/goal-lexer_test.js"><\/script>');
+    } else {
+        window.location.href = window.location.pathname + '?lang=c';
+    }
 
     // Start parse your input
+    let ignoreWhiteSpace = true;
+
     function startParseInput() {
         let stream = codearea === 'editor' ? editor.getValue() : $('#Textarea').val();
+        let config = {
+            ignoreTokens: [],
+            ignoreValues: [],
+        };
+        if (ignoreWhiteSpace) {
+            config.ignoreValues = [" "];
+        }
+        lexer.setConfig(config);
         lexer.start(stream);
         console.log(lexer);
         $('#TokenList').html('');
         lexer.DFA.result.tokens.forEach((token) => {
             let type = token.type;
             let value = token.value;
+            let content = value;
             let classToken = 'token-' + type;
             if (value === '\n') {
-                value = '\\n'; // prevent parse this char
+                content = '\\n'; // prevent parse this char
             }
 
             // if token's value is tab, prevent parse this char
             if (value.replace(/\t+/g, ' ') === ' ') {
-                value = '\\t';
+                content = '&nbsp;';
             }
 
-            $('#TokenList').append('<span class="token ' + classToken + '" tokentype="' + type + '" tokenvalue="' + value + '">' + value + '</span>');
+            $('#TokenList').append('<span class="token ' + classToken + '" tokentype="' + type + '" tokenvalue="' + value + '">' + content + '</span>');
         });
     }
+</script>
 
-    // According to the currently selected language, dynamically load different JS extension files and CSS files, and dynamically process the display logic
-    let lang = getParam('lang');
-    let mode = "text/plain";
+<!--Here is operations after reload.-->
+<!--=================================================================-->
+<script>
     if (lang === 'c') {
-        mode = "text/x-csrc";
         $('.lang-choose-c').addClass('lang-choose-select');
-        document.write('<script src="./package/c-lexer.min.js"><\/script>');
-        document.write('<script src="./test/auto/c-lexer_test.js"><\/script>');
         $('.AllTokenListDefault').fadeIn();
         $('#LangInfo').html("C is a general programming language that is extremely popular, simple and flexible ... please check <a target='_blank' href='https://en.wikipedia.org/wiki/C_(programming_language)'>detail</a>");
     } else if (lang === 'sql') {
-        mode = "text/x-sql";
         $('.lang-choose-sql').addClass('lang-choose-select');
-        document.write('<script src="./package/sql-lexer.min.js"><\/script>');
-        document.write('<script src="./test/auto/sql-lexer_test.js"><\/script>');
         $('.AllTokenListDefault').fadeIn();
         $('#LangInfo').html("SQL is a general programming language used to manage relational database ... please check <a target='_blank' href='https://en.wikipedia.org/wiki/SQL'>detail</a>");
     } else if (lang === 'goal') {
         $('.lang-choose-goal').addClass('lang-choose-select');
-        document.write('<script src="./package/goal-lexer.min.js"><\/script>');
-        document.write('<script src="./test/auto/goal-lexer_test.js"><\/script>');
         $('.AllTokenListGoal').fadeIn();
         $('#LangInfo').html("Goal language is a problem from leetcode ... please check <a target='_blank' href='https://leetcode.com/problems/goal-parser-interpretation/'>detail</a>");
+    }
+    // Generate default codes in different languages
+    let defaultInput = "";
+    if (lang === 'c') {
+        defaultInput = "int a = 10;\n" +
+            "int b = 20;\n" +
+            "int c = 20;\n" +
+            "\n" +
+            "float f = 928.2332;\n" +
+            "char b = 'b';\n" +
+            "\n" +
+            "if(a == b){\n" +
+            "    printf(\"Hello, World! \\\"\");\n" +
+            "}else if(b!=c){\n" +
+            "    printf(\"Hello, World! \\n Hello, World!\");\n" +
+            "}else{\n" +
+            "    printf(\"Hello\\n\");\n" +
+            "}";
+    } else if (lang === 'goal') {
+        defaultInput = "(al)G(al)()()G()()()G()(al)"
     } else {
-        window.location.href = window.location.pathname + '?lang=c';
+        defaultInput = "select * from test where id >= 10 and id <10 and name='test';"
     }
 
-    // editor type
+    // choose editor type
     let CODEAREA_TYPE_TEXTAREA = 'textarea';
     let CODEAREA_TYPE_EDITOR = 'editor';
-    let codearea = getParam('codearea');
+    let codearea = getUrlParam('codearea');
     if (codearea !== CODEAREA_TYPE_TEXTAREA && codearea !== CODEAREA_TYPE_EDITOR) {
         codearea = CODEAREA_TYPE_TEXTAREA;
     }
@@ -408,11 +459,29 @@
     } else {
         $('#ButtonCodearea').text('Syntax / OFF');
     }
+    if (codearea === 'editor') {
+        window.editor = CodeMirror.fromTextArea(document.getElementById('Textarea'), {
+            mode: mode,
+            theme: "monokai",
+            indentUnit: 4,
+            lineWrapping: true,
+            indentWithTabs: true,
+            smartIndent: true,
+            lineNumbers: true,
+            matchBrackets: true,
+            autofocus: true,
+        });
+        editor.on('change', function () {
+            startParseInput();
+        });
+        editor.on('blur', function () {
+            startParseInput();
+        });
 
-    // Put in the event loop queue
-    setTimeout(function () {
-
-        // Register events for different elements of the page
+        // complete the textarea.
+        editor.setValue(defaultInput);
+        startParseInput();
+    } else {
         $('#Textarea').on('input', function () {
             $('#TokenList').html('<p style="color: #888;">Lexer is working... ...</p>');
             startParseInput();
@@ -420,6 +489,17 @@
         $('#Textarea').blur(function () {
             startParseInput();
         });
+
+        // complete the textarea.
+        $('#Textarea').val(defaultInput);
+        startParseInput();
+    }
+</script>
+
+<!--Here is the event binding.-->
+<!--=================================================================-->
+<script>
+    setTimeout(function () {
         $(document).on('mouseenter', '.token', function () {
             let type = $(this).attr('tokentype');
             $(".token").addClass('opacity');
@@ -428,6 +508,7 @@
         $(document).on('mouseleave', '.token', function () {
             $(".token").removeClass('opacity');
         });
+
         $('#ButtonCodearea').on('click', function () {
             if (codearea === CODEAREA_TYPE_TEXTAREA) {
                 window.location.href = window.location.pathname + '?lang=' + lang + '&codearea=' + CODEAREA_TYPE_EDITOR;
@@ -436,115 +517,84 @@
             }
         });
 
-        // Generate default codes in different languages
-        let defaultInput = "";
-        if (lang === 'c') {
-            defaultInput = "int a = 10;\n" +
-                "int b = 20;\n" +
-                "int c = 20;\n" +
-                "\n" +
-                "float f = 928.2332;\n" +
-                "char b = 'b';\n" +
-                "\n" +
-                "if(a == b){\n" +
-                "    printf(\"Hello, World! \\\"\");\n" +
-                "}else if(b!=c){\n" +
-                "    printf(\"Hello, World! \\n Hello, World!\");\n" +
-                "}else{\n" +
-                "    printf(\"Hello\\n\");\n" +
-                "}";
-        } else if (lang === 'goal') {
-            defaultInput = "(al)G(al)()()G()()()G()(al)"
-        } else {
-            defaultInput = "select * from test where id >= 10 and id <10 and name='test';"
-        }
-
-        if (codearea === 'editor') {
-            window.editor = CodeMirror.fromTextArea(document.getElementById('Textarea'), {
-                mode: mode,
-                theme: "monokai",
-                indentUnit: 4,
-                lineWrapping: true,
-                indentWithTabs: true,
-                smartIndent: true,
-                lineNumbers: true,
-                matchBrackets: true,
-                autofocus: true,
-            });
-            editor.setValue(defaultInput);
-            editor.on('change', function () {
-                startParseInput();
-            });
-            editor.on('blur', function () {
-                startParseInput();
-            });
-        }
-
-        $('#Textarea').val('Sample code is being displayed, please wait...');
-        setTimeout(function () {
-
-            // Automatically enter default codes in different languages, saving the time to manually enter codes
-            $('#Textarea').val(defaultInput);
+        $('#IgnoreWhiteSpace').on('click', function () {
+            ignoreWhiteSpace = !ignoreWhiteSpace;
+            if (ignoreWhiteSpace) {
+                $('#IgnoreWhiteSpace').text('IgnoreWhiteSpace / ON');
+            } else {
+                $('#IgnoreWhiteSpace').text('IgnoreWhiteSpace / OFF');
+            }
             startParseInput();
+        })
+    }, 100);
+</script>
 
-            // run automated testing
-            let caseList = returnCaseList();
-            console.log("Automated testing has " + caseList.length + ' cases, now is running ...');
-            for (let i = 0; i <= caseList.length - 1; ++i) {
-                let outputs = caseList[i].output;
-                lexer.start(caseList[i].input);
+<!--Here is testing of lexer.-->
+<!--=================================================================-->
+<script>
+    setTimeout(function () {
 
-                let failed = false;
-                let tokens = lexer.DFA.result.tokens;
-                if (!isNaN(outputs)) {
-                    failed = outputs !== tokens.length;
-                } else {
-                    for (let j = 0; j <= tokens.length - 1; ++j) {
-                        if (typeof outputs[j] === 'undefined' || outputs[j].type !== tokens[j].type || outputs[j].value !== tokens[j].value) {
-                            failed = true;
-                        }
+        // run automated testing
+        let caseList = returnCaseList();
+        console.log("Automated testing has " + caseList.length + ' cases, now is running ...');
+        for (let i = 0; i <= caseList.length - 1; ++i) {
+            let outputs = caseList[i].output;
+            lexer.start(caseList[i].input);
+
+            let failed = false;
+            let tokens = lexer.DFA.result.tokens;
+            if (!isNaN(outputs)) {
+                failed = outputs !== tokens.length;
+            } else {
+                for (let j = 0; j <= tokens.length - 1; ++j) {
+                    if (typeof outputs[j] === 'undefined' || outputs[j].type !== tokens[j].type || outputs[j].value !== tokens[j].value) {
+                        failed = true;
                     }
                 }
-
-                if (failed) {
-                    alert('Automated testing is failed');
-                    console.error('Case ' + (i + 1) + ': failed | ' + 'input = ' + caseList[i].input);
-                } else {
-                    console.info("\x1B[32m" + 'Case ' + (i + 1) + ': success | ' + 'input = ' + caseList[i].input + "\x1B[0m");
-                }
             }
-            console.log('Automated testing is Done');
-        }, 100);
+
+            if (failed) {
+                alert('Automated testing is failed');
+                console.error('Case ' + (i + 1) + ': failed | ' + 'input = ' + caseList[i].input);
+            } else {
+                console.info("\x1B[32m" + 'Case ' + (i + 1) + ': success | ' + 'input = ' + caseList[i].input + "\x1B[0m");
+            }
+        }
+        console.log('Automated testing is Done');
+    }, 100)
+</script>
+
+<!--Here is statistics of website.-->
+<!--=================================================================-->
+<script>
+    setTimeout(function () {
 
         // count the changed number compared to the last visit
-        setTimeout(function () {
+        let lastPv = parseInt(localStorage.getItem('pv'));
+        let lastUv = parseInt(localStorage.getItem('uv'));
+        if (isNaN(lastPv) || isNaN(lastUv) || lastPv <= 0 || lastUv <= 0) {
+            lastPv = 0;
+            lastUv = 0;
+        }
 
-            let lastPv = parseInt(localStorage.getItem('pv'));
-            let lastUv = parseInt(localStorage.getItem('uv'));
-            if (isNaN(lastPv) || isNaN(lastUv) || lastPv <= 0 || lastUv <= 0) {
-                lastPv = 0;
-                lastUv = 0;
-            }
+        let pv = parseInt($("#busuanzi_value_site_pv").text());
+        let uv = parseInt($("#busuanzi_value_site_uv").text());
+        if (isNaN(pv) || isNaN(uv) || pv <= 0 || uv <= 0) {
+            return;
+        }
+        localStorage.setItem('pv', pv);
+        localStorage.setItem('uv', uv);
 
-            let pv = parseInt($("#busuanzi_value_site_pv").text());
-            let uv = parseInt($("#busuanzi_value_site_uv").text());
-            if (isNaN(pv) || isNaN(uv) || pv <= 0 || uv <= 0) {
-                return;
-            }
-            localStorage.setItem('pv', pv);
-            localStorage.setItem('uv', uv);
-
-            let pvChange = pv - lastPv;
-            let uvChange = uv - lastUv;
-            if (pvChange) {
-                $("#busuanzi_value_site_pv_change").text("↑" + pvChange);
-            }
-            if (uvChange) {
-                $("#busuanzi_value_site_uv_change").text("↑" + uvChange);
-            }
-        }, 4000);
-    }, 100);
-
+        let pvChange = pv - lastPv;
+        let uvChange = uv - lastUv;
+        if (pvChange) {
+            $("#busuanzi_value_site_pv_change").text("↑" + pvChange);
+        }
+        if (uvChange) {
+            $("#busuanzi_value_site_uv_change").text("↑" + uvChange);
+        }
+    }, 4000);
 </script>
+
 </body>
 </html>

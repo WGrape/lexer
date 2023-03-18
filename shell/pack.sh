@@ -11,6 +11,7 @@ rm -f package/goal-define.min.js
 node package/main.js
 
 # compress files to one line file
+# please install: npm install uglify-js -g
 uglifyjs package/c-lexer.min.js -o package/c-lexer.min.js
 uglifyjs package/sql-lexer.min.js -o package/sql-lexer.min.js
 uglifyjs package/goal-lexer.min.js -o package/goal-lexer.min.js
