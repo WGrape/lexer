@@ -3,6 +3,7 @@
 </p>
 
 <p align="center">
+      <a href="https://www.oscs1024.com/project/oscs/WGrape/lexer?ref=badge_small" alt="OSCS Status"><img src="https://www.oscs1024.com/platform/badge/WGrape/lexer.svg?size=small"/></a>
     <img src="https://img.shields.io/badge/JavaScript-ES5+-blue.svg">
     <img src="https://img.shields.io/npm/dt/chain-lexer.svg">
     <a href="https://app.travis-ci.com/github/WGrape/lexer"><img src="https://app.travis-ci.com/WGrape/lexer.svg?branch=main"><a>
