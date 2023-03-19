@@ -1,11 +1,13 @@
 // Lexical analyzer
 let lexer = {
 
+    // Config
     CFG: {
         ignoreTokens: [],
         ignoreValues: [
-            " ",
+            ENUM_CONST.WHITESPACE,
         ],
+        compressLineFeed: true, // compress \n\n\n... to \n
     },
 
     // Input Stream Reader
@@ -36,7 +38,9 @@ let lexer = {
             lexer.ISR.propsChange.set('stream', stream);
 
             // Replace multiple line feeds with one line feed
-            lexer.ISR.propsChange.set('stream', lexer.ISR.props.stream.replace(/\n+/g, "\n").trim());
+            if (lexer.CFG.compressLineFeed) {
+                lexer.ISR.propsChange.set('stream', lexer.ISR.props.stream.replace(/\n+/g, "\n").trim());
+            }
 
             // Calculate character stream length and sequence number
             lexer.ISR.propsChange.set('length', lexer.ISR.props.stream.length);
@@ -153,24 +157,16 @@ let lexer = {
         lexer.DFA.resultChange.toDefault();
     },
 
-    // Reset to default config.
-    resetConfig(){
-        lexer.CFG = {
-            ignoreTokens: [],
-            ignoreValues: [
-                " ",
-            ],
-        };
-    },
-
     // Set the data of config.
     setConfig(config) {
-        lexer.resetConfig();
         if (Array.isArray(config.ignoreTokens)) {
             lexer.CFG.ignoreTokens = config.ignoreTokens;
         }
         if (Array.isArray(config.ignoreValues)) {
             lexer.CFG.ignoreValues = config.ignoreValues;
+        }
+        if (typeof config.compressLineFeed == "boolean") {
+            lexer.CFG.compressLineFeed = config.compressLineFeed;
         }
     },
 
