@@ -257,6 +257,7 @@
                 <span>Simple Code Editor</span>
                 <button id="ButtonCodearea">Syntax / ON</button>
                 <button id="IgnoreWhiteSpace">IgnoreWhiteSpace / ON</button>
+                <button id="CompressLineFeed">CompressLineFeed / ON</button>
             </div>
             <label>
                 <textarea id="Textarea" autofocus="autofocus">Sample code is being displayed, please wait...</textarea>
@@ -375,15 +376,21 @@
 
     // Start parse your input
     let ignoreWhiteSpace = true;
-
+    let compressLineFeed = true;
     function startParseInput() {
         let stream = codearea === 'editor' ? editor.getValue() : $('#Textarea').val();
         let config = {
             ignoreTokens: [],
-            ignoreValues: [],
+            ignoreValues: [
+                " "
+            ],
+            compressLineFeed: true,
         };
-        if (ignoreWhiteSpace) {
-            config.ignoreValues = [" "];
+        if (!ignoreWhiteSpace) {
+            config.ignoreValues = [];
+        }
+        if (!compressLineFeed){
+            config.compressLineFeed = false;
         }
         lexer.setConfig(config);
         lexer.start(stream);
@@ -523,6 +530,16 @@
                 $('#IgnoreWhiteSpace').text('IgnoreWhiteSpace / ON');
             } else {
                 $('#IgnoreWhiteSpace').text('IgnoreWhiteSpace / OFF');
+            }
+            startParseInput();
+        })
+
+        $('#CompressLineFeed').on('click', function () {
+            compressLineFeed = !compressLineFeed;
+            if (compressLineFeed) {
+                $('#CompressLineFeed').text('CompressLineFeed / ON');
+            } else {
+                $('#CompressLineFeed').text('CompressLineFeed / OFF');
             }
             startParseInput();
         })
