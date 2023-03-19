@@ -25,6 +25,7 @@
 - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[4、自动化测试](#44)
 - [五、开发规范](#5)
 - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[1、Git相关](#51)
+- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[2、发布Npm](#52)
 
 ## <span id="1">一、项目结构</span>
 
@@ -201,10 +202,9 @@ script:
 
 ## <span id="5">五、开发规范</span>
 
-### <span id="51">1、Git和GitHub相关</span>
+### <span id="51">1、Git相关</span>
 
 #### (1) Commit
-
 
 - ```test```: 测试相关的英文描述
 - ```perf```: 优化相关的英文描述
@@ -215,3 +215,15 @@ script:
 - ```refactor```: 设计架构重构相关的英文描述  
 
 如lexer的架构如果进行调整，commit信息应该为```refactor: refactor lexer```
+
+### <span id="52">2、发布Npm</span>
+
+当新版本开发完成后，使用如下命令发布至Npm
+
+```bash
+git checkout main
+git pull origin main
+npm login
+npm publish
+```
+
