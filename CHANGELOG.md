@@ -6,6 +6,18 @@
 * fix explain document ([c125698](https://github.com/WGrape/lexer/commit/c1256980a7756736d967ff07ec76a8e5b2f29d63))
 * fix version ([5635a8a](https://github.com/WGrape/lexer/commit/5635a8ac3416d91a09ad3bcb4ae8b89b0bb9805d))
 
+## [1.10.0](https://github.com/WGrape/lexer/compare/v1.9.0...v1.10.0) (2023-03-19)
+
+
+### Features
+
+* add compressLineFeed support ([3fb5970](https://github.com/WGrape/lexer/commit/3fb5970e192b738f4db857daf794072b91c0b412))
+
+
+### Docs
+
+* add npm operation ([049bb33](https://github.com/WGrape/lexer/commit/049bb33b2b9428e32e4852ec259856907c70506f))
+
 ## [1.9.0](https://github.com/WGrape/lexer/compare/v1.8.2...v1.9.0) (2023-03-18)
 
 
