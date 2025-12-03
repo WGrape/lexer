@@ -1,4 +1,9 @@
-function runUnitTesting(showProcess) {
+/**
+ * Unit test entry function.
+ * @param {boolean} showProcess Whether to print test progress (true prints detailed messages, false prints only failures).
+ * @returns {boolean} True if all tests pass, false otherwise.
+ */
+function runUnitTest(showProcess) {
     function consoleSuccess(message) {
         if (!showProcess) {
             return;
