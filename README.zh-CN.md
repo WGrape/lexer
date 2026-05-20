@@ -37,10 +37,11 @@
 - [5、参与贡献](#5)
 - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(1) 项目统计](#51)
 - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(2) 分支介绍](#52)
-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(3) 源码讲解](#53)
+- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(3) 提交规范](#53)
 - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(4) 贡献范围](#54)
 - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(5) 版本发布](#55)
-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(6) 问题交流](#56)
+- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(6) 源码讲解](#56)
+- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(7) 问题交流](#57)
 - [6、协议说明](#6)
 
 </details>
@@ -168,19 +169,40 @@ if(a == b){
 - `testing`：已废弃，不再使用
 - `v{x}`：版本分支（如 `v2`，表示 version 2 版本的分支），一般不使用。只有在做大版本更新时，会创建一个版本分支，然后把 `develop` 分支开发的代码先合入 `v{x}` 分支，待版本完全测试通过后，才会合入 `main` 分支
 
-### <span id="53">(3) 源码讲解</span>
-关于项目设计、单元测试、自动化测试、开发规范、以及如何接入不同语言的扩展等与源码开发相关的文档，请阅读[源码讲解](/doc/explain.md)部分
+### <span id="53">(3) 提交规范</span>
+
+- ```test```: 测试相关的英文描述
+- ```perf```: 优化相关的英文描述
+- ```feat```: 新功能相关的英文描述
+- ```fix```: bug修复相关的英文描述
+- ```doc```: 文档更新相关的英文描述
+- ```style```: 代码格式调整相关的英文描述
+- ```refactor```: 设计架构重构相关的英文描述  
+
+如lexer的架构如果进行调整，commit信息应该为```refactor: refactor lexer```
 
 ### <span id="54">(4) 贡献范围</span>
 - 提供更多新功能
 - 提供更多语言的 ```/src/lang/{lang}-define.js```
 
-此外，一切帮助项目变得更好的建议都欢迎讨论，交流渠道参考[问题交流](#56)部分
+此外，一切帮助项目变得更好的建议都欢迎讨论，交流渠道参考[问题交流](#57)部分
 
 ### <span id="55">(5) 版本发布</span>
 项目以版本号为```大更新-小更新-修复完善```的规则发布，关于版本的更新记录可以查看项目的[CHANGELOG](./CHANGELOG.md)，或查看[Release记录](https://github.com/WGrape/lexer/releases)
 
-### <span id="56">(6) 问题交流</span>
+当新版本开发完成后，使用如下命令发布至Npm。
+
+```bash
+git checkout main
+git pull origin main
+npm login
+npm publish
+```
+
+### <span id="56">(6) 源码讲解</span>
+关于项目设计、单元测试、自动化测试、开发规范、以及如何接入不同语言的扩展等与源码开发相关的文档，请阅读[源码讲解](/doc/explain.md)部分
+
+### <span id="57">(7) 问题交流</span>
 如果有使用问题或疑问需要反馈，请[提交issue](https://github.com/WGrape/lexer/issues/new) ，欢迎大家的加入
 
 ## <span id="6">6、协议说明</span>
