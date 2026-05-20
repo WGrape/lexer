@@ -88,6 +88,8 @@ The core mechanism of lexical analyzer is based on the state flow of ```DFA```. 
 
 After ```git clone``` command, no need for any dependencies, and no extra installation steps
 
+> **Branch Note**: The `main` branch is the primary branch, please use the `main` branch. Other branches are for feature development. All branches including `main` will have new feature iterations. Although the `main` branch has been tested multiple times, new features may still cause bugs. You can choose according to your needs, or download a more stable [Release version](https://github.com/WGrape/lexer/releases)
+
 ## <span id="4">4、Ussage</span>
 
 ### <span id="41">(1) In your project</span>

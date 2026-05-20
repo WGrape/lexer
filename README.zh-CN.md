@@ -90,6 +90,8 @@
 
 使用```git clone```获取本项目后，不需要任何依赖的安装，也不需多余的安装步骤
 
+> **分支说明**：`main` 分支是主分支，以 `main` 分支为主即可，其他分支都是功能开发分支。包括 `main` 分支在内的所有分支都会进行新功能的迭代，尽管 `main` 分支已经过多次测试，但新功能仍可能引起 bug。你可以根据自己的选择，也可以下载更稳定的 [Release 版本](https://github.com/WGrape/lexer/releases)
+
 ## <span id="4">4、使用方式</span>
 
 ### <span id="41">(1) 在代码中使用</span>
@@ -172,9 +174,7 @@ if(a == b){
 项目以版本号为```大更新-小更新-修复完善```的规则发布，关于版本的更新记录可以查看项目的[CHANGELOG](./CHANGELOG.md)，或查看[Release记录](https://github.com/WGrape/lexer/releases)
 
 ### <span id="55">(5) 问题交流</span>
-如果有使用问题或疑问需要反馈，可以<a href="https://qm.qq.com/cgi-bin/qm/qr?k=088TusnG1yLi--mr8v02PINh7thvjQD9&jump_from=webapi">加入群聊</a>，或[提交issue](https://github.com/WGrape/lexer/issues/new) ，欢迎大家的加入
-
-<a href="https://qm.qq.com/cgi-bin/qm/qr?k=088TusnG1yLi--mr8v02PINh7thvjQD9&jump_from=webapi"><img width="200" src="https://user-images.githubusercontent.com/35942268/135754608-29ca599e-b8a6-4ad2-ae62-c4ee5d61d1f9.png" /></a>
+如果有使用问题或疑问需要反馈，请[提交issue](https://github.com/WGrape/lexer/issues/new) ，欢迎大家的加入
 
 ## <span id="6">6、协议说明</span>
 
