@@ -34,10 +34,11 @@
 - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(2) Web preview and testing](#42)
 - [5、Contributions](#5)
 - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(1) Project Statistics](#51)
-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(2) Source code explanation](#52)
-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(3) Content contribution](#53)
-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(4) Release version](#54)
-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(5) Q&A](#55)
+- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(2) Branch Introduction](#52)
+- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(3) Source code explanation](#53)
+- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(4) Content contribution](#54)
+- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(5) Release version](#55)
+- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(6) Q&amp;A](#56)
 - [6、License](#6)
 
 </details>
@@ -180,21 +181,27 @@ or check the [online website](wgrape.github.io/lexer/)
 
 <a href="https://starchart.cc/WGrape/lexer"><img src="https://starchart.cc/WGrape/lexer.svg" width="700"></a>
 
-### <span id="52">(2) Source code explanation</span>
+### <span id="52">(2) Branch Introduction</span>
+- `main`: Primary branch
+- `develop`: Development branch
+- `testing`: Deprecated, no longer used
+- `v{x}`: Version branch (e.g., `v2` indicates version 2 branch), generally not used. Only during major version updates, a version branch is created. Code from `develop` branch is first merged into `v{x}` branch, and only after the version is fully tested and approved, it is merged into `main` branch
+
+### <span id="53">(3) Source code explanation</span>
 Documents about source code development, project design, unit testing, automated testing, development specifications, and how to make extensions in different languages, please read [source code explanation](/doc/explain.md)
 
-### <span id="53">(3) Content contribution</span>
+### <span id="54">(4) Content contribution</span>
 - Add more new features
 - Add more extensions ```/src/lang/{lang}-define.js```
 
-### <span id="54">(4) Release version</span>
+### <span id="55">(5) Release version</span>
 The project is released with the version number of ```A-B-C```，regarding release log, you can check the [CHANGELOG](./CHANGELOG.md) or the [release record](https://github.com/WGrape/lexer/releases)
 
 - ```A```：Major upgrade
 - ```B```：Minor upgrade
 - ```C```：bug fix / features / ...
 
-### <span id="55">(5) Q&A</span>
+### <span id="56">(6) Q&amp;A</span>
 If you have any problems or questions, please [submit an issue](https://github.com/WGrape/lexer/issues/new)
 
 ## <span id="6">6、License</span>

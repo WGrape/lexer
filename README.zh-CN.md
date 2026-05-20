@@ -36,10 +36,11 @@
 - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(2) 可视化预览与测试](#42)
 - [5、参与贡献](#5)
 - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(1) 项目统计](#51)
-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(2) 源码讲解](#52)
-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(3) 贡献范围](#53)
-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(4) 版本发布](#54)
-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(5) 问题交流](#55)
+- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(2) 分支介绍](#52)
+- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(3) 源码讲解](#53)
+- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(4) 贡献范围](#54)
+- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(5) 版本发布](#55)
+- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(6) 问题交流](#56)
 - [6、协议说明](#6)
 
 </details>
@@ -161,19 +162,25 @@ if(a == b){
 ### <span id="51">(1) 项目统计</span>
 <a href="https://starchart.cc/WGrape/lexer"><img src="https://starchart.cc/WGrape/lexer.svg" width="700"></a>
 
-### <span id="52">(2) 源码讲解</span>
+### <span id="52">(2) 分支介绍</span>
+- `main`：主分支
+- `develop`：开发分支
+- `testing`：已废弃，不再使用
+- `v{x}`：版本分支（如 `v2`，表示 version 2 版本的分支），一般不使用。只有在做大版本更新时，会创建一个版本分支，然后把 `develop` 分支开发的代码先合入 `v{x}` 分支，待版本完全测试通过后，才会合入 `main` 分支
+
+### <span id="53">(3) 源码讲解</span>
 关于项目设计、单元测试、自动化测试、开发规范、以及如何接入不同语言的扩展等与源码开发相关的文档，请阅读[源码讲解](/doc/explain.md)部分
 
-### <span id="53">(3) 贡献范围</span>
+### <span id="54">(4) 贡献范围</span>
 - 提供更多新功能
 - 提供更多语言的 ```/src/lang/{lang}-define.js```
 
-此外，一切帮助项目变得更好的建议都欢迎讨论，交流渠道参考[问题交流](#55)部分
+此外，一切帮助项目变得更好的建议都欢迎讨论，交流渠道参考[问题交流](#56)部分
 
-### <span id="54">(4) 版本发布</span>
+### <span id="55">(5) 版本发布</span>
 项目以版本号为```大更新-小更新-修复完善```的规则发布，关于版本的更新记录可以查看项目的[CHANGELOG](./CHANGELOG.md)，或查看[Release记录](https://github.com/WGrape/lexer/releases)
 
-### <span id="55">(5) 问题交流</span>
+### <span id="56">(6) 问题交流</span>
 如果有使用问题或疑问需要反馈，请[提交issue](https://github.com/WGrape/lexer/issues/new) ，欢迎大家的加入
 
 ## <span id="6">6、协议说明</span>
